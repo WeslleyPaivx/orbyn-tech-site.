@@ -36,14 +36,13 @@ export function Faq() {
                     className="group flex w-full items-center justify-between gap-6 py-6 text-left text-lg font-medium text-white sm:py-7 sm:text-xl"
                   >
                     <span className="transition-colors group-hover:text-white/80">{item.question}</span>
-                    <span
-                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-[transform,border-color,background-color] duration-500 ease-[var(--ease-soft)] ${
-                        isOpen ? 'rotate-45 border-white bg-white text-ink' : 'border-line text-white group-hover:border-white/50'
+                    <Plus
+                      className={`h-5 w-5 shrink-0 transition-transform duration-500 ease-[var(--ease-soft)] ${
+                        isOpen ? 'rotate-45 text-white' : 'text-mute group-hover:text-white'
                       }`}
+                      strokeWidth={1.5}
                       aria-hidden="true"
-                    >
-                      <Plus className="h-4 w-4" strokeWidth={1.75} />
-                    </span>
+                    />
                   </button>
                 </h3>
                 <div

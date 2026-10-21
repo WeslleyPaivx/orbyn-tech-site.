@@ -75,7 +75,7 @@
  * Componentes utilitários
  * ------------------------------------------------------------------------- */
 @layer components {
-  /* Traço curto das peças da marca, usado sob os títulos */
+  /* Traço curto das peças oficiais da marca: usado apenas sob o título do hero */
   .brand-rule {
     display: block;
     width: 3rem;
@@ -96,51 +96,6 @@
     opacity: 1;
     transform: none;
   }
-
-  /* Luz discreta que acompanha o cursor nos cards */
-  .spotlight {
-    position: relative;
-    isolation: isolate;
-  }
-  .spotlight::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: inherit;
-    background: radial-gradient(
-      420px circle at var(--mx, 50%) var(--my, 0%),
-      rgb(255 255 255 / 0.065),
-      transparent 60%
-    );
-    opacity: 0;
-    transition: opacity 0.4s var(--ease-soft);
-    pointer-events: none;
-  }
-  .spotlight:hover::before,
-  .spotlight:focus-within::before {
-    opacity: 1;
-  }
-
-  /* Textura de grade muito sutil */
-  .grid-texture {
-    background-image:
-      linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
-    background-size: 72px 72px;
-    mask-image: radial-gradient(ellipse 70% 60% at 60% 40%, #000 20%, transparent 75%);
-  }
-
-  .orbit-spin {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: orbit-spin 90s linear infinite;
-  }
-  .orbit-spin-reverse {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: orbit-spin 140s linear infinite reverse;
-  }
 }
 
 /* Entrada única e orquestrada do hero ao carregar a página */
@@ -159,22 +114,6 @@
   }
 }
 
-@keyframes orbit-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes pulse-dot {
-  0%,
-  100% {
-    opacity: 0.55;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
 /* ---------------------------------------------------------------------------
  * Movimento reduzido
  * ------------------------------------------------------------------------- */
@@ -186,10 +125,6 @@
     opacity: 1;
     transform: none;
     transition: none;
-  }
-  .orbit-spin,
-  .orbit-spin-reverse {
-    animation: none;
   }
   *,
   *::before,

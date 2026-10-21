@@ -8,7 +8,7 @@ type SectionHeadingProps = {
   className?: string;
 };
 
-/** Título de seção com o traço curto característico das peças da marca. */
+/** Título de seção: a hierarquia vem só da tipografia, sem ornamentos. */
 export function SectionHeading({ id, title, subtitle, className = '' }: SectionHeadingProps) {
   return (
     <Reveal className={`max-w-3xl ${className}`}>
@@ -18,9 +18,8 @@ export function SectionHeading({ id, title, subtitle, className = '' }: SectionH
       >
         {title}
       </h2>
-      <span className="brand-rule mt-6" aria-hidden="true" />
       {subtitle && (
-        <p className="mt-6 max-w-xl text-base leading-relaxed text-mute sm:text-lg">{subtitle}</p>
+        <p className="mt-5 max-w-xl text-base leading-relaxed text-mute sm:text-lg">{subtitle}</p>
       )}
     </Reveal>
   );

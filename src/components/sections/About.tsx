@@ -9,7 +9,7 @@ export function About() {
     <section id="sobre" aria-labelledby="sobre-title" className="border-t border-line/60 py-24 sm:py-32">
       <Container className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
         <Reveal className="relative order-2 lg:order-1">
-          <div className="relative overflow-hidden rounded-[1.75rem] border border-line bg-ink-2">
+          <div className="relative overflow-hidden rounded-2xl border border-line bg-ink-2">
             <img
               src="/images/sobre-workspace.webp"
               alt="Notebook sobre uma mesa escura, em ambiente de trabalho minimalista"

@@ -84,15 +84,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Assinatura em tipografia espaçada, como nas peças da marca */}
-        <p
-          aria-hidden="true"
-          className="mt-20 overflow-hidden pl-[0.12em] text-center text-[clamp(1.9rem,9.4vw,7.6rem)] leading-none font-semibold tracking-[0.12em] whitespace-nowrap text-white/[0.06] select-none"
-        >
-          ORBYN TECH
-        </p>
-
-        <div className="mt-10 flex flex-col gap-3 border-t border-line pt-8 text-sm text-white/45 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 flex flex-col gap-3 border-t border-line pt-8 text-sm text-white/45 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {site.name}. Todos os direitos reservados.
           </p>

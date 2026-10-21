@@ -31,11 +31,7 @@ export function Process() {
   return (
     <section aria-labelledby="processo-title" className="border-t border-line/60 py-24 sm:py-32">
       <Container>
-        <SectionHeading
-          id="processo-title"
-          title="Da sua ideia à solução digital."
-          subtitle="Um processo claro, em cinco etapas, para você saber o que acontece em cada fase do projeto."
-        />
+        <SectionHeading id="processo-title" title="Da sua ideia à solução digital." />
 
         {/* Desktop: linha do tempo horizontal com abas */}
         <Reveal className="mt-20 hidden lg:block">
@@ -68,7 +64,7 @@ export function Process() {
                     <span
                       className={`relative flex h-11 w-11 items-center justify-center rounded-full border text-sm font-medium tabular-nums transition-all duration-500 ease-[var(--ease-soft)] ${
                         selected
-                          ? 'scale-110 border-white bg-white text-ink shadow-[0_0_32px_rgba(255,255,255,0.25)]'
+                          ? 'border-white bg-white text-ink'
                           : done
                             ? 'border-white/70 bg-ink text-white'
                             : 'border-line bg-ink text-mute group-hover:border-white/50 group-hover:text-white'
@@ -93,16 +89,18 @@ export function Process() {
             id="etapa-painel"
             role="tabpanel"
             aria-labelledby={`etapa-tab-${active}`}
-            className="mt-14 grid grid-cols-[auto_1fr] items-start gap-12 rounded-[1.75rem] border border-line bg-ink-2 p-12"
+            className="mt-14 grid grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] items-start gap-12 border-t border-line pt-10"
           >
-            <span key={`n-${active}`} className="step-in text-[6.5rem] leading-[0.8] font-light tracking-[-0.05em] text-white/90 tabular-nums">
-              {pad(active + 1)}
-            </span>
-            <div key={`t-${active}`} className="step-in max-w-2xl">
-              <h3 className="text-3xl font-semibold tracking-[-0.02em] text-white">{step.title}</h3>
+            <div key={`t-${active}`} className="step-in">
+              <p className="text-sm text-mute tabular-nums">
+                Etapa {active + 1} de {processSteps.length}
+              </p>
+              <h3 className="mt-2 text-3xl font-semibold tracking-[-0.02em] text-white">{step.title}</h3>
               <p className="mt-2 text-lg text-white/80">{step.summary}</p>
-              <p className="mt-5 text-lg leading-relaxed text-mute">{step.detail}</p>
             </div>
+            <p key={`d-${active}`} className="step-in max-w-[52ch] text-lg leading-relaxed text-mute">
+              {step.detail}
+            </p>
           </div>
         </Reveal>
 
@@ -122,7 +120,7 @@ export function Process() {
                 >
                   <span
                     className={`relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border text-sm font-medium tabular-nums transition-all duration-500 ${
-                      open ? 'border-white bg-white text-ink shadow-[0_0_28px_rgba(255,255,255,0.22)]' : 'border-line bg-ink text-mute'
+                      open ? 'border-white bg-white text-ink' : 'border-line bg-ink text-mute'
                     }`}
                   >
                     {pad(index + 1)}

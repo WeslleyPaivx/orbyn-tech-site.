@@ -142,16 +142,8 @@ export function Contact() {
     <section
       id="contato"
       aria-labelledby="contato-title"
-      className="relative isolate overflow-hidden border-t border-line/60 py-24 sm:py-32"
+      className="border-t border-line/60 py-24 sm:py-32"
     >
-      <div
-        className="absolute -top-[30%] -right-[30%] -z-10 aspect-square w-[90%] rounded-full border border-white/[0.05] lg:-right-[12%] lg:w-[60%]"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute top-[10%] right-[5%] -z-10 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgb(255_255_255/0.05),transparent_70%)]"
-        aria-hidden="true"
-      />
 
       <Container className="grid gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
         <div>
@@ -185,7 +177,7 @@ export function Contact() {
             onSubmit={onSubmit}
             noValidate
             aria-label="Solicitar orçamento"
-            className="rounded-[1.75rem] border border-line bg-ink-2/80 p-6 backdrop-blur-sm sm:p-10"
+            className="rounded-2xl border border-line bg-ink-2 p-6 sm:p-10"
           >
             <div className="grid gap-6 sm:grid-cols-2">
               <FieldShell id={id('name')} label="Nome" error={showError('name')} valid={isValid('name')}>

@@ -1,5 +1,4 @@
 import { whatsappMessages } from '../../config/site';
-import { services } from '../../data/services';
 import { handleAnchorClick } from '../../lib/scroll';
 import { whatsappUrl } from '../../lib/whatsapp';
 import { ButtonLink } from '../ui/Button';
@@ -7,28 +6,17 @@ import { WhatsAppIcon } from '../ui/BrandIcons';
 import { Container } from '../ui/Container';
 import { OrbitVisual } from './OrbitVisual';
 
-const shortLabels: Record<string, string> = {
-  sites: 'Sites',
-  'landing-pages': 'Landing pages',
-  saas: 'SaaS',
-  sistemas: 'Sistemas',
-  aplicativos: 'Aplicativos',
-  'automacao-ia': 'Automação e IA',
-};
-
 export function Hero() {
   return (
     <section
       id="inicio"
       aria-labelledby="hero-title"
-      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden pt-[4.5rem] lg:pt-20"
+      className="relative isolate flex min-h-[min(100svh,56rem)] flex-col overflow-hidden pt-[4.5rem] lg:pt-20"
     >
-      <div className="grid-texture absolute inset-0 -z-10" aria-hidden="true" />
+      {/* Símbolo da marca em órbita: ao fundo no celular, à direita no desktop */}
+      <OrbitVisual className="absolute top-[4.5rem] -right-[38%] -z-10 w-[118%] opacity-[0.16] sm:-right-[20%] sm:w-[85%] lg:top-1/2 lg:right-[-4%] lg:w-[min(50vw,640px)] lg:-translate-y-1/2 lg:opacity-100" />
 
-      {/* Visual orbital: ao fundo no celular, à direita no desktop */}
-      <OrbitVisual className="absolute top-[4.5rem] -right-[38%] -z-10 w-[118%] opacity-[0.16] sm:-right-[20%] sm:w-[85%] lg:top-1/2 lg:right-[-4%] lg:w-[min(50vw,640px)] lg:-translate-y-[54%] lg:opacity-100" />
-
-      <Container className="flex flex-1 flex-col justify-center py-14 sm:py-20">
+      <Container className="flex flex-1 flex-col justify-center py-16 sm:py-24">
         <div className="max-w-[44rem] lg:max-w-[40rem] xl:max-w-[46rem]">
           <h1
             id="hero-title"
@@ -38,6 +26,7 @@ export function Hero() {
             <span className="font-semibold text-white">merecem grandes soluções digitais.</span>
           </h1>
 
+          {/* O traço sob o título vem das peças oficiais da marca; aparece só aqui, na abertura */}
           <span className="hero-in brand-rule mt-8 sm:mt-10" style={{ animationDelay: '120ms' }} aria-hidden="true" />
 
           <p
@@ -62,34 +51,6 @@ export function Hero() {
           </div>
         </div>
       </Container>
-
-      {/* Faixa de serviços, no estilo das peças da marca */}
-      <div className="hero-in border-t border-line/70 bg-ink/60 backdrop-blur-sm" style={{ animationDelay: '380ms' }}>
-        <Container>
-          <ul className="grid grid-cols-3 lg:grid-cols-6" aria-label="Serviços da ORBYN TECH">
-            {services.map((service, index) => {
-              const Icon = service.icon;
-              return (
-                <li
-                  key={service.id}
-                  className={`border-line/70 ${index % 3 !== 0 ? 'border-l' : ''} ${index >= 3 ? 'border-t lg:border-t-0' : ''} ${
-                    index === 3 ? 'lg:border-l' : ''
-                  }`}
-                >
-                  <a
-                    href="#servicos"
-                    onClick={handleAnchorClick('servicos')}
-                    className="group flex flex-col items-center gap-2.5 px-2 py-5 text-center text-[0.8rem] text-mute transition-colors hover:text-white sm:flex-row sm:justify-center sm:text-[0.88rem] lg:py-6"
-                  >
-                    <Icon className="h-5 w-5 text-white/80 transition-colors group-hover:text-white" strokeWidth={1.5} />
-                    <span>{shortLabels[service.id] ?? service.title}</span>
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </Container>
-      </div>
     </section>
   );
 }

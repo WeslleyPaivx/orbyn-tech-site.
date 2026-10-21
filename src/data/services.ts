@@ -1,8 +1,8 @@
 import {
-  ArrowUpRight,
   BrainCircuit,
   Cloud,
   CodeXml,
+  LayoutPanelTop,
   Smartphone,
   Workflow,
   type LucideIcon,
@@ -31,7 +31,7 @@ export const services: Service[] = [
     title: 'Landing Pages',
     description:
       'Páginas estratégicas desenvolvidas para transformar visitantes em oportunidades de negócio.',
-    icon: ArrowUpRight,
+    icon: LayoutPanelTop,
     messageLabel: 'uma landing page',
   },
   {

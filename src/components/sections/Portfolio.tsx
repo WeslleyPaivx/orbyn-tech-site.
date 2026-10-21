@@ -16,16 +16,8 @@ const MIN_PROJECTS_FOR_FILTERS = 4;
 /** Capa exibida enquanto o projeto não tem captura de tela: o nome em tipografia, sem imagem genérica. */
 function ProjectCover({ project }: { project: Project }) {
   return (
-    <div
-      className="absolute inset-0 flex flex-col justify-end overflow-hidden bg-[radial-gradient(120%_95%_at_85%_0%,#202020_0%,#0b0b0b_62%)] p-6 sm:p-9"
-      aria-hidden="true"
-    >
-      <svg viewBox="0 0 400 250" className="absolute -top-[30%] -right-[18%] h-[150%] w-auto text-white" fill="none">
-        <ellipse cx="200" cy="125" rx="170" ry="62" transform="rotate(-24 200 125)" stroke="currentColor" strokeOpacity="0.09" />
-        <ellipse cx="200" cy="125" rx="118" ry="88" transform="rotate(30 200 125)" stroke="currentColor" strokeOpacity="0.06" />
-        <circle cx="200" cy="125" r="122" stroke="currentColor" strokeOpacity="0.04" strokeDasharray="2 6" />
-      </svg>
-      <p className="relative text-[clamp(1.75rem,4.2vw,3.1rem)] leading-[0.95] font-semibold tracking-[-0.035em] text-white/90">
+    <div className="absolute inset-0 flex items-end bg-ink-3 p-6 sm:p-9" aria-hidden="true">
+      <p className="text-[clamp(1.75rem,4.2vw,3.1rem)] leading-[0.95] font-semibold tracking-[-0.035em] text-white/90">
         {project.name}
       </p>
     </div>
@@ -47,7 +39,7 @@ function LogoCover({ project, onError }: { project: Project; onError: () => void
         loading="lazy"
         decoding="async"
         onError={onError}
-        className="relative max-h-[60%] max-w-[78%] object-contain drop-shadow-[0_14px_30px_rgba(0,0,0,0.35)] transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-[1.04]"
+        className="relative max-h-[60%] max-w-[78%] object-contain transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-[1.04]"
       />
     </div>
   );
@@ -61,7 +53,7 @@ function BrowserMockup({ project }: { project: Project }) {
   const hasLogo = Boolean(project.logo) && !logoFailed;
 
   return (
-    <div className="relative overflow-hidden rounded-t-[0.85rem] border border-b-0 border-white/[0.12] bg-ink shadow-[0_40px_90px_-30px_rgba(0,0,0,0.95)] transition-transform duration-700 ease-[var(--ease-soft)] group-hover:-translate-y-1.5">
+    <div className="relative overflow-hidden rounded-t-lg border border-b-0 border-white/[0.12] bg-ink transition-transform duration-700 ease-[var(--ease-soft)] group-hover:-translate-y-1.5">
       {/* Barra do navegador */}
       <div className="flex h-8 items-center gap-3 border-b border-line bg-[#131313] px-3 sm:h-9 sm:px-3.5" aria-hidden="true">
         <span className="flex shrink-0 gap-1.5">
@@ -102,11 +94,11 @@ function BrowserMockup({ project }: { project: Project }) {
 
 function ProjectCard({ project }: { project: Project }) {
   const stageClass =
-    'relative block overflow-hidden bg-[radial-gradient(90%_80%_at_50%_0%,rgb(255_255_255/0.07),transparent_70%)] px-5 pt-7 sm:px-10 sm:pt-11';
+    'relative block overflow-hidden bg-ink-3/50 px-5 pt-7 sm:px-10 sm:pt-11';
   const stage: ReactNode = <BrowserMockup project={project} />;
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-[1.75rem] border border-line bg-ink-2 transition-colors duration-500 hover:border-white/25">
+    <article className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-ink-2 transition-colors duration-500 hover:border-white/25">
       {project.url ? (
         // Atalho visual: o botão "Explorar projeto" é o link acessível do card
         <a href={project.url} target="_blank" rel="noopener noreferrer" tabIndex={-1} aria-hidden="true" className={stageClass}>
@@ -132,7 +124,7 @@ function ProjectCard({ project }: { project: Project }) {
         )}
 
         <div className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-5 pt-8">
-          <span className="rounded-full border border-line px-3 py-1.5 text-xs text-white/75">{project.category}</span>
+          <p className="text-sm text-white/70">{project.category}</p>
           {project.url && (
             <ButtonLink
               href={project.url}
@@ -157,20 +149,7 @@ function ProjectCard({ project }: { project: Project }) {
 
 function EmptyState() {
   return (
-    <div className="relative isolate overflow-hidden rounded-[1.75rem] border border-line bg-ink-2 px-6 py-16 text-center sm:px-10 sm:py-24">
-      <div
-        className="absolute top-1/2 left-1/2 -z-10 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.05]"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute top-1/2 left-1/2 -z-10 h-[340px] w-[340px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-white/[0.06]"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute top-1/2 left-1/2 -z-10 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgb(255_255_255/0.07),transparent_70%)]"
-        aria-hidden="true"
-      />
-
+    <div className="rounded-2xl border border-line bg-ink-2 px-6 py-16 text-center sm:px-10 sm:py-20">
       <OrbynSymbol className="mx-auto h-12 w-12 text-white/90" />
       <p className="mt-8 text-2xl font-semibold tracking-[-0.02em] text-white sm:text-3xl">Novos projetos em breve.</p>
       <p className="mx-auto mt-4 max-w-md leading-relaxed text-mute">
@@ -236,15 +215,6 @@ export function Portfolio() {
                 {visible.map((project) => (
                   <ProjectCard key={project.id} project={project} />
                 ))}
-              </div>
-
-              <div className="mt-10 flex flex-col items-start gap-5 border-t border-line pt-8 sm:flex-row sm:items-center sm:justify-between">
-                <p className="max-w-md leading-relaxed text-mute">
-                  Quer o próximo projeto aqui ser o da sua empresa? Conte sua ideia e receba um orçamento.
-                </p>
-                <ButtonLink href={whatsappUrl(whatsappMessages.quote)} external variant="outline">
-                  Solicitar orçamento
-                </ButtonLink>
               </div>
             </>
           )}
