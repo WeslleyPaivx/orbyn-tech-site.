@@ -8,14 +8,14 @@
  *   1. Tire uma captura da página inicial no computador (ideal: 1440 px de
  *      largura). Pode ser só a primeira tela ou a página inteira — capturas
  *      longas "rolam" suavemente dentro do card quando o mouse passa por cima.
- *   2. Salve em /public/images/projetos/ (ex.: zanfell.webp ou zanfell.jpg).
- *   3. Preencha o campo `image` com o caminho: '/images/projetos/zanfell.webp'.
+ *   2. Salve em /public/images/projetos/ (ex.: zanfel.webp ou zanfel.jpg).
+ *   3. Preencha o campo `image` com o caminho: '/images/projetos/zanfel.webp'.
  *
  * Logo do cliente (usada enquanto não houver captura de tela):
  *   1. Salve a logo em /public/images/projetos/ (de preferência SVG ou PNG com
- *      fundo transparente, ex.: zanfell-logo.png).
- *   2. Preencha `logo` com o caminho e, se quiser, `coverBackground` com a cor
- *      de fundo da capa (ex.: '#FFFFFF' ou a cor da marca do cliente).
+ *      fundo transparente, ex.: zanfel-logo.png).
+ *   2. Preencha `logo` com o caminho e `coverBackground` com um gradiente nas
+ *      cores da marca do cliente (veja os exemplos abaixo).
  *
  * Ordem de exibição na moldura: captura de tela → logo → nome em tipografia.
  *
@@ -25,7 +25,7 @@
 export type ProjectStatus = 'publicado' | 'rascunho';
 
 export type Project = {
-  /** Identificador único, sem espaços (ex.: 'zanfell'). */
+  /** Identificador único, sem espaços (ex.: 'zanfel'). */
   id: string;
   name: string;
   /** Ramo de atuação do cliente. */
@@ -33,11 +33,11 @@ export type Project = {
   /** Tipo de solução entregue (ex.: 'Site institucional', 'Landing page', 'Aplicativo'). */
   category: string;
   description: string;
-  /** Captura de tela a partir de /public (ex.: '/images/projetos/zanfell.webp'). Vazio = capa tipográfica. */
+  /** Captura de tela a partir de /public (ex.: '/images/projetos/zanfel.webp'). Vazio = capa tipográfica. */
   image: string;
-  /** Logo do cliente a partir de /public (ex.: '/images/projetos/zanfell-logo.png'). Vazio = nome em tipografia. */
+  /** Logo do cliente a partir de /public (ex.: '/images/projetos/zanfel-logo.png'). Vazio = nome em tipografia. */
   logo: string;
-  /** Cor de fundo da capa com a logo (ex.: '#FFFFFF'). Padrão: cinza bem claro. */
+  /** Fundo da capa com a logo: cor ou gradiente CSS nas cores da marca (ex.: 'linear-gradient(135deg, #B6B985, #1E3B2A)'). */
   coverBackground?: string;
   /** Texto alternativo da captura (acessibilidade e SEO). */
   imageAlt?: string;
@@ -52,15 +52,18 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    id: 'zanfell',
-    name: 'ZanFell',
+    id: 'zanfel',
+    name: 'ZanFel',
     segment: 'Papéis gráficos e papel offset A4',
     category: 'Site institucional / Catálogo de produtos',
     description:
       'Desenvolvimento de presença digital para empresa do setor de papéis gráficos, com apresentação dos produtos e navegação moderna.',
     image: '',
-    logo: '',
-    imageAlt: 'Página inicial do site da ZanFell',
+    logo: '/images/projetos/zanfel-logo.webp',
+    // Gradiente nas cores da marca: sálvia, oliva e verde-escuro
+    coverBackground:
+      'radial-gradient(60% 70% at 50% 46%, rgb(237 233 223 / 0.32), transparent 70%), linear-gradient(135deg, #B6B985 0%, #838B58 48%, #1E3B2A 100%)',
+    imageAlt: 'Página inicial do site da ZanFel',
     technologies: [],
     url: 'https://zanfell.bolt.host',
     featured: true,
@@ -74,7 +77,10 @@ export const projects: Project[] = [
     description:
       'Desenvolvimento de site institucional para escritório de contabilidade, destacando seus serviços, identidade profissional e canais de atendimento.',
     image: '',
-    logo: '',
+    logo: '/images/projetos/mabs-contabilidade-logo.webp',
+    // Gradiente nas cores da marca: dourado sobre preto
+    coverBackground:
+      'radial-gradient(60% 75% at 50% 48%, rgb(220 168 83 / 0.2), transparent 70%), linear-gradient(135deg, #3A2A10 0%, #17110A 50%, #050505 100%)',
     imageAlt: 'Página inicial do site da MABS Contabilidade',
     technologies: [],
     url: 'https://mabs-contabilidade.bolt.host',

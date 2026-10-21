@@ -77,18 +77,18 @@ Tudo que é texto institucional fica em arquivos de dados — não é preciso me
 
 ## Portfólio — "Projetos realizados"
 
-A seção já exibe os projetos **ZanFell** e **MABS Contabilidade**, cada um em um card com moldura de navegador desktop, segmento, descrição, categoria e o botão **Explorar projeto** (abre o site em nova aba). No desktop e no tablet os cards ficam lado a lado; no celular, empilhados.
+A seção já exibe os projetos **ZanFel** e **MABS Contabilidade**, cada um em um card com moldura de navegador desktop, segmento, descrição, categoria e o botão **Explorar projeto** (abre o site em nova aba). No desktop e no tablet os cards ficam lado a lado; no celular, empilhados.
 
 ### Adicionar as capturas de tela
 
 1. Abra o site do cliente no computador, em tela cheia (ideal: 1440 px de largura).
 2. Faça a captura. Pode ser só a primeira tela ou a **página inteira**: capturas longas rolam devagar dentro da moldura quando o mouse passa por cima.
-3. Salve em `public/images/projetos/` (ex.: `zanfell.webp`, `mabs-contabilidade.webp`; `.jpg` ou `.png` também funcionam, de preferência até ~500 KB).
-4. Em `src/data/projects.ts`, preencha o campo `image` do projeto: `image: '/images/projetos/zanfell.webp'`.
+3. Salve em `public/images/projetos/` (ex.: `zanfel.webp`, `mabs-contabilidade.webp`; `.jpg` ou `.png` também funcionam, de preferência até ~500 KB).
+4. Em `src/data/projects.ts`, preencha o campo `image` do projeto: `image: '/images/projetos/zanfel.webp'`.
 
 ### Usar a logo do cliente (enquanto não houver captura)
 
-Salve a logo em `public/images/projetos/` (SVG ou PNG com fundo transparente) e preencha `logo: '/images/projetos/zanfell-logo.png'`. A logo aparece centralizada na moldura sobre um fundo claro; para outra cor, use `coverBackground: '#FFFFFF'` (ou a cor da marca).
+Salve a logo em `public/images/projetos/` (SVG ou PNG com fundo transparente) e preencha `logo: '/images/projetos/zanfel-logo.png'`. A logo aparece centralizada na moldura sobre o fundo definido em `coverBackground`, de preferência um gradiente nas cores da marca, como nos projetos já cadastrados: `coverBackground: 'linear-gradient(135deg, #B6B985 0%, #838B58 48%, #1E3B2A 100%)'`.
 
 Ordem de exibição na moldura: captura de tela → logo → nome do projeto em tipografia.
 

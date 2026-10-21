@@ -32,26 +32,22 @@ function ProjectCover({ project }: { project: Project }) {
   );
 }
 
-const DEFAULT_COVER_BACKGROUND = '#F2F2F0';
+const DEFAULT_COVER_BACKGROUND = 'linear-gradient(135deg, #1f1f1f 0%, #0b0b0b 100%)';
 
-/** Capa com a logo do cliente sobre fundo claro (ou na cor definida em `coverBackground`). */
+/** Capa com a logo do cliente sobre um gradiente nas cores da marca (`coverBackground`). */
 function LogoCover({ project, onError }: { project: Project; onError: () => void }) {
   return (
     <div
       className="absolute inset-0 flex items-center justify-center p-[12%]"
       style={{ background: project.coverBackground ?? DEFAULT_COVER_BACKGROUND }}
     >
-      <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_70%_at_50%_45%,rgb(255_255_255/0.55),transparent_70%)]"
-        aria-hidden="true"
-      />
       <img
         src={project.logo}
         alt={`Logo ${project.name}`}
         loading="lazy"
         decoding="async"
         onError={onError}
-        className="relative max-h-[58%] max-w-[72%] object-contain transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-[1.04]"
+        className="relative max-h-[60%] max-w-[78%] object-contain drop-shadow-[0_14px_30px_rgba(0,0,0,0.35)] transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-[1.04]"
       />
     </div>
   );
