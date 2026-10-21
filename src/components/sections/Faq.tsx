@@ -1,0 +1,68 @@
+import { useState } from 'react';
+import { Plus } from 'lucide-react';
+import { faqItems } from '../../data/content';
+import { Container } from '../ui/Container';
+import { Reveal } from '../ui/Reveal';
+import { SectionHeading } from '../ui/SectionHeading';
+
+export function Faq() {
+  const [open, setOpen] = useState<number | null>(0);
+
+  return (
+    <section aria-labelledby="faq-title" className="border-t border-line/60 bg-ink-2/40 py-24 sm:py-32">
+      <Container className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
+        <div className="lg:sticky lg:top-32 lg:self-start">
+          <SectionHeading
+            id="faq-title"
+            title="Perguntas frequentes."
+            subtitle="Não encontrou o que procurava? Fale com a gente pelo WhatsApp."
+          />
+        </div>
+
+        <Reveal as="ul" className="border-b border-line">
+          {faqItems.map((item, index) => {
+            const isOpen = open === index;
+            const buttonId = `faq-btn-${index}`;
+            const panelId = `faq-panel-${index}`;
+            return (
+              <li key={item.question} className="border-t border-line">
+                <h3>
+                  <button
+                    id={buttonId}
+                    type="button"
+                    onClick={() => setOpen(isOpen ? null : index)}
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    className="group flex w-full items-center justify-between gap-6 py-6 text-left text-lg font-medium text-white sm:py-7 sm:text-xl"
+                  >
+                    <span className="transition-colors group-hover:text-white/80">{item.question}</span>
+                    <span
+                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-[transform,border-color,background-color] duration-500 ease-[var(--ease-soft)] ${
+                        isOpen ? 'rotate-45 border-white bg-white text-ink' : 'border-line text-white group-hover:border-white/50'
+                      }`}
+                      aria-hidden="true"
+                    >
+                      <Plus className="h-4 w-4" strokeWidth={1.75} />
+                    </span>
+                  </button>
+                </h3>
+                <div
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={buttonId}
+                  className={`grid transition-[grid-template-rows,opacity] duration-500 ease-[var(--ease-soft)] ${
+                    isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="max-w-2xl pr-12 pb-7 leading-relaxed text-mute">{item.answer}</p>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </Reveal>
+      </Container>
+    </section>
+  );
+}
