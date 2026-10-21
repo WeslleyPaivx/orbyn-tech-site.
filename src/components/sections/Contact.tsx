@@ -15,6 +15,19 @@ type Errors = Partial<Record<Field, string>>;
 const FIELDS: Field[] = ['name', 'whatsapp', 'email', 'service', 'description'];
 const MIN_DESCRIPTION = 15;
 const MAX_DESCRIPTION = 1000;
+const MAX_NAME = 80;
+const MAX_EMAIL = 120;
+
+/** Abre o link em nova aba sem dar à página aberta acesso a este site (noopener). */
+function openInNewTab(url: string) {
+  const link = document.createElement('a');
+  link.href = url;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
 
 const empty: QuoteRequest = { name: '', whatsapp: '', email: '', service: '', description: '' };
 
@@ -100,6 +113,8 @@ export function Contact() {
     const field = event.target.name as Field;
     let value = event.target.value;
     if (field === 'whatsapp') value = formatPhone(value);
+    if (field === 'name') value = value.slice(0, MAX_NAME);
+    if (field === 'email') value = value.slice(0, MAX_EMAIL);
     if (field === 'description') value = value.slice(0, MAX_DESCRIPTION);
     setValues((current) => ({ ...current, [field]: value }));
     setSentUrl(null);
@@ -117,9 +132,7 @@ export function Contact() {
     }
     const url = whatsappUrl(buildQuoteMessage(values));
     setSentUrl(url);
-    const opened = window.open(url, '_blank');
-    if (opened) opened.opener = null;
-    else window.location.href = url; // navegador bloqueou a nova aba
+    openInNewTab(url);
   };
 
   const describedBy = (field: Field) => (showError(field) ? `${id(field)}-erro` : undefined);
@@ -181,6 +194,7 @@ export function Contact() {
                   name="name"
                   type="text"
                   autoComplete="name"
+                  maxLength={MAX_NAME}
                   placeholder="Seu nome"
                   value={values.name}
                   onChange={onChange}
@@ -198,6 +212,7 @@ export function Contact() {
                   type="tel"
                   inputMode="tel"
                   autoComplete="tel-national"
+                  maxLength={16}
                   placeholder="(11) 91234-5678"
                   value={values.whatsapp}
                   onChange={onChange}
@@ -215,6 +230,7 @@ export function Contact() {
                   type="email"
                   inputMode="email"
                   autoComplete="email"
+                  maxLength={MAX_EMAIL}
                   placeholder="voce@empresa.com.br"
                   value={values.email}
                   onChange={onChange}
@@ -270,6 +286,7 @@ export function Contact() {
                     id={id('description')}
                     name="description"
                     rows={5}
+                    maxLength={MAX_DESCRIPTION}
                     placeholder="Conte o que você precisa, seus objetivos e, se tiver, referências ou prazos desejados."
                     value={values.description}
                     onChange={onChange}

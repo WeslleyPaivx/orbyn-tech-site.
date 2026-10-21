@@ -93,7 +93,28 @@ export const projects: Project[] = [
 export function getPublishedProjects(list: Project[] = projects): Project[] {
   return list
     .filter((project) => project.status === 'publicado')
+    .map((project) => ({
+      ...project,
+      url: safeExternalUrl(project.url),
+      image: safeLocalAsset(project.image),
+      logo: safeLocalAsset(project.logo),
+    }))
     .sort((a, b) => Number(b.featured) - Number(a.featured));
+}
+
+/** Aceita apenas endereços https válidos (bloqueia javascript:, http: e erros de digitação). */
+export function safeExternalUrl(url: string): string {
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'https:' ? parsed.href : '';
+  } catch {
+    return '';
+  }
+}
+
+/** Aceita apenas arquivos do próprio site (caminhos que começam com uma única "/"). */
+export function safeLocalAsset(path: string): string {
+  return /^\/(?!\/)[\w\-./]+$/.test(path) && !path.includes('..') ? path : '';
 }
 
 /** Mostra só o domínio (ex.: 'zanfell.bolt.host') na barra do navegador do mockup. */

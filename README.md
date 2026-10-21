@@ -141,7 +141,28 @@ O nome "ORBYN / TECH" ao lado do símbolo é texto real, no mesmo arranjo das pe
 - Textos alternativos, `loading="lazy"` nas imagens abaixo da dobra
 - Navegação por teclado (menu, abas do processo com setas, acordeões), foco visível, link "Pular para o conteúdo"
 - Respeito a `prefers-reduced-motion`
-- Cabeçalhos de cache longos para `/assets` e cabeçalhos básicos de segurança
+
+---
+
+## Segurança
+
+O site é estático: não tem servidor, banco de dados, login nem senhas, e o formulário não guarda nada — ele só monta a mensagem e abre o WhatsApp. Mesmo assim, ele foi protegido em camadas:
+
+**Cabeçalhos HTTP (`vercel.json`)**
+- `Content-Security-Policy` rígida: o navegador só executa scripts, estilos, fontes e imagens do próprio site. Nada de scripts de terceiros ou inline, sem iframes, sem plugins, e o site não pode ser embutido em outras páginas (`frame-ancestors 'none'`).
+- `Strict-Transport-Security`: obriga HTTPS.
+- `X-Frame-Options: DENY` e `Cross-Origin-Opener-Policy: same-origin`: protegem contra clickjacking e contra páginas abertas manipularem o site.
+- `X-Content-Type-Options`, `Referrer-Policy`, `Cross-Origin-Resource-Policy`, `X-Permitted-Cross-Domain-Policies`.
+- `Permissions-Policy`: câmera, microfone, localização, pagamento, USB e sensores ficam desligados.
+
+**Código**
+- Fonte Inter servida pelo próprio site (sem Google Fonts): nenhum dado do visitante vai para terceiros ao abrir a página.
+- Links externos abrem com `noopener noreferrer`.
+- Formulário com limite de tamanho em todos os campos; a mensagem enviada ao WhatsApp remove caracteres invisíveis e de controle.
+- Portfólio: só aceita links `https://` e imagens do próprio site — um erro de digitação ou um link `javascript:` no arquivo de projetos é ignorado.
+- Sem `dangerouslySetInnerHTML`, sem `eval`, sem mapas de código-fonte publicados.
+
+**Se adicionar algo externo no futuro** (Google Analytics, Meta Pixel, chat, vídeo do YouTube etc.), é preciso liberar o domínio correspondente no `Content-Security-Policy` do `vercel.json`, senão o navegador bloqueia.
 
 ---
 
