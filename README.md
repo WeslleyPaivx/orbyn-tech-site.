@@ -75,31 +75,40 @@ Tudo que é texto institucional fica em arquivos de dados — não é preciso me
 
 ---
 
-## Portfólio
+## Portfólio — "Projetos realizados"
 
-O site mostra **"Novos projetos em breve."** enquanto não houver projetos publicados. Para adicionar um:
+A seção já exibe os projetos **ZanFel** e **MABS Contabilidade**, cada um em um card com moldura de navegador desktop, segmento, descrição, categoria e o botão **Explorar projeto** (abre o site em nova aba). No desktop e no tablet os cards ficam lado a lado; no celular, empilhados.
 
-1. Salve a imagem em `public/images/projetos/` (ideal: 1600 × 1000 px, `.webp` ou `.jpg`, até ~300 KB).
-2. Abra `src/data/projects.ts` e adicione um item à lista `projects`:
+### Adicionar as capturas de tela
+
+1. Abra o site do cliente no computador, em tela cheia (ideal: 1440 px de largura).
+2. Faça a captura. Pode ser só a primeira tela ou a **página inteira**: capturas longas rolam devagar dentro da moldura quando o mouse passa por cima.
+3. Salve em `public/images/projetos/` (ex.: `zanfel.webp`, `mabs-contabilidade.webp`; `.jpg` ou `.png` também funcionam, de preferência até ~500 KB).
+4. Em `src/data/projects.ts`, preencha o campo `image` do projeto: `image: '/images/projetos/zanfel.webp'`.
+
+Enquanto `image` estiver vazio, o card mostra uma capa com o nome do projeto dentro da moldura, sem nenhuma imagem genérica.
+
+### Adicionar um novo cliente
+
+Em `src/data/projects.ts`, copie um dos projetos da lista `projects` e altere os campos:
 
 ```ts
 {
-  id: 'nome-do-projeto',
-  name: 'Nome do projeto',
+  id: 'nome-do-cliente',            // sem espaços
+  name: 'Nome do cliente',
+  segment: 'Ramo de atuação',
+  category: 'Site institucional',   // ou Landing page, Sistema SaaS, Aplicativo...
   description: 'Uma ou duas frases sobre o que foi desenvolvido.',
-  category: 'Site institucional', // Landing page, Sistema SaaS, Sistema personalizado, Aplicativo, Automação e IA
-  image: '/images/projetos/nome-do-projeto.webp',
-  imageAlt: 'Página inicial do projeto exibida em um notebook',
-  technologies: ['React', 'TypeScript'], // ou [] para não exibir
-  url: 'https://endereco-do-projeto.com.br', // ou '' para ocultar o botão
-  featured: true,     // destaques aparecem primeiro e com mais área
-  status: 'publicado' // 'rascunho' oculta o projeto
+  image: '/images/projetos/nome-do-cliente.webp', // ou '' até ter a captura
+  imageAlt: 'Página inicial do site do cliente',
+  technologies: [],                 // opcional, ex.: ['React', 'Tailwind CSS']
+  url: 'https://site-do-cliente.com.br',
+  featured: true,                   // destaques aparecem primeiro
+  status: 'publicado',              // 'rascunho' oculta o projeto
 },
 ```
 
-3. Faça commit/push — a Vercel publica a nova versão sozinha.
-
-Com projetos de duas ou mais categorias, aparecem filtros por categoria automaticamente.
+Salve (ou faça commit no GitHub) e a Vercel publica a nova versão sozinha. A partir de 4 projetos com categorias diferentes, aparecem filtros por categoria automaticamente.
 
 ---
 

@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { useMemo, useState, type ReactNode } from 'react';
+import { ArrowUpRight, Lock } from 'lucide-react';
 import { whatsappMessages } from '../../config/site';
-import { getPublishedProjects, type Project } from '../../data/projects';
+import { displayDomain, getPublishedProjects, type Project } from '../../data/projects';
 import { whatsappUrl } from '../../lib/whatsapp';
 import { OrbynSymbol } from '../brand/Logo';
 import { ButtonLink } from '../ui/Button';
@@ -10,28 +10,91 @@ import { Reveal } from '../ui/Reveal';
 import { SectionHeading } from '../ui/SectionHeading';
 
 const ALL = 'Todos';
+/** Os filtros por categoria só aparecem quando o portfólio crescer. */
+const MIN_PROJECTS_FOR_FILTERS = 4;
 
-function ProjectCard({ project, wide }: { project: Project; wide: boolean }) {
+/** Capa exibida enquanto o projeto não tem captura de tela: o nome em tipografia, sem imagem genérica. */
+function ProjectCover({ project }: { project: Project }) {
   return (
-    <article
-      className={`group flex flex-col overflow-hidden rounded-[1.5rem] border border-line bg-ink-2 transition-colors duration-500 hover:border-white/25 ${
-        wide ? 'md:col-span-2 lg:grid lg:grid-cols-[1.35fr_1fr]' : ''
-      }`}
+    <div
+      className="absolute inset-0 flex flex-col justify-end overflow-hidden bg-[radial-gradient(120%_95%_at_85%_0%,#202020_0%,#0b0b0b_62%)] p-6 sm:p-9"
+      aria-hidden="true"
     >
-      <div className={`relative overflow-hidden bg-ink-3 aspect-[16/10] ${wide ? 'lg:aspect-auto lg:min-h-[22rem]' : ''}`}>
-        <img
-          src={project.image}
-          alt={project.imageAlt ?? `Tela do projeto ${project.name}`}
-          loading="lazy"
-          decoding="async"
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] ease-[var(--ease-soft)] group-hover:scale-[1.03]"
-        />
+      <svg viewBox="0 0 400 250" className="absolute -top-[30%] -right-[18%] h-[150%] w-auto text-white" fill="none">
+        <ellipse cx="200" cy="125" rx="170" ry="62" transform="rotate(-24 200 125)" stroke="currentColor" strokeOpacity="0.09" />
+        <ellipse cx="200" cy="125" rx="118" ry="88" transform="rotate(30 200 125)" stroke="currentColor" strokeOpacity="0.06" />
+        <circle cx="200" cy="125" r="122" stroke="currentColor" strokeOpacity="0.04" strokeDasharray="2 6" />
+      </svg>
+      <p className="relative text-[clamp(1.75rem,4.2vw,3.1rem)] leading-[0.95] font-semibold tracking-[-0.035em] text-white/90">
+        {project.name}
+      </p>
+    </div>
+  );
+}
+
+/** Moldura de navegador desktop com a captura real do site (ou a capa, sem captura). */
+function BrowserMockup({ project }: { project: Project }) {
+  const [failed, setFailed] = useState(false);
+  const hasImage = Boolean(project.image) && !failed;
+
+  return (
+    <div className="relative overflow-hidden rounded-t-[0.85rem] border border-b-0 border-white/[0.12] bg-ink shadow-[0_40px_90px_-30px_rgba(0,0,0,0.95)] transition-transform duration-700 ease-[var(--ease-soft)] group-hover:-translate-y-1.5">
+      {/* Barra do navegador */}
+      <div className="flex h-8 items-center gap-3 border-b border-line bg-[#131313] px-3 sm:h-9 sm:px-3.5" aria-hidden="true">
+        <span className="flex shrink-0 gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-white/[0.16]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-white/[0.11]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-white/[0.07]" />
+        </span>
+        {project.url && (
+          <span className="mx-auto flex h-[1.4rem] min-w-0 items-center gap-1.5 rounded-md bg-white/[0.05] px-2.5 text-[0.7rem] text-white/50 sm:px-3 sm:text-[0.72rem]">
+            <Lock className="h-3 w-3 shrink-0" strokeWidth={2} />
+            <span className="truncate">{displayDomain(project.url)}</span>
+          </span>
+        )}
+        <span className="w-[2.6rem] shrink-0" />
       </div>
 
-      <div className="flex flex-1 flex-col p-6 sm:p-8">
-        <p className="text-sm text-mute">{project.category}</p>
-        <h3 className="mt-2 text-xl font-semibold tracking-[-0.015em] text-white sm:text-2xl">{project.name}</h3>
-        <p className="mt-3 max-w-prose leading-relaxed text-mute">{project.description}</p>
+      {/* Tela */}
+      <div className="relative aspect-[16/10] overflow-hidden bg-ink-3">
+        {hasImage ? (
+          <img
+            src={project.image}
+            alt={project.imageAlt ?? `Página inicial do site ${project.name}`}
+            loading="lazy"
+            decoding="async"
+            onError={() => setFailed(true)}
+            // Capturas de página inteira rolam devagar ao passar o mouse
+            className="absolute inset-0 h-full w-full object-cover object-top transition-[object-position] duration-[6s] ease-in-out motion-safe:group-hover:object-bottom"
+          />
+        ) : (
+          <ProjectCover project={project} />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  const stageClass =
+    'relative block overflow-hidden bg-[radial-gradient(90%_80%_at_50%_0%,rgb(255_255_255/0.07),transparent_70%)] px-5 pt-7 sm:px-10 sm:pt-11';
+  const stage: ReactNode = <BrowserMockup project={project} />;
+
+  return (
+    <article className="group flex flex-col overflow-hidden rounded-[1.75rem] border border-line bg-ink-2 transition-colors duration-500 hover:border-white/25">
+      {project.url ? (
+        // Atalho visual: o botão "Explorar projeto" é o link acessível do card
+        <a href={project.url} target="_blank" rel="noopener noreferrer" tabIndex={-1} aria-hidden="true" className={stageClass}>
+          {stage}
+        </a>
+      ) : (
+        <div className={stageClass}>{stage}</div>
+      )}
+
+      <div className="flex flex-1 flex-col border-t border-line p-6 sm:p-9">
+        <p className="text-sm text-mute">{project.segment}</p>
+        <h3 className="mt-2 text-2xl font-semibold tracking-[-0.02em] text-white sm:text-[1.75rem]">{project.name}</h3>
+        <p className="mt-4 max-w-[52ch] leading-relaxed text-mute">{project.description}</p>
 
         {project.technologies.length > 0 && (
           <ul className="mt-5 flex flex-wrap gap-2" aria-label="Tecnologias utilizadas">
@@ -43,19 +106,25 @@ function ProjectCard({ project, wide }: { project: Project; wide: boolean }) {
           </ul>
         )}
 
-        {project.url && (
-          <div className="mt-auto pt-7">
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-5 pt-8">
+          <span className="rounded-full border border-line px-3 py-1.5 text-xs text-white/75">{project.category}</span>
+          {project.url && (
             <ButtonLink
               href={project.url}
               external
               variant="outline"
-              aria-label={`Visualizar projeto ${project.name} (abre em nova aba)`}
+              className="group-hover:border-white/60"
+              aria-label={`Explorar projeto ${project.name} (abre em nova aba)`}
             >
-              Visualizar projeto
-              <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
+              Explorar projeto
+              <ArrowUpRight
+                className="h-4 w-4 transition-transform duration-500 ease-[var(--ease-soft)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                strokeWidth={1.75}
+                aria-hidden="true"
+              />
             </ButtonLink>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </article>
   );
@@ -99,14 +168,15 @@ export function Portfolio() {
   );
   const [filter, setFilter] = useState(ALL);
   const visible = filter === ALL ? published : published.filter((project) => project.category === filter);
+  const showFilters = published.length >= MIN_PROJECTS_FOR_FILTERS && categories.length > 2;
 
   return (
     <section id="portfolio" aria-labelledby="portfolio-title" className="border-t border-line/60 py-24 sm:py-32">
       <Container>
         <SectionHeading
           id="portfolio-title"
-          title="Projetos que transformam ideias em realidade."
-          subtitle="Conheça algumas das soluções desenvolvidas pela ORBYN TECH."
+          title="Projetos realizados."
+          subtitle="Conheça algumas das soluções desenvolvidas pela ORBYN TECH para empresas de diferentes segmentos."
         />
 
         <Reveal className="mt-14 sm:mt-20">
@@ -114,7 +184,7 @@ export function Portfolio() {
             <EmptyState />
           ) : (
             <>
-              {categories.length > 2 && (
+              {showFilters && (
                 <div className="mb-8 flex flex-wrap gap-2" role="group" aria-label="Filtrar projetos por categoria">
                   {categories.map((category) => {
                     const selected = filter === category;
@@ -136,10 +206,20 @@ export function Portfolio() {
                   })}
                 </div>
               )}
+
               <div className="grid gap-5 md:grid-cols-2 lg:gap-6">
                 {visible.map((project) => (
-                  <ProjectCard key={project.id} project={project} wide={project.featured && filter === ALL} />
+                  <ProjectCard key={project.id} project={project} />
                 ))}
+              </div>
+
+              <div className="mt-10 flex flex-col items-start gap-5 border-t border-line pt-8 sm:flex-row sm:items-center sm:justify-between">
+                <p className="max-w-md leading-relaxed text-mute">
+                  Quer o próximo projeto aqui ser o da sua empresa? Conte sua ideia e receba um orçamento.
+                </p>
+                <ButtonLink href={whatsappUrl(whatsappMessages.quote)} external variant="outline">
+                  Solicitar orçamento
+                </ButtonLink>
               </div>
             </>
           )}
