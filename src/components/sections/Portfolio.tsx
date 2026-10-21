@@ -32,10 +32,37 @@ function ProjectCover({ project }: { project: Project }) {
   );
 }
 
+const DEFAULT_COVER_BACKGROUND = '#F2F2F0';
+
+/** Capa com a logo do cliente sobre fundo claro (ou na cor definida em `coverBackground`). */
+function LogoCover({ project, onError }: { project: Project; onError: () => void }) {
+  return (
+    <div
+      className="absolute inset-0 flex items-center justify-center p-[12%]"
+      style={{ background: project.coverBackground ?? DEFAULT_COVER_BACKGROUND }}
+    >
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_70%_at_50%_45%,rgb(255_255_255/0.55),transparent_70%)]"
+        aria-hidden="true"
+      />
+      <img
+        src={project.logo}
+        alt={`Logo ${project.name}`}
+        loading="lazy"
+        decoding="async"
+        onError={onError}
+        className="relative max-h-[58%] max-w-[72%] object-contain transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-[1.04]"
+      />
+    </div>
+  );
+}
+
 /** Moldura de navegador desktop com a captura real do site (ou a capa, sem captura). */
 function BrowserMockup({ project }: { project: Project }) {
   const [failed, setFailed] = useState(false);
+  const [logoFailed, setLogoFailed] = useState(false);
   const hasImage = Boolean(project.image) && !failed;
+  const hasLogo = Boolean(project.logo) && !logoFailed;
 
   return (
     <div className="relative overflow-hidden rounded-t-[0.85rem] border border-b-0 border-white/[0.12] bg-ink shadow-[0_40px_90px_-30px_rgba(0,0,0,0.95)] transition-transform duration-700 ease-[var(--ease-soft)] group-hover:-translate-y-1.5">
@@ -67,6 +94,8 @@ function BrowserMockup({ project }: { project: Project }) {
             // Capturas de página inteira rolam devagar ao passar o mouse
             className="absolute inset-0 h-full w-full object-cover object-top transition-[object-position] duration-[6s] ease-in-out motion-safe:group-hover:object-bottom"
           />
+        ) : hasLogo ? (
+          <LogoCover project={project} onError={() => setLogoFailed(true)} />
         ) : (
           <ProjectCover project={project} />
         )}
