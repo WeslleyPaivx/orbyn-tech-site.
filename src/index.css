@@ -98,11 +98,17 @@
   }
 
   /* Halo escuro atrás do texto: mantém a leitura quando a escultura passa por trás, sem caixas */
+  /* Celular: uma sombra só (mais leve para desenhar durante a rolagem rápida) */
   .legible {
-    text-shadow:
-      0 0 28px var(--color-ink),
-      0 0 12px var(--color-ink),
-      0 0 4px var(--color-ink);
+    text-shadow: 0 0 12px var(--color-ink);
+  }
+  @media (min-width: 1024px) and (pointer: fine) {
+    .legible {
+      text-shadow:
+        0 0 28px var(--color-ink),
+        0 0 12px var(--color-ink),
+        0 0 4px var(--color-ink);
+    }
   }
 
   /* Rótulo editorial pequeno: "(02) Serviços" */

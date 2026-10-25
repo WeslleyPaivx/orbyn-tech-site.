@@ -46,8 +46,9 @@ type QualitySpec = {
 
 export const QUALITY: Record<Quality, QualitySpec> = {
   high: { filaments: 380, segments: 200, particles: 3000, meshU: 320, meshV: 72, dprMax: 1.75, antialias: true },
-  medium: { filaments: 260, segments: 150, particles: 1700, meshU: 240, meshV: 56, dprMax: 1.5, antialias: true },
-  low: { filaments: 150, segments: 110, particles: 800, meshU: 170, meshV: 40, dprMax: 1.25, antialias: false },
+  medium: { filaments: 220, segments: 120, particles: 1400, meshU: 200, meshV: 48, dprMax: 1.5, antialias: true },
+  // Celulares: sem antisserrilhado da GPU (as fitas já suavizam a borda no shader) e menos vértices
+  low: { filaments: 150, segments: 90, particles: 700, meshU: 150, meshV: 36, dprMax: 1.25, antialias: false },
 };
 
 /** Enquadramento de cada composição: posição e escala do objeto, câmera e intensidade. */
@@ -123,7 +124,12 @@ export class OrbynSculpture {
   private elapsed = 0;
   private firstFrameDone = false;
   private perfSamples: number[] = [];
+  private warmupFrames = 30;
   private activeFraction = 1;
+  /** Último recurso em aparelhos lentos: desenha um quadro sim, outro não (30 fps estáveis). */
+  private halfRate = false;
+  private skipNext = false;
+  private pendingDt = 0;
   private disposed = false;
   private camPos = new Vector3();
   private camLook = new Vector3();
@@ -307,11 +313,18 @@ export class OrbynSculpture {
     if (!this.running) return;
     const dt = Math.min((now - this.lastTime) / 1000, 0.1);
     this.lastTime = now;
-    this.update(dt);
+    this.frameId = requestAnimationFrame(this.tick);
+    if (this.halfRate) {
+      this.pendingDt += dt;
+      this.skipNext = !this.skipNext;
+      if (this.skipNext) return;
+    }
+    const step = this.halfRate ? Math.min(this.pendingDt, 0.1) : dt;
+    this.pendingDt = 0;
+    this.update(step);
     this.renderer.render(this.scene, this.camera);
     this.notifyFirstFrame();
-    this.monitor(dt);
-    this.frameId = requestAnimationFrame(this.tick);
+    this.monitor(step);
   };
 
   private update(dt: number) {
@@ -375,23 +388,33 @@ export class OrbynSculpture {
     u.uBright.value = lerp(a.bright, b.bright, s) * this.fade;
   }
 
-  /** Qualidade adaptativa: reduz resolução e depois a quantidade de fios se o quadro passar de ~40 ms. */
+  /**
+   * Qualidade adaptativa. A cada 40 quadros, se o quadro típico passar de 20 ms (abaixo de 50 fps),
+   * reduz um degrau: primeiro a resolução, depois a quantidade de fios e, por fim, a taxa de quadros.
+   */
   private monitor(dt: number) {
     if (dt <= 0) return;
+    if (this.warmupFrames > 0) {
+      this.warmupFrames--;
+      return;
+    }
     this.perfSamples.push(dt);
-    if (this.perfSamples.length < 90) return;
+    if (this.perfSamples.length < 40) return;
     const sorted = [...this.perfSamples].sort((x, y) => x - y);
     const median = sorted[Math.floor(sorted.length / 2)];
     this.perfSamples = [];
-    if (median > 1 / 38) {
-      if (this.dpr > 0.85) {
-        this.dprCap = Math.max(0.75, this.dpr - 0.25);
-        this.resize();
-      } else if (this.activeFraction > 0.45) {
-        this.activeFraction = Math.max(0.45, this.activeFraction - 0.2);
-        this.applyFraction();
-      }
+    const budget = this.halfRate ? 1 / 26 : 1 / 50;
+    if (median <= budget) return;
+    if (this.dpr > 0.8) {
+      this.dprCap = Math.max(0.75, this.dpr - 0.2);
+      this.resize();
+    } else if (this.activeFraction > 0.5) {
+      this.activeFraction = Math.max(0.4, this.activeFraction - 0.2);
+      this.applyFraction();
+    } else if (!this.halfRate) {
+      this.halfRate = true;
     }
+    this.warmupFrames = 10;
   }
 
   private applyFraction() {

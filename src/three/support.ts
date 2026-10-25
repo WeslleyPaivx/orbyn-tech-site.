@@ -27,7 +27,9 @@ export function detectQuality(): Quality {
   const small = window.innerWidth < 768;
   const coarse = window.matchMedia?.('(pointer: coarse)').matches ?? false;
   if (nav.connection?.saveData) return 'low';
-  if (small || coarse) return cores >= 6 && memory >= 4 ? 'medium' : 'low';
+  // Celulares ficam sempre no nível leve; tablets grandes e potentes sobem um nível
+  if (small) return 'low';
+  if (coarse) return cores >= 8 && memory >= 6 ? 'medium' : 'low';
   if (cores < 4 || memory < 4) return 'medium';
   return 'high';
 }

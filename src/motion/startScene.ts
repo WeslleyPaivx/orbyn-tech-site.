@@ -12,6 +12,8 @@ import { OrbynSculpture } from '../three/OrbynSculpture';
 import { detectQuality } from '../three/support';
 
 gsap.registerPlugin(ScrollTrigger);
+// A barra de endereço do celular muda a altura da tela ao rolar: não recalcula tudo por isso
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 type StartOptions = {
   onReady: () => void;

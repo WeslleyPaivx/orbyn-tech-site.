@@ -48,7 +48,7 @@ export function FloatingButtons({ hidden = false }: FloatingButtonsProps) {
         tabIndex={hide ? -1 : 0}
         aria-label={`Instagram da ORBYN TECH (${site.instagram.handle})`}
         title={`Instagram ${site.instagram.handle}`}
-        className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-ink-2/90 text-white shadow-[0_8px_30px_rgba(0,0,0,0.5)] backdrop-blur-md transition-[border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-white/50"
+        className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-ink-2 text-white shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-[border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-white/50"
       >
         <InstagramIcon className="h-5 w-5" />
       </a>

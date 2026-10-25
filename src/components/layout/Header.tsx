@@ -58,9 +58,9 @@ export function Header({ onMenuChange }: HeaderProps) {
   return (
     <>
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-500 ${
         solid
-          ? 'border-b border-line/80 bg-ink/80 backdrop-blur-xl backdrop-saturate-150'
+          ? 'border-b border-line/80 bg-ink/95 lg:bg-ink/80 lg:backdrop-blur-xl lg:backdrop-saturate-150'
           : 'border-b border-transparent bg-transparent'
       }`}
     >
