@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Laboratório da escultura — ORBYN TECH</title>
+  </head>
+  <body>
+    <!-- Página de desenvolvimento (npm run dev → /lab.html). Não entra no build de produção. -->
+    <canvas id="lab-canvas"></canvas>
+    <div id="lab-ui">
+      <label>Composição <input id="lab-progress" type="range" min="0" max="4" step="0.001" value="0" /></label>
+      <label>Fase <input id="lab-phase" type="range" min="0" max="1" step="0.001" value="0" /></label>
+      <output id="lab-out"></output>
+    </div>
+    <script type="module" src="/src/lab.ts"></script>
+  </body>
+</html>

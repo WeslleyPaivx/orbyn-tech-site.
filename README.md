@@ -1,8 +1,8 @@
 # ORBYN TECH — site institucional
 
-Site oficial da ORBYN TECH: sites, landing pages, sistemas SaaS, sistemas personalizados, aplicativos e automação com IA.
+Site oficial da ORBYN TECH: sites, chatbots inteligentes, automação com IA e sistemas personalizados.
 
-**Stack:** React 18 · TypeScript · Vite 5 · Tailwind CSS 4 · Lucide React · publicação na Vercel.
+**Stack:** React 18 · TypeScript · Vite 5 · Tailwind CSS 4 · Three.js (WebGL 2 + shaders GLSL) · GSAP ScrollTrigger · publicação na Vercel.
 
 ---
 
@@ -10,7 +10,7 @@ Site oficial da ORBYN TECH: sites, landing pages, sistemas SaaS, sistemas person
 
 Página única (one-page) com navegação por âncoras (`/#servicos`, `/#portfolio`, `/#sobre`, `/#contato`). Como não há páginas separadas, o React Router não foi necessário — menos dependências e carregamento mais rápido.
 
-As animações (entrada ao rolar, menu, acordeões, linha do tempo, órbita do hero) usam CSS + `IntersectionObserver`, sem biblioteca de animação. Isso mantém o JavaScript pequeno e respeita automaticamente a preferência por movimento reduzido do sistema. Se no futuro quiser animações mais complexas, o pacote `motion` pode ser adicionado sem mudar a estrutura.
+A peça central é uma **escultura 3D** desenhada em WebGL, fixa atrás da página, que se transforma conforme a rolagem (detalhes na seção *Escultura 3D* abaixo). As demais animações (entrada dos textos, menu, acordeões) usam CSS + `IntersectionObserver`.
 
 ```
 orbyn-tech/
@@ -26,16 +26,40 @@ orbyn-tech/
 └── src/
     ├── config/site.ts          ⭐ Nome, WhatsApp, Instagram, mensagens automáticas, menu
     ├── data/projects.ts        ⭐ Projetos do portfólio
-    ├── data/services.ts        Os seis serviços
+    ├── data/services.ts        As quatro frentes de serviço e as opções do formulário
     ├── data/content.ts         Diferenciais, etapas do processo e FAQ
+    ├── three/                  Escultura 3D: OrbynSculpture.ts (motor), shaders.ts (formas), logoCurves.ts
+    ├── motion/startScene.ts    Liga a escultura à rolagem (GSAP ScrollTrigger)
+    ├── lab.ts + /lab.html      Laboratório isolado da escultura (só em desenvolvimento)
     ├── lib/                    Links do WhatsApp e rolagem suave
     ├── hooks/                  Detecção de seção ativa, entrada na tela, mídia
     └── components/
         ├── brand/              Logo e símbolo
         ├── layout/             Cabeçalho, rodapé, botões flutuantes
-        ├── sections/           Hero, Serviços, Portfólio, Diferenciais, Processo, Sobre, FAQ, Contato
+        ├── scene/              Canvas da escultura e carregamento progressivo
+        ├── sections/           Hero, Serviços, Portfólio, Sobre, Diferenciais, Processo, FAQ, Final, Contato
         └── ui/                 Botões, títulos, container, animação de entrada, ícones
 ```
+
+---
+
+## Escultura 3D
+
+Uma única cena WebGL desenha três camadas com os mesmos dados: a **escultura sólida** (anel torcido em grafite cromado), centenas de **filamentos** e milhares de **partículas** que correm por eles. Todas as formas são calculadas na GPU (`src/three/shaders.ts`), então a transformação não recria geometria e funciona igualmente para frente e para trás.
+
+| Seção (`data-stage`) | Composição |
+| --- | --- |
+| Início | Escultura sólida, com os fios gravados na superfície |
+| Serviços (`1`) | A escultura se dissolve e os fios se desenrolam em um feixe que atravessa a tela |
+| Portfólio (`2`) | Os fios se reorganizam em uma torre de treliça |
+| Sobre nós (`3`) | Os fios se deitam em um horizonte ondulante |
+| Final (`4`) | Os fios desenham o símbolo oficial da ORBYN TECH (`logoCurves.ts`, extraído de `symbolPath.ts`) |
+
+**Desempenho:** o código 3D é baixado depois da primeira pintura (arquivo separado). A densidade é escolhida pelo tipo de aparelho (`src/three/support.ts`) e, se os quadros passarem de ~40 ms, a cena reduz sozinha a resolução e depois a quantidade de fios. A animação pausa com a aba em segundo plano.
+
+**Sem WebGL 2** (ou se a cena falhar), o hero mostra o símbolo em órbita em SVG e o restante do site funciona normalmente. **Com movimento reduzido** ativado no sistema, a escultura aparece parada e só troca de composição entre as seções, sem animação.
+
+**Ajustes rápidos:** enquadramento, câmera e brilho de cada composição ficam nas listas `DESKTOP` e `MOBILE` em `OrbynSculpture.ts`; a quantidade de fios e partículas em `QUALITY`. Para experimentar, rode `npm run dev` e abra `http://localhost:5173/lab.html` (controle deslizante entre as composições).
 
 ---
 
@@ -69,7 +93,7 @@ Tudo que é texto institucional fica em arquivos de dados — não é preciso me
 | O quê | Onde |
 | --- | --- |
 | WhatsApp, Instagram, slogans, mensagens automáticas | `src/config/site.ts` |
-| Serviços | `src/data/services.ts` |
+| Serviços (quatro frentes) e opções do formulário | `src/data/services.ts` |
 | Diferenciais, processo e perguntas frequentes | `src/data/content.ts` |
 | Título e descrição para o Google | `index.html` |
 
@@ -198,7 +222,8 @@ Indicado se várias pessoas forem editar ou se o portfólio crescer bastante. Ex
 
 ## Verificação feita nesta entrega
 
-- Compilação de todo o código-fonte e checagem de tipos no modo `strict`.
-- Testes automatizados no navegador (celular 390 px e desktop 1440 px): menu mobile (abrir, fechar, Esc, travar rolagem, rolar até a seção), destaque da seção ativa, validação e máscara do formulário, mensagem enviada ao WhatsApp, os 20 links de WhatsApp e 4 do Instagram, âncoras internas, linha do tempo (clique e setas do teclado), FAQ, estado vazio e filtros do portfólio, movimento reduzido e ausência de rolagem horizontal.
-
-Antes de publicar, rode `npm install && npm run build` uma vez no seu computador (ou deixe a Vercel rodar) para confirmar a instalação das dependências oficiais.
+- Checagem de tipos no modo `strict` e build de produção na Vercel.
+- Escultura testada isoladamente no laboratório (5 composições, transições nos dois sentidos, sem erros de WebGL no console) e no site completo em 1920, 1440, 1280 e 390 px de largura.
+- Versão sem WebGL e versão com movimento reduzido.
+- Links: WhatsApp (todos com o número oficial), Instagram, projetos do portfólio, âncoras do menu, menu mobile (abrir, Esc, rolar até a seção), validação do formulário e ausência de rolagem horizontal.
+- Os testes visuais rodaram com WebGL por software (sem placa de vídeo); a fluidez real depende do aparelho, e a qualidade adaptativa cobre aparelhos mais fracos.

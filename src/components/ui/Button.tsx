@@ -6,7 +6,7 @@ type Size = 'md' | 'lg';
 const base =
   'group inline-flex items-center justify-center gap-2.5 rounded-full font-medium whitespace-nowrap ' +
   'transition-[background-color,color,border-color,transform] duration-300 ease-[var(--ease-soft)] ' +
-  'active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 select-none';
+  'active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 select-none [text-shadow:none]';
 
 const variants: Record<Variant, string> = {
   primary: 'bg-white text-ink hover:bg-[#e6e6e6]',

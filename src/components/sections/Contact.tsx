@@ -1,5 +1,5 @@
 import { useId, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
-import { Check, ChevronDown, CircleAlert, Send } from 'lucide-react';
+import { Check, ChevronDown, CircleAlert, Send } from '../ui/Icons';
 import { site, whatsappMessages } from '../../config/site';
 import { serviceOptions } from '../../data/services';
 import { buildQuoteMessage, whatsappUrl, type QuoteRequest } from '../../lib/whatsapp';
@@ -142,13 +142,15 @@ export function Contact() {
     <section
       id="contato"
       aria-labelledby="contato-title"
-      className="border-t border-line/60 py-24 sm:py-32"
+      className="relative bg-gradient-to-b from-ink/40 via-ink/95 to-ink py-24 sm:py-32"
     >
-
       <Container className="grid gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
         <div>
           <SectionHeading
             id="contato-title"
+            index="09"
+            label="Contato"
+            size="md"
             title="Vamos transformar sua ideia em realidade?"
             subtitle="Conte sobre seu projeto e descubra como a ORBYN TECH pode ajudar."
           />

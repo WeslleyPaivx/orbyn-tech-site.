@@ -1,70 +1,57 @@
-import {
-  BrainCircuit,
-  Cloud,
-  CodeXml,
-  LayoutPanelTop,
-  Smartphone,
-  Workflow,
-  type LucideIcon,
-} from 'lucide-react';
-
 export type Service = {
   id: string;
   title: string;
   description: string;
-  icon: LucideIcon;
+  /** O que entra em cada frente de trabalho. */
+  includes: string[];
   /** Como o serviço aparece na mensagem de WhatsApp. */
   messageLabel: string;
 };
 
+/** As quatro frentes da ORBYN TECH, na ordem em que aparecem no site. */
 export const services: Service[] = [
   {
     id: 'sites',
-    title: 'Sites institucionais',
+    title: 'Desenvolvimento de sites',
     description:
-      'Sites modernos, responsivos e profissionais para fortalecer a presença digital da sua empresa.',
-    icon: CodeXml,
-    messageLabel: 'um site institucional',
+      'Sites institucionais e landing pages modernos, rápidos e responsivos, criados para fortalecer a presença digital da sua empresa e transformar visitantes em oportunidades de negócio.',
+    includes: ['Sites institucionais', 'Landing pages', 'Catálogos de produtos', 'SEO e performance'],
+    messageLabel: 'o desenvolvimento de um site',
   },
   {
-    id: 'landing-pages',
-    title: 'Landing Pages',
+    id: 'chatbots',
+    title: 'Chatbots inteligentes',
     description:
-      'Páginas estratégicas desenvolvidas para transformar visitantes em oportunidades de negócio.',
-    icon: LayoutPanelTop,
-    messageLabel: 'uma landing page',
+      'Assistentes virtuais que respondem clientes a qualquer hora, tiram dúvidas frequentes, organizam pedidos de orçamento e encaminham cada conversa para a pessoa certa da sua equipe.',
+    includes: ['Atendimento no WhatsApp e no site', 'Respostas 24 horas', 'Triagem de contatos', 'Integração com seus sistemas'],
+    messageLabel: 'um chatbot inteligente',
   },
   {
-    id: 'saas',
-    title: 'Sistemas SaaS',
+    id: 'automacao-ia',
+    title: 'Automação com inteligência artificial',
     description:
-      'Plataformas digitais escaláveis e personalizadas para diferentes necessidades empresariais.',
-    icon: Cloud,
-    messageLabel: 'um sistema SaaS',
+      'Soluções inteligentes para agilizar processos, reduzir tarefas repetitivas, melhorar o atendimento e apoiar as decisões da operação da sua empresa.',
+    includes: ['Fluxos automáticos', 'Integração entre ferramentas', 'Relatórios e documentos', 'IA aplicada ao seu processo'],
+    messageLabel: 'automação com inteligência artificial',
   },
   {
     id: 'sistemas',
     title: 'Sistemas personalizados',
-    description: 'Ferramentas sob medida para organizar, automatizar e otimizar processos.',
-    icon: Workflow,
-    messageLabel: 'um sistema personalizado',
-  },
-  {
-    id: 'aplicativos',
-    title: 'Aplicativos',
-    description: 'Experiências mobile modernas e intuitivas para Android e iOS.',
-    icon: Smartphone,
-    messageLabel: 'um aplicativo para Android e iOS',
-  },
-  {
-    id: 'automacao-ia',
-    title: 'Automação e IA',
     description:
-      'Soluções inteligentes para agilizar processos, melhorar o atendimento e apoiar a operação da sua empresa.',
-    icon: BrainCircuit,
-    messageLabel: 'automação e inteligência artificial',
+      'Ferramentas sob medida, plataformas SaaS e aplicativos para Android e iOS que organizam, automatizam e acompanham o crescimento do seu negócio.',
+    includes: ['Sistemas sob medida', 'Plataformas SaaS', 'Aplicativos Android e iOS', 'Painéis de gestão'],
+    messageLabel: 'um sistema personalizado',
   },
 ];
 
-/** Opções do campo "Tipo de serviço" no formulário. */
-export const serviceOptions = [...services.map((s) => s.title), 'Ainda não sei / Outro'];
+/** Opções do campo "Tipo de serviço" no formulário (mais detalhadas que as quatro frentes). */
+export const serviceOptions = [
+  'Site institucional',
+  'Landing page',
+  'Chatbot inteligente',
+  'Automação com IA',
+  'Sistema SaaS',
+  'Sistema personalizado',
+  'Aplicativo Android e iOS',
+  'Ainda não sei / Outro',
+];

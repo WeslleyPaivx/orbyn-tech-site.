@@ -2,38 +2,45 @@ import { site } from '../../config/site';
 import { OrbynSymbol } from '../brand/Logo';
 import { Container } from '../ui/Container';
 import { Reveal } from '../ui/Reveal';
-import { SectionHeading } from '../ui/SectionHeading';
 
+const MANIFESTO =
+  'A ORBYN TECH nasceu com o propósito de transformar ideias em soluções digitais modernas, funcionais e personalizadas.';
+
+/**
+ * Sobre nós: os fios se deitam em um horizonte ondulante (data-stage="3")
+ * e o manifesto acende palavra por palavra conforme a leitura.
+ */
 export function About() {
   return (
-    <section id="sobre" aria-labelledby="sobre-title" className="border-t border-line/60 py-24 sm:py-32">
-      <Container className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
-        <Reveal className="relative order-2 lg:order-1">
-          <div className="relative overflow-hidden rounded-2xl border border-line bg-ink-2">
-            <img
-              src="/images/sobre-workspace.webp"
-              alt="Notebook sobre uma mesa escura, em ambiente de trabalho minimalista"
-              width={720}
-              height={991}
-              loading="lazy"
-              decoding="async"
-              className="aspect-[4/5] h-full w-full object-cover opacity-90 sm:aspect-[5/5] lg:aspect-[4/5]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" aria-hidden="true" />
-            <div className="absolute inset-x-0 bottom-0 flex items-center gap-4 p-7 sm:p-9">
-              <OrbynSymbol className="h-10 w-10 shrink-0 text-white" />
-              <p className="text-lg font-medium tracking-[-0.01em] text-white sm:text-xl">{site.altSlogan}</p>
-            </div>
-          </div>
+    <section id="sobre" data-stage="3" aria-labelledby="sobre-title" className="legible relative pt-28 pb-24 sm:pt-40 sm:pb-32">
+      <Container>
+        <Reveal>
+          <p className="eyebrow">
+            <span className="text-white/80">(04)</span>
+            Sobre nós
+          </p>
         </Reveal>
 
-        <div className="order-1 lg:order-2">
-          <SectionHeading id="sobre-title" title="Tecnologia, criatividade e inovação." />
-          <Reveal delay={100} className="mt-8 space-y-6 text-lg leading-relaxed text-mute sm:text-[1.2rem]">
-            <p className="text-white/90">
-              A ORBYN TECH nasceu com o propósito de transformar ideias em soluções digitais modernas, funcionais e
-              personalizadas.
-            </p>
+        <h2
+          id="sobre-title"
+          data-scrub-words
+          className="mt-8 max-w-[22ch] text-[clamp(1.9rem,4.6vw,3.9rem)] leading-[1.08] font-medium tracking-[-0.035em] text-white"
+        >
+          {MANIFESTO.split(' ').map((word, index, words) => (
+            <span key={index}>
+              <span data-word>{word}</span>
+              {index < words.length - 1 ? ' ' : null}
+            </span>
+          ))}
+        </h2>
+
+        <div className="mt-20 grid gap-12 border-t border-white/[0.12] pt-12 sm:mt-28 lg:grid-cols-12 lg:gap-14">
+          <Reveal className="lg:col-span-5">
+            <h3 className="text-2xl font-medium tracking-[-0.02em] text-white sm:text-3xl">
+              Tecnologia, criatividade e inovação.
+            </h3>
+          </Reveal>
+          <Reveal delay={100} className="space-y-6 text-lg leading-relaxed text-mute lg:col-span-7">
             <p>
               Acreditamos que cada negócio possui necessidades únicas e merece uma presença digital desenvolvida com
               atenção aos detalhes.
@@ -41,6 +48,10 @@ export function About() {
             <p>
               Por isso, unimos design, desenvolvimento e tecnologia para criar sites, sistemas e aplicativos que fazem
               sentido para o seu negócio hoje e acompanham o seu crescimento.
+            </p>
+            <p className="flex items-center gap-4 pt-4 text-white">
+              <OrbynSymbol className="h-9 w-9 shrink-0" />
+              <span className="text-xl font-medium tracking-[-0.01em]">{site.altSlogan}</span>
             </p>
           </Reveal>
         </div>

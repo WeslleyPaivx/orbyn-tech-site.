@@ -53,5 +53,7 @@ export default defineConfig({
   build: {
     target: 'es2020',
     cssMinify: true,
+    // A cena 3D (Three.js + GSAP) fica em um arquivo separado, baixado depois da primeira pintura
+    chunkSizeWarningLimit: 900,
   },
 });

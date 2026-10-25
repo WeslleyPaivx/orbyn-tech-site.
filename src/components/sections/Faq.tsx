@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus } from '../ui/Icons';
 import { faqItems } from '../../data/content';
 import { Container } from '../ui/Container';
 import { Reveal } from '../ui/Reveal';
@@ -9,23 +9,26 @@ export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section aria-labelledby="faq-title" className="border-t border-line/60 bg-ink-2/40 py-24 sm:py-32">
+    <section aria-labelledby="faq-title" className="legible relative py-24 sm:py-32">
       <Container className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
         <div className="lg:sticky lg:top-32 lg:self-start">
           <SectionHeading
             id="faq-title"
+            index="07"
+            label="Dúvidas"
             title="Perguntas frequentes."
+            size="md"
             subtitle="Não encontrou o que procurava? Fale com a gente pelo WhatsApp."
           />
         </div>
 
-        <Reveal as="ul" className="border-b border-line">
+        <Reveal as="ul" className="border-b border-white/[0.12]">
           {faqItems.map((item, index) => {
             const isOpen = open === index;
             const buttonId = `faq-btn-${index}`;
             const panelId = `faq-panel-${index}`;
             return (
-              <li key={item.question} className="border-t border-line">
+              <li key={item.question} className="border-t border-white/[0.12]">
                 <h3>
                   <button
                     id={buttonId}

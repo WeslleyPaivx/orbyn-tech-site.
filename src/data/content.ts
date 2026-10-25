@@ -1,45 +1,29 @@
-import {
-  Fingerprint,
-  Gauge,
-  Layers,
-  MessagesSquare,
-  MonitorSmartphone,
-  MousePointerClick,
-  type LucideIcon,
-} from 'lucide-react';
-
-export type Differential = { title: string; description: string; icon: LucideIcon };
+export type Differential = { title: string; description: string };
 
 export const differentials: Differential[] = [
   {
     title: 'Desenvolvimento personalizado',
     description: 'Cada projeto parte do seu negócio, não de um modelo pronto.',
-    icon: Fingerprint,
   },
   {
     title: 'Design moderno e responsivo',
     description: 'Interfaces atuais que se adaptam a celulares, tablets e computadores.',
-    icon: MonitorSmartphone,
   },
   {
     title: 'Foco na experiência do usuário',
     description: 'Navegação clara para que seu cliente encontre o que procura sem esforço.',
-    icon: MousePointerClick,
   },
   {
     title: 'Performance e otimização',
     description: 'Código enxuto, carregamento rápido e boas práticas de SEO desde o início.',
-    icon: Gauge,
   },
   {
     title: 'Comunicação transparente',
     description: 'Você acompanha cada etapa e sabe exatamente o que está sendo feito.',
-    icon: MessagesSquare,
   },
   {
     title: 'Soluções pensadas para evoluir',
     description: 'Estrutura preparada para receber novas funcionalidades quando você precisar.',
-    icon: Layers,
   },
 ];
 

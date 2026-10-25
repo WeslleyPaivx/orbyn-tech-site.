@@ -96,6 +96,102 @@
     opacity: 1;
     transform: none;
   }
+
+  /* Halo escuro atrás do texto: mantém a leitura quando a escultura passa por trás, sem caixas */
+  .legible {
+    text-shadow:
+      0 0 28px var(--color-ink),
+      0 0 12px var(--color-ink),
+      0 0 4px var(--color-ink);
+  }
+
+  /* Rótulo editorial pequeno: "(02) Serviços" */
+  .eyebrow {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Títulos que sobem palavra por palavra ao entrar na tela */
+  .split-word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+  }
+  .split-word > span {
+    display: inline-block;
+    transform: translate3d(0, 105%, 0);
+    transition: transform 1.1s var(--ease-soft);
+    transition-delay: calc(var(--word-index, 0) * 55ms + var(--split-delay, 0ms));
+  }
+  .is-visible .split-word > span,
+  .split-word.is-visible > span {
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Cena 3D fixa atrás do conteúdo
+ * ------------------------------------------------------------------------- */
+.scene-layer {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 100vh;
+  height: 100lvh;
+  z-index: 0;
+  pointer-events: none;
+}
+.scene-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.8s var(--ease-soft);
+}
+.scene-canvas.is-ready {
+  opacity: 1;
+}
+
+/* Indicador de rolagem do hero */
+.scroll-cue {
+  position: relative;
+  display: block;
+  width: 1px;
+  height: 3rem;
+  overflow: hidden;
+  background: rgb(255 255 255 / 0.14);
+}
+.scroll-cue::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  transform: translateY(-100%);
+  animation: scroll-cue 2.4s var(--ease-soft) infinite;
+}
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* Cartões do portfólio com profundidade (inclinação definida pelo ponteiro) */
+.tilt-card {
+  transform: perspective(1200px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 0.9s var(--ease-soft);
+  will-change: transform;
 }
 
 /* Entrada única e orquestrada do hero ao carregar a página */
@@ -125,6 +221,17 @@
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .split-word > span {
+    transform: none;
+    transition: none;
+  }
+  .scroll-cue::after {
+    animation: none;
+    transform: none;
+  }
+  .tilt-card {
+    transform: none;
   }
   *,
   *::before,

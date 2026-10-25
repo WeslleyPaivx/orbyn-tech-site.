@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Site institucional da ORBYN TECH — desenvolvimento de sites, landing pages, sistemas SaaS, aplicativos e automação com IA.",
+  "description": "Site institucional da ORBYN TECH — sites, chatbots inteligentes, automação com IA e sistemas personalizados, com escultura 3D em WebGL.",
   "scripts": {
     "dev": "vite",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json",
@@ -12,15 +12,17 @@
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.0",
-    "lucide-react": "^0.460.0",
+    "gsap": "^3.13.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "three": "0.170.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",
     "@types/node": "^22.10.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@types/three": "0.170.0",
     "@vitejs/plugin-react": "^4.3.4",
     "tailwindcss": "^4.0.0",
     "typescript": "~5.6.3",
