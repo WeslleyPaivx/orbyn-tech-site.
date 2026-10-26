@@ -1,0 +1,25 @@
+{
+  "name": "voltra-conceito",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "VOLTRA — conceito de site de produto para um energético fictício. Projeto de portfólio da ORBYN TECH.",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "build": "npm run typecheck && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0",
+    "three": "0.170.0"
+  },
+  "devDependencies": {
+    "@types/three": "0.170.0",
+    "typescript": "~5.6.3",
+    "vite": "^5.4.11"
+  },
+  "engines": {
+    "node": "24.x"
+  }
+}

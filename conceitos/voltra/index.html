@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>VOLTRA | Ganhe altitude — conceito ORBYN TECH</title>
+    <meta
+      name="description"
+      content="VOLTRA é um energético fictício criado pela ORBYN TECH para mostrar uma experiência de produto em 3D guiada pela rolagem."
+    />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#08080B" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/anton.woff" as="font" type="font/woff" crossorigin />
+  </head>
+  <body>
+    <a class="skip" href="#sabores">Pular para os sabores</a>
+
+    <header class="bar">
+      <a href="#topo" class="bar-brand" aria-label="VOLTRA, voltar ao início">
+        <span class="mark" aria-hidden="true"></span>
+        VOLTRA
+      </a>
+      <nav aria-label="Navegação">
+        <a href="#sabores">Sabores</a>
+        <a href="#modo">Seu modo</a>
+        <a href="#decole">Conceito</a>
+      </nav>
+      <span class="badge">Projeto conceitual</span>
+    </header>
+
+    <main>
+      <!-- 1. Abertura com as asas -->
+      <section id="topo" class="intro" aria-labelledby="intro-title">
+        <div class="sticky">
+          <div class="intro-bg" aria-hidden="true"></div>
+          <h1 id="intro-title" class="intro-word" data-split>VOLTRA</h1>
+          <canvas class="wings" aria-hidden="true"></canvas>
+          <div class="intro-foot">
+            <p class="tagline">Ganhe altitude.</p>
+            <p class="scroll-hint"><span aria-hidden="true"></span>Role para decolar</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. A lata mergulhando (vídeo ou versão por código) -->
+      <section id="mergulho" class="dive" aria-label="A lata VOLTRA mergulhando na energia">
+        <div class="sticky">
+          <canvas class="dive-canvas" aria-hidden="true"></canvas>
+          <div class="dive-copy">
+            <p class="cap" data-window="0.02,0.3">Energia que não pede licença.</p>
+            <p class="cap big" data-window="0.36,0.66">Mergulhe.</p>
+            <p class="cap big" data-window="0.72,1.01">Suba.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Palavras em movimento -->
+      <section class="words" aria-label="Energia, foco, altitude, impulso">
+        <p class="word" data-dir="-1">Energia · Energia · Energia ·</p>
+        <p class="word outline" data-dir="1">Foco · Foco · Foco · Foco ·</p>
+        <p class="word" data-dir="-1">Altitude · Altitude · Altitude ·</p>
+        <p class="word volt" data-dir="1">Impulso · Impulso · Impulso ·</p>
+      </section>
+
+      <!-- 4. Sabores -->
+      <section id="sabores" class="flavors" aria-labelledby="sabores-title">
+        <div class="flavor-stage">
+          <div class="can-wrap">
+            <div class="can-glow" aria-hidden="true"></div>
+            <img class="can-img" alt="" width="600" height="900" />
+          </div>
+          <div class="flavor-info">
+            <p class="kicker">Sabores</p>
+            <h2 id="sabores-title" class="flavor-name">Original</h2>
+            <p class="flavor-sub"></p>
+            <ul class="notes" aria-label="Notas do sabor"></ul>
+            <dl class="stats"></dl>
+            <div class="flavor-tabs" role="tablist" aria-label="Escolha um sabor"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Qual é o seu modo? -->
+      <section id="modo" class="mode" aria-labelledby="modo-title">
+        <h2 id="modo-title" class="section-title">Qual é o<br />seu modo?</h2>
+        <div class="mode-grid">
+          <div class="mode-options" role="radiogroup" aria-label="Modos"></div>
+          <div class="mode-result" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <!-- 6. Chamada final -->
+      <section id="decole" class="cta" aria-labelledby="cta-title">
+        <h2 id="cta-title" class="cta-title">Pronto para<br /><span>decolar?</span></h2>
+        <p class="cta-text">
+          VOLTRA não existe. É um conceito criado pela ORBYN TECH para mostrar o que um site de produto pode ser:
+          3D, movimento e uma história contada pela rolagem.
+        </p>
+        <div class="cta-actions">
+          <a class="btn primary" data-agency-whatsapp target="_blank" rel="noopener noreferrer">Quero um site assim</a>
+          <a class="btn ghost" data-agency-site target="_blank" rel="noopener noreferrer">Conheça a ORBYN TECH</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <p>
+        VOLTRA é uma marca fictícia criada pela ORBYN TECH como projeto conceitual. Não é um produto real e não tem
+        relação com nenhuma marca de bebidas.
+      </p>
+      <p>© <span data-year></span> ORBYN TECH</p>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
