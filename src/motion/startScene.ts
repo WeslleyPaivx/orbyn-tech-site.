@@ -42,20 +42,10 @@ export function startScene(canvas: HTMLCanvasElement, { onReady, onFail }: Start
   );
   const parts = markers.map(() => 0);
 
-  // Movimento reduzido: troca de composição sem animação, só ao atravessar o meio da transição
-  let lastStatic = -1;
+  // Com movimento reduzido a escultura continua acompanhando a rolagem (movimento iniciado pela
+  // própria pessoa); só os movimentos automáticos (deriva, partículas correndo, ponteiro) ficam parados.
   const apply = () => {
-    const total = parts.reduce((sum, value) => sum + value, 0);
-    if (reduced) {
-      const snapped = Math.round(total);
-      if (snapped !== lastStatic) {
-        lastStatic = snapped;
-        sculpture.jumpTo(snapped);
-        sculpture.renderOnce();
-      }
-      return;
-    }
-    sculpture.setTarget(total);
+    sculpture.setTarget(parts.reduce((sum, value) => sum + value, 0));
   };
 
   markers.forEach((marker, index) => {
@@ -99,7 +89,6 @@ export function startScene(canvas: HTMLCanvasElement, { onReady, onFail }: Start
         end: 'top 15%',
         onUpdate: (self) => {
           sculpture.setFade(1 - self.progress * 0.8);
-          if (reduced) sculpture.renderOnce();
         },
       }),
     );
@@ -130,10 +119,9 @@ export function startScene(canvas: HTMLCanvasElement, { onReady, onFail }: Start
   ScrollTrigger.refresh();
   // Ao abrir a página no meio (link com #secao ou recarregamento), já começa na composição certa
   const initial = parts.reduce((sum, value) => sum + value, 0);
-  sculpture.jumpTo(reduced ? Math.round(initial) : initial);
+  sculpture.jumpTo(initial);
 
-  if (reduced) sculpture.renderOnce();
-  else sculpture.start();
+  sculpture.start();
 
   // Ponteiro: só em dispositivos com mouse
   const finePointer = window.matchMedia('(pointer: fine)').matches;
@@ -155,14 +143,12 @@ export function startScene(canvas: HTMLCanvasElement, { onReady, onFail }: Start
       lastWidth = width;
       lastHeight = height;
       sculpture.resize();
-      if (reduced) sculpture.renderOnce();
     }, 150);
   };
   window.addEventListener('resize', onResize);
 
   // Economiza bateria quando a aba não está visível
   const onVisibility = () => {
-    if (reduced) return;
     if (document.hidden) sculpture.stop();
     else sculpture.start();
   };

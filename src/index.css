@@ -356,20 +356,29 @@
 }
 
 /* ---------------------------------------------------------------------------
- * Movimento reduzido
+ * Movimento reduzido (ex.: Windows com "Mostrar animações" desligado)
+ * O site continua vivo com fades suaves; deslocamentos e movimentos automáticos
+ * (giros, varredura, parallax, ímã, inclinação) ficam parados.
  * ------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
   .reveal {
-    opacity: 1;
     transform: none;
-    transition: none;
+    transition: opacity 0.8s ease;
   }
   .split-word > span {
     transform: none;
-    transition: none;
+    opacity: 0;
+    transition: opacity 0.9s ease;
+  }
+  .is-visible .split-word > span,
+  .split-word.is-visible > span {
+    opacity: 1;
+  }
+  .hero-in {
+    animation-name: fade-in;
   }
   .scroll-cue::after,
   .orbit-spin,
@@ -384,11 +393,16 @@
   .parallax-layer {
     transform: none;
   }
-  *,
-  *::before,
-  *::after {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
+  .spot-card:hover {
+    transform: none;
+  }
+  .btn-shine::after {
+    display: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
 }

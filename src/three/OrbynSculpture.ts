@@ -300,7 +300,7 @@ export class OrbynSculpture {
     else if (!reduced) this.elapsed += dt;
 
     // Amortecimento: a forma acompanha a rolagem com uma inércia curta (sem ficar para trás), nos dois sentidos
-    const k = reduced ? 1 : 1 - Math.exp(-dt * 5.5);
+    const k = 1 - Math.exp(-dt * (reduced ? 4 : 5.5));
     this.progress += (this.target - this.progress) * (dt === 0 ? 1 : k);
     this.phase += (this.phaseTarget - this.phase) * (dt === 0 ? 1 : 1 - Math.exp(-dt * 2.5));
     this.fade += (this.fadeTarget - this.fade) * (dt === 0 ? 1 : 1 - Math.exp(-dt * 3));
