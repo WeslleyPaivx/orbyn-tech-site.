@@ -7,12 +7,22 @@ export function setupHeader() {
   const menu = $('#menu');
   const html = document.documentElement;
 
+  // Sobre o vídeo o cabeçalho fica transparente (desfoque em cima de vídeo pesa no celular)
+  let diveEnd = 0;
+  const measure = () => {
+    const dive = document.querySelector<HTMLElement>('.dive');
+    diveEnd = dive ? dive.offsetTop + dive.offsetHeight - header.offsetHeight : 0;
+  };
+  measure();
+  window.addEventListener('resize', measure);
+  window.addEventListener('load', measure);
+
   let ticking = false;
   const onScroll = () => {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
-      header.classList.toggle('is-solid', window.scrollY > 40);
+      header.classList.toggle('is-solid', window.scrollY > Math.max(40, diveEnd));
       ticking = false;
     });
   };

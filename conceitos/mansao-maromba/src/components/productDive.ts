@@ -40,7 +40,7 @@ export async function setupDive() {
   const mobile = isMobile() || lowPower;
   let renderer: DiveRenderer | null = null;
   if (manifest) {
-    renderer = new DiveRenderer(canvas, manifest, mobile ? manifest.mobile : manifest.desktop, mobile ? 2 : 1.5);
+    renderer = new DiveRenderer(canvas, manifest, mobile ? manifest.mobile : manifest.desktop, mobile ? 1.5 : 1.5);
     renderer.onFrame = () => wake();
     renderer
       .load()
@@ -128,7 +128,7 @@ export async function setupDive() {
     raf = 0;
     if (!visible) return;
     // A rolagem suave já amortece no desktop; aqui só tira o serrilhado entre eventos
-    const k = reduced ? 1 : mobile ? 0.34 : 0.4;
+    const k = reduced ? 1 : mobile ? 0.5 : 0.4;
     current += (target - current) * k;
     if (Math.abs(target - current) < 0.0002) current = target;
     apply(current);

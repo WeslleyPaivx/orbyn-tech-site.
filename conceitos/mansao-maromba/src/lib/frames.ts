@@ -40,7 +40,89 @@ function loadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
-class FrameStore {
+interface Store {
+  loaded: number;
+  load(first?: number, concurrency?: number): Promise<void>;
+  focus(center: number, dir: number): void;
+  get(i: number): Drawable | null;
+  has(i: number): boolean;
+  dispose(): void;
+}
+
+/**
+ * Celular: todos os quadros (leves, 960 px) ficam carregados como imagens.
+ * O quadro pedido é sempre desenhado na hora, sem esperar decodificação assíncrona,
+ * então a garrafa nunca "congela" enquanto o dedo rola rápido.
+ */
+class ImageStore implements Store {
+  private imgs: (HTMLImageElement | null)[];
+  private urls: string[];
+  loaded = 0;
+
+  constructor(
+    readonly set: FrameSet,
+    private onReady: () => void,
+  ) {
+    this.imgs = new Array(set.count).fill(null);
+    this.urls = Array.from({ length: set.count }, (_, i) => set.pattern.replace('%04d', String(i).padStart(4, '0')));
+  }
+
+  async load(first = 10, concurrency = 6) {
+    const order: number[] = [];
+    const seen = new Set<number>();
+    const push = (i: number) => {
+      if (i >= 0 && i < this.set.count && !seen.has(i)) {
+        seen.add(i);
+        order.push(i);
+      }
+    };
+    for (let i = 0; i < first; i++) push(i);
+    for (const stride of [6, 3, 1]) for (let i = 0; i < this.set.count; i += stride) push(i);
+    let next = 0;
+    const worker = async () => {
+      while (next < order.length) {
+        const i = order[next++];
+        try {
+          const img = await loadImage(this.urls[i]);
+          try {
+            await img.decode();
+          } catch {
+            /* decodifica no primeiro desenho */
+          }
+          this.imgs[i] = img;
+          this.loaded++;
+          this.onReady();
+        } catch {
+          /* quadro ausente: o vizinho cobre */
+        }
+      }
+    };
+    await Promise.all(Array.from({ length: concurrency }, worker));
+  }
+
+  focus() {
+    /* tudo já fica em memória */
+  }
+
+  get(i: number) {
+    if (this.imgs[i]) return this.imgs[i];
+    for (let d = 1; d < this.set.count; d++) {
+      const a = this.imgs[i - d] ?? this.imgs[i + d];
+      if (a) return a;
+    }
+    return null;
+  }
+
+  has(i: number) {
+    return Boolean(this.imgs[i]);
+  }
+
+  dispose() {
+    this.imgs.fill(null);
+  }
+}
+
+class FrameStore implements Store {
   private blobs: (Blob | null)[];
   private decoded = new Map<number, Drawable>();
   private decoding = new Set<number>();
@@ -158,7 +240,7 @@ export interface DiveLayout {
 
 export class DiveRenderer {
   private ctx: CanvasRenderingContext2D;
-  private store: FrameStore;
+  private store: Store;
   private w = 0;
   private h = 0;
   private dpr = 1;
@@ -184,10 +266,11 @@ export class DiveRenderer {
     private maxDpr: number,
   ) {
     this.ctx = canvas.getContext('2d', { alpha: false })!;
-    this.store = new FrameStore(set, () => {
+    const onReady = () => {
       this.dirty = true;
       this.onFrame?.();
-    });
+    };
+    this.store = set.step > 1 ? new ImageStore(set, onReady) : new FrameStore(set, onReady);
     this.resize();
   }
 
