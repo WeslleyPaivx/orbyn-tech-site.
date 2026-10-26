@@ -75,7 +75,7 @@ function FieldShell({ id, label, error, valid, hint, children }: FieldShellProps
         {children}
         {valid && !error && (
           <Check
-            className="pointer-events-none absolute top-[0.95rem] right-4 h-4 w-4 text-white/70"
+            className="pointer-events-none absolute top-[0.95rem] right-4 h-4 w-4 text-accent"
             strokeWidth={2}
             aria-hidden="true"
           />
@@ -94,7 +94,7 @@ function FieldShell({ id, label, error, valid, hint, children }: FieldShellProps
 const inputBase =
   'w-full rounded-xl border bg-ink px-4 text-[1rem] text-white placeholder:text-white/30 ' +
   'transition-[border-color,box-shadow,background-color] duration-300 outline-none ' +
-  'focus:border-white/70 focus:bg-[#0a0a0a] focus:shadow-[0_0_0_4px_rgba(255,255,255,0.06)]';
+  'focus:border-accent/60 focus:bg-ink focus:shadow-[0_0_0_4px_rgb(54_221_232/0.10)]';
 
 export function Contact() {
   const uid = useId();
@@ -148,7 +148,7 @@ export function Contact() {
         <div>
           <SectionHeading
             id="contato-title"
-            index="09"
+            index="08"
             label="Contato"
             size="md"
             title="Vamos transformar sua ideia em realidade?"
@@ -179,7 +179,7 @@ export function Contact() {
             onSubmit={onSubmit}
             noValidate
             aria-label="Solicitar orçamento"
-            className="rounded-2xl border border-line bg-ink-2 p-6 sm:p-10"
+            className="rounded-2xl border border-line bg-ink-2/90 p-6 sm:p-10"
           >
             <div className="grid gap-6 sm:grid-cols-2">
               <FieldShell id={id('name')} label="Nome" error={showError('name')} valid={isValid('name')}>

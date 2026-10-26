@@ -7,7 +7,8 @@ type FloatingButtonsProps = { hidden?: boolean };
 
 /**
  * Atalhos fixos para WhatsApp e Instagram.
- * Ficam ocultos no topo da página e enquanto o formulário de contato está na tela
+ * No celular, só o WhatsApp (o Instagram fica no menu e no contato).
+ * Ficam ocultos no topo da página e enquanto a seção final ou o contato estão na tela
  * (onde já existem esses botões), para não cobrir textos, campos nem o botão de envio.
  */
 export function FloatingButtons({ hidden = false }: FloatingButtonsProps) {
@@ -22,13 +23,21 @@ export function FloatingButtons({ hidden = false }: FloatingButtonsProps) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Também somem na seção final e no contato, que já têm botões de WhatsApp grandes
   useEffect(() => {
-    const contact = document.getElementById('contato');
-    if (!contact || typeof IntersectionObserver === 'undefined') return;
-    const observer = new IntersectionObserver(([entry]) => setContactVisible(entry.isIntersecting), {
-      threshold: 0.2,
-    });
-    observer.observe(contact);
+    const targets = ['futuro', 'contato']
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    if (!targets.length || typeof IntersectionObserver === 'undefined') return;
+    const visible = new Set<Element>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => (entry.isIntersecting ? visible.add(entry.target) : visible.delete(entry.target)));
+        setContactVisible(visible.size > 0);
+      },
+      { threshold: 0.2 },
+    );
+    targets.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
@@ -48,7 +57,7 @@ export function FloatingButtons({ hidden = false }: FloatingButtonsProps) {
         tabIndex={hide ? -1 : 0}
         aria-label={`Instagram da ORBYN TECH (${site.instagram.handle})`}
         title={`Instagram ${site.instagram.handle}`}
-        className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-ink-2 text-white shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-[border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-white/50"
+        className="max-sm:hidden flex h-11 w-11 items-center justify-center rounded-full border border-line bg-ink-2 text-white shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-[border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-white/50"
       >
         <InstagramIcon className="h-5 w-5" />
       </a>
@@ -62,7 +71,7 @@ export function FloatingButtons({ hidden = false }: FloatingButtonsProps) {
         className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-white text-ink shadow-[0_10px_40px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.1)] transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.03]"
       >
         <span
-          className="absolute inset-0 rounded-full border border-white/40 motion-safe:animate-[ping_2.8s_cubic-bezier(0,0,0.2,1)_infinite]"
+          className="absolute inset-0 rounded-full border border-accent/50 motion-safe:animate-[ping_2.8s_cubic-bezier(0,0,0.2,1)_infinite]"
           aria-hidden="true"
         />
         <WhatsAppIcon className="relative h-[1.6rem] w-[1.6rem]" />

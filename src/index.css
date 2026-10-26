@@ -1,14 +1,17 @@
 @import 'tailwindcss';
 
 /* ---------------------------------------------------------------------------
- * Identidade ORBYN TECH — tokens
+ * Identidade ORBYN TECH 2.0 — tokens
+ * Preto e branco dominam; o ciano aparece só como detalhe tecnológico.
  * ------------------------------------------------------------------------- */
 @theme {
-  --color-ink: #050505;
-  --color-ink-2: #101010;
-  --color-ink-3: #191919;
-  --color-line: #292929;
-  --color-mute: #a8a8a8;
+  --color-ink: #080b10; /* preto profundo */
+  --color-ink-2: #121820; /* grafite */
+  --color-ink-3: #19212b;
+  --color-line: #222b37;
+  --color-mute: #9ca6b5; /* cinza sofisticado */
+  --color-white: #f5f7fa; /* branco gelo (substitui o branco puro em todo o site) */
+  --color-accent: #36dde8; /* ciano sutil */
 
   --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 
@@ -28,7 +31,7 @@
 
   body {
     background-color: var(--color-ink);
-    color: #fff;
+    color: var(--color-white);
     font-family: var(--font-sans);
     font-optical-sizing: auto;
     font-feature-settings: 'cv11', 'ss01';
@@ -41,21 +44,21 @@
   .noscript-message {
     margin: 0;
     padding: 24px;
-    color: #fff;
+    color: var(--color-white);
     background: var(--color-ink);
     font-family: var(--font-sans);
   }
   .noscript-message a {
-    color: #fff;
+    color: var(--color-white);
   }
 
   ::selection {
-    background: #fff;
+    background: var(--color-accent);
     color: var(--color-ink);
   }
 
   :focus-visible {
-    outline: 2px solid #fff;
+    outline: 2px solid var(--color-accent);
     outline-offset: 3px;
     border-radius: 6px;
   }
@@ -75,21 +78,13 @@
  * Componentes utilitários
  * ------------------------------------------------------------------------- */
 @layer components {
-  /* Traço curto das peças oficiais da marca: usado apenas sob o título do hero */
-  .brand-rule {
-    display: block;
-    width: 3rem;
-    height: 2px;
-    background: #fff;
-  }
-
   /* Entrada suave ao rolar a página */
   .reveal {
     opacity: 0;
-    transform: translate3d(0, 14px, 0);
+    transform: translate3d(0, 18px, 0);
     transition:
-      opacity 0.8s var(--ease-soft),
-      transform 0.8s var(--ease-soft);
+      opacity 0.9s var(--ease-soft),
+      transform 0.9s var(--ease-soft);
     transition-delay: var(--reveal-delay, 0ms);
   }
   .reveal.is-visible {
@@ -98,7 +93,6 @@
   }
 
   /* Halo escuro atrás do texto: mantém a leitura quando a escultura passa por trás, sem caixas */
-  /* Celular: uma sombra só (mais leve para desenhar durante a rolagem rápida) */
   .legible {
     text-shadow: 0 0 12px var(--color-ink);
   }
@@ -111,10 +105,10 @@
     }
   }
 
-  /* Rótulo editorial pequeno: "(02) Serviços" */
+  /* Rótulo editorial: ponto ciano + "02 — Serviços" */
   .eyebrow {
     display: inline-flex;
-    align-items: baseline;
+    align-items: center;
     gap: 0.75rem;
     font-size: 0.72rem;
     font-weight: 500;
@@ -123,24 +117,115 @@
     color: var(--color-mute);
     font-variant-numeric: tabular-nums;
   }
+  .eyebrow::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--color-accent);
+    box-shadow: 0 0 10px rgb(54 221 232 / 0.6);
+  }
 
   /* Títulos que sobem palavra por palavra ao entrar na tela */
   .split-word {
     display: inline-block;
     overflow: hidden;
     vertical-align: top;
-    padding-bottom: 0.08em;
-    margin-bottom: -0.08em;
+    padding-bottom: 0.1em;
+    margin-bottom: -0.1em;
   }
   .split-word > span {
     display: inline-block;
-    transform: translate3d(0, 105%, 0);
-    transition: transform 1.1s var(--ease-soft);
+    transform: translate3d(0, 108%, 0);
+    transition: transform 1.15s var(--ease-soft);
     transition-delay: calc(var(--word-index, 0) * 55ms + var(--split-delay, 0ms));
   }
   .is-visible .split-word > span,
   .split-word.is-visible > span {
     transform: none;
+  }
+
+  /* Cartões com luz que acompanha o ponteiro e borda que acende em ciano */
+  .spot-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    background: linear-gradient(180deg, rgb(18 24 32 / 0.92), rgb(12 16 22 / 0.92));
+    transition:
+      border-color 0.5s var(--ease-soft),
+      transform 0.6s var(--ease-soft),
+      background-color 0.5s var(--ease-soft);
+  }
+  .spot-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 0%),
+      rgb(54 221 232 / 0.09),
+      transparent 60%
+    );
+    transition: opacity 0.5s var(--ease-soft);
+  }
+  .spot-card::after {
+    content: '';
+    position: absolute;
+    left: 1.5rem;
+    right: 1.5rem;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgb(54 221 232 / 0.7), transparent);
+    opacity: 0;
+    transform: scaleX(0.4);
+    transition:
+      opacity 0.6s var(--ease-soft),
+      transform 0.8s var(--ease-soft);
+  }
+  @media (hover: hover) {
+    .spot-card:hover {
+      border-color: rgb(54 221 232 / 0.32);
+      transform: translate3d(0, -4px, 0);
+    }
+    .spot-card:hover::before {
+      opacity: 1;
+    }
+    .spot-card:hover::after {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .spot-card:focus-within {
+    border-color: rgb(54 221 232 / 0.32);
+  }
+
+  /* Botão principal: brilho que atravessa o botão no hover */
+  .btn-shine {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .btn-shine::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    background: linear-gradient(110deg, transparent 30%, rgb(54 221 232 / 0.28) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 0.9s var(--ease-soft);
+  }
+  @media (hover: hover) {
+    .btn-shine:hover::after {
+      transform: translateX(120%);
+    }
+  }
+
+  /* Botões magnéticos (deslocamento definido pelo ponteiro, só no desktop) */
+  .magnetic {
+    transform: translate3d(var(--mag-x, 0px), var(--mag-y, 0px), 0);
+    transition: transform 0.5s var(--ease-soft);
   }
 }
 
@@ -166,6 +251,47 @@
   opacity: 1;
 }
 
+/* ---------------------------------------------------------------------------
+ * Hero: camadas geométricas com parallax
+ * ------------------------------------------------------------------------- */
+.parallax-layer {
+  transform: translate3d(calc(var(--px, 0) * var(--depth, 0px)), calc(var(--py, 0) * var(--depth, 0px)), 0);
+  transition: transform 1.2s var(--ease-soft);
+}
+.orbit-spin {
+  /* Gira em torno do centro do desenho (viewBox 600 × 600) */
+  transform-box: view-box;
+  transform-origin: 300px 300px;
+  animation: orbit-spin var(--orbit-duration, 90s) linear infinite;
+}
+.orbit-spin-reverse {
+  animation-direction: reverse;
+}
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Linha de varredura sutil sobre a grade do hero */
+.scan-line {
+  animation: scan-line 9s var(--ease-soft) infinite;
+}
+@keyframes scan-line {
+  0% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  70%,
+  100% {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+}
+
 /* Indicador de rolagem do hero */
 .scroll-cue {
   position: relative;
@@ -173,13 +299,13 @@
   width: 1px;
   height: 3rem;
   overflow: hidden;
-  background: rgb(255 255 255 / 0.14);
+  background: rgb(245 247 250 / 0.14);
 }
 .scroll-cue::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: #fff;
+  background: var(--color-accent);
   transform: translateY(-100%);
   animation: scroll-cue 2.4s var(--ease-soft) infinite;
 }
@@ -204,15 +330,28 @@
 .hero-in {
   animation: hero-in 1.1s var(--ease-soft) both;
 }
-/* Troca de etapa na linha do tempo */
-.step-in {
-  animation: hero-in 0.6s var(--ease-soft) both;
-}
 
 @keyframes hero-in {
   from {
     opacity: 0;
     transform: translate3d(0, 18px, 0);
+  }
+}
+
+/* Celular: animações mais curtas e discretas, sem perder a personalidade */
+@media (max-width: 767px) {
+  .reveal {
+    transform: translate3d(0, 12px, 0);
+    transition-duration: 0.7s;
+  }
+  .split-word > span {
+    transition-duration: 0.9s;
+  }
+  .orbit-spin {
+    animation-duration: calc(var(--orbit-duration, 90s) * 1.6);
+  }
+  .scan-line {
+    display: none;
   }
 }
 
@@ -232,11 +371,17 @@
     transform: none;
     transition: none;
   }
-  .scroll-cue::after {
+  .scroll-cue::after,
+  .orbit-spin,
+  .scan-line {
     animation: none;
+  }
+  .scroll-cue::after {
     transform: none;
   }
-  .tilt-card {
+  .tilt-card,
+  .magnetic,
+  .parallax-layer {
     transform: none;
   }
   *,

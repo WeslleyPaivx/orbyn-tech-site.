@@ -1,6 +1,6 @@
 # ORBYN TECH — site institucional
 
-Site oficial da ORBYN TECH: sites, chatbots inteligentes, automação com IA e sistemas personalizados.
+Site oficial da ORBYN TECH: sites, sistemas e aplicações web, chatbots com IA, automações inteligentes e soluções SaaS.
 
 **Stack:** React 18 · TypeScript · Vite 5 · Tailwind CSS 4 · Three.js (WebGL 2 + shaders GLSL) · GSAP ScrollTrigger · publicação na Vercel.
 
@@ -27,7 +27,7 @@ orbyn-tech/
     ├── config/site.ts          ⭐ Nome, WhatsApp, Instagram, mensagens automáticas, menu
     ├── data/projects.ts        ⭐ Projetos do portfólio
     ├── data/services.ts        As quatro frentes de serviço e as opções do formulário
-    ├── data/content.ts         Diferenciais, etapas do processo e FAQ
+    ├── data/content.ts         Etapas do processo e FAQ
     ├── three/                  Escultura 3D: OrbynSculpture.ts (motor), shaders.ts (formas), logoCurves.ts
     ├── motion/startScene.ts    Liga a escultura à rolagem (GSAP ScrollTrigger)
     ├── lab.ts + /lab.html      Laboratório isolado da escultura (só em desenvolvimento)
@@ -37,9 +37,24 @@ orbyn-tech/
         ├── brand/              Logo e símbolo
         ├── layout/             Cabeçalho, rodapé, botões flutuantes
         ├── scene/              Canvas da escultura e carregamento progressivo
-        ├── sections/           Hero, Serviços, Portfólio, Sobre, Diferenciais, Processo, FAQ, Final, Contato
+        ├── sections/           Hero, Serviços, Portfólio, Sobre, Processo, FAQ, Final, Contato
         └── ui/                 Botões, títulos, container, animação de entrada, ícones
 ```
+
+---
+
+## Identidade visual 2.0
+
+**Logo:** arquivos originais fornecidos, com transparência real, sem redesenho nem efeitos, em `public/brand/`:
+
+- `orbyn-tech-logo.png` (alta resolução) e `orbyn-tech-logo.webp` (versão leve usada no cabeçalho e rodapé)
+- `orbyn-symbol.png` (alta resolução) e `orbyn-symbol.webp` (versão leve)
+
+O favicon (`favicon.svg`, `favicon.ico`, `favicon-32.png`) e os ícones do celular (`apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`) usam só o símbolo, em branco sobre o preto da marca. A imagem de compartilhamento (`og-image.jpg`) é a versão oficial empilhada sobre fundo escuro.
+
+**Paleta** (tokens em `src/index.css`): preto profundo `#080B10`, grafite `#121820`, branco gelo `#F5F7FA` (substitui o branco puro em todo o site), cinza `#9CA6B5` e ciano `#36DDE8`, usado só em detalhes: ponto final dos títulos, rótulos das seções, foco do teclado, bordas dos cartões no hover e algumas partículas da escultura.
+
+**Animações:** títulos surgindo palavra por palavra, entrada dos blocos ao rolar, camadas geométricas do hero com parallax (desktop), botões magnéticos com brilho, cartões com luz que acompanha o ponteiro, moldura do portfólio com inclinação 3D e a escultura WebGL ligada à rolagem. No celular as animações são mais curtas e o parallax fica desligado; com movimento reduzido, tudo fica estático.
 
 ---
 
@@ -53,7 +68,7 @@ Uma única cena WebGL desenha três camadas com os mesmos dados: a **escultura s
 | Serviços (`1`) | A escultura se dissolve e os fios se desenrolam em um feixe que atravessa a tela |
 | Portfólio (`2`) | Os fios se reorganizam em uma torre de treliça |
 | Sobre nós (`3`) | Os fios se deitam em um horizonte ondulante |
-| Final (`4`) | Os fios desenham o símbolo oficial da ORBYN TECH (`logoCurves.ts`, extraído de `symbolPath.ts`) |
+| Final (`4`) | Os fios desenham o símbolo da ORBYN TECH (`logoCurves.ts`, contornos extraídos de `public/brand/orbyn-symbol.png`) |
 
 **Desempenho:** o código 3D é baixado depois da primeira pintura (arquivo separado). A densidade é escolhida pelo tipo de aparelho (`src/three/support.ts`) e, se os quadros passarem de ~40 ms, a cena reduz sozinha a resolução e depois a quantidade de fios. A animação pausa com a aba em segundo plano.
 
@@ -94,7 +109,8 @@ Tudo que é texto institucional fica em arquivos de dados — não é preciso me
 | --- | --- |
 | WhatsApp, Instagram, slogans, mensagens automáticas | `src/config/site.ts` |
 | Serviços (quatro frentes) e opções do formulário | `src/data/services.ts` |
-| Diferenciais, processo e perguntas frequentes | `src/data/content.ts` |
+| Processo e perguntas frequentes | `src/data/content.ts` |
+| Pilares da seção Sobre | `src/components/sections/About.tsx` |
 | Título e descrição para o Google | `index.html` |
 
 ---
@@ -143,16 +159,7 @@ Salve (ou faça commit no GitHub) e a Vercel publica a nova versão sozinha. A p
 
 ## Logo
 
-O símbolo oficial foi vetorizado a partir da arte enviada e está em:
-
-- `public/brand/orbyn-symbol.svg` (branco, fundo transparente)
-- `public/brand/orbyn-symbol-black.svg` (preto, fundo transparente)
-- `public/brand/orbyn-symbol.png` (1024 px, fundo transparente)
-- `src/components/brand/symbolPath.ts` (versão usada no cabeçalho, rodapé e hero)
-
-O nome "ORBYN / TECH" ao lado do símbolo é texto real, no mesmo arranjo das peças da marca.
-
-**Se você tiver o arquivo vetorial original (SVG, AI, PDF ou EPS)**, substitua o `viewBox` e o `path` em `symbolPath.ts` e os arquivos de `public/brand/` e `public/favicon.svg` — o restante do site se ajusta sozinho. Os PNGs de favicon (`favicon-32.png`, `apple-touch-icon.png`, `icon-512.png`) podem ser gerados em realfavicongenerator.net a partir do novo SVG.
+Veja *Identidade visual 2.0* acima. O componente `src/components/brand/Logo.tsx` exibe os arquivos originais. **Se você tiver a versão vetorial original (SVG, AI, PDF ou EPS)**, basta trocar os arquivos de `public/brand/` mantendo os nomes.
 
 ---
 

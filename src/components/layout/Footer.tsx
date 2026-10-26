@@ -15,7 +15,7 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-x-8 gap-y-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div className="col-span-2 lg:col-span-1">
             <a href="#inicio" onClick={handleAnchorClick('inicio')} aria-label="ORBYN TECH — voltar ao início" className="inline-block rounded-md">
-              <Logo />
+              <Logo className="h-10" />
             </a>
             <p className="mt-6 max-w-xs leading-relaxed text-mute">{site.description}</p>
           </div>

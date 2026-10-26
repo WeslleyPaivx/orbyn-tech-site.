@@ -1,13 +1,14 @@
 {
   "name": "ORBYN TECH",
   "short_name": "ORBYN TECH",
-  "description": "Sites, sistemas, aplicativos e automação com IA.",
+  "description": "Sites, sistemas, chatbots e automações inteligentes para empresas.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#050505",
-  "theme_color": "#050505",
+  "background_color": "#080B10",
+  "theme_color": "#080B10",
   "icons": [
-    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
-    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }

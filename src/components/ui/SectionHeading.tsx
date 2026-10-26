@@ -22,7 +22,8 @@ export function SectionHeading({ id, index, label, title, subtitle, className = 
       {label && (
         <Reveal>
           <p className="eyebrow">
-            {index && <span className="text-white/80">({index})</span>}
+            {index && <span className="text-white/85">{index}</span>}
+            {index && <span className="h-px w-6 bg-white/20" aria-hidden="true" />}
             {label}
           </p>
         </Reveal>
@@ -30,7 +31,8 @@ export function SectionHeading({ id, index, label, title, subtitle, className = 
       <SplitWords
         id={id}
         lines={title}
-        className={`mt-6 ${titleSize} leading-[0.98] font-medium tracking-[-0.04em] text-white`}
+        accentPeriod
+        className={`mt-6 ${titleSize} leading-[1.02] font-medium tracking-[-0.04em] text-white`}
       />
       {subtitle && (
         <Reveal delay={120}>

@@ -14,7 +14,7 @@ import { SplitWords } from '../ui/SplitWords';
 const ALL = 'Todos';
 /** Os filtros por categoria só aparecem quando o portfólio crescer. */
 const MIN_PROJECTS_FOR_FILTERS = 4;
-const DEFAULT_COVER_BACKGROUND = 'linear-gradient(135deg, #1f1f1f 0%, #0b0b0b 100%)';
+const DEFAULT_COVER_BACKGROUND = 'linear-gradient(135deg, #19212b 0%, #080b10 100%)';
 
 /** Moldura que inclina em 3D acompanhando o ponteiro (desligada em toque e com movimento reduzido). */
 function TiltFrame({ children, className = '' }: { children: ReactNode; className?: string }) {
@@ -56,7 +56,7 @@ function Screen({ project }: { project: Project }) {
         loading="lazy"
         decoding="async"
         onError={() => setImageFailed(true)}
-        className="absolute inset-0 h-full w-full object-cover object-top transition-[object-position] duration-[6s] ease-in-out motion-safe:group-hover:object-bottom"
+        className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-[1.4s] ease-[var(--ease-soft)] motion-safe:group-hover:scale-[1.035]"
       />
     );
   }
@@ -90,8 +90,8 @@ function Screen({ project }: { project: Project }) {
 
 function BrowserMockup({ project }: { project: Project }) {
   return (
-    <div className="relative overflow-hidden rounded-xl border border-white/[0.14] bg-ink shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)]">
-      <div className="flex h-9 items-center gap-3 border-b border-line bg-[#111] px-3.5" aria-hidden="true">
+    <div className="relative overflow-hidden rounded-xl border border-white/[0.12] bg-ink shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)] transition-[border-color,box-shadow] duration-700 group-hover:border-accent/30 group-hover:shadow-[0_40px_90px_-30px_rgba(0,0,0,0.95),0_0_0_1px_rgb(54_221_232/0.08)]">
+      <div className="flex h-9 items-center gap-3 border-b border-line bg-ink-2 px-3.5" aria-hidden="true">
         <span className="flex shrink-0 gap-1.5">
           <span className="h-2.5 w-2.5 rounded-full bg-white/[0.16]" />
           <span className="h-2.5 w-2.5 rounded-full bg-white/[0.11]" />
@@ -112,7 +112,7 @@ function BrowserMockup({ project }: { project: Project }) {
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
           style={{
             background:
-              'radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 30%), rgb(255 255 255 / 0.14), transparent 55%)',
+              'radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 30%), rgb(245 247 250 / 0.12), transparent 55%)',
           }}
           aria-hidden="true"
         />
@@ -188,7 +188,7 @@ function ProjectRow({ project, index, total }: { project: Project; index: number
 function EmptyState() {
   return (
     <div className="rounded-2xl border border-line bg-ink-2 px-6 py-16 text-center sm:px-10 sm:py-20">
-      <OrbynSymbol className="mx-auto h-12 w-12 text-white/90" />
+      <OrbynSymbol className="mx-auto h-12 w-12" />
       <p className="mt-8 text-2xl font-semibold tracking-[-0.02em] text-white sm:text-3xl">Novos projetos em breve.</p>
       <p className="mx-auto mt-4 max-w-md leading-relaxed text-mute">
         Estamos preparando esta galeria. Enquanto isso, conte sobre a sua ideia e veja como podemos ajudar.
@@ -217,8 +217,8 @@ export function Portfolio() {
           id="portfolio-title"
           index="03"
           label="Portfólio"
-          title="Projetos realizados."
-          subtitle="Conheça algumas das soluções desenvolvidas pela ORBYN TECH para empresas de diferentes segmentos."
+          title="Projetos desenvolvidos."
+          subtitle="Sites criados pela ORBYN TECH em diferentes segmentos. Abra cada projeto para navegar pela versão publicada."
         />
 
         <div className="mt-16 sm:mt-24">

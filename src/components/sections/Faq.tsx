@@ -14,7 +14,7 @@ export function Faq() {
         <div className="lg:sticky lg:top-32 lg:self-start">
           <SectionHeading
             id="faq-title"
-            index="07"
+            index="06"
             label="Dúvidas"
             title="Perguntas frequentes."
             size="md"

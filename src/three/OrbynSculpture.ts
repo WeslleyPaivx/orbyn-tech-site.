@@ -61,15 +61,15 @@ type StagePreset = {
 };
 
 const DESKTOP: StagePreset[] = [
-  { pos: [1.75, -0.05, 0], scale: 0.9, cam: [0, 0.1, 7.4], look: [0, 0, 0], bright: 1 },
+  { pos: [1.95, -0.05, 0], scale: 0.86, cam: [0, 0.1, 7.4], look: [0, 0, 0], bright: 1 },
   { pos: [0.6, -0.25, 0], scale: 0.92, cam: [0, 0.25, 8.0], look: [0, 0, 0], bright: 0.55 },
   { pos: [2.55, -0.1, 0], scale: 0.86, cam: [0, -0.4, 8.6], look: [0, 0, 0], bright: 0.6 },
   { pos: [0, -0.55, 0], scale: 1, cam: [0, 1.0, 7.6], look: [0, -0.3, 0], bright: 0.5 },
-  { pos: [0, 0.78, 0], scale: 0.66, cam: [0, 0, 7.2], look: [0, 0, 0], bright: 1 },
+  { pos: [0, 1.12, 0], scale: 0.56, cam: [0, 0, 7.2], look: [0, 0, 0], bright: 1 },
 ];
 
 const MOBILE: StagePreset[] = [
-  { pos: [0, 1.5, 0], scale: 0.58, cam: [0, 0, 8.4], look: [0, 0, 0], bright: 1 },
+  { pos: [0, 1.62, 0], scale: 0.54, cam: [0, 0, 8.4], look: [0, 0, 0], bright: 1 },
   { pos: [0, 0.2, 0], scale: 0.62, cam: [0, 0.2, 8.6], look: [0, 0, 0], bright: 0.45 },
   { pos: [0, 0.3, 0], scale: 0.72, cam: [0, -0.4, 9.2], look: [0, 0, 0], bright: 0.45 },
   { pos: [0, -0.6, 0], scale: 0.8, cam: [0, 1.0, 7.8], look: [0, -0.3, 0], bright: 0.42 },
@@ -146,7 +146,7 @@ export class OrbynSculpture {
       powerPreference: 'high-performance',
       stencil: false,
     });
-    this.renderer.setClearColor(0x050505, 1);
+    this.renderer.setClearColor(0x080b10, 1);
 
     canvas.addEventListener('webglcontextlost', this.onContextLost, false);
 

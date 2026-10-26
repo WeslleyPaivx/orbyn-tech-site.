@@ -58,12 +58,13 @@ export const projects: Project[] = [
     category: 'Site institucional / Catálogo de produtos',
     description:
       'Desenvolvimento de presença digital para empresa do setor de papéis gráficos, com apresentação dos produtos e navegação moderna.',
-    image: '',
+    // Captura real da página inicial (1440 px de largura, reduzida para 1120 px)
+    image: '/images/projetos/zanfel.webp',
     logo: '/images/projetos/zanfel-logo.webp',
     // Gradiente nas cores da marca: sálvia, oliva e verde-escuro
     coverBackground:
       'radial-gradient(60% 70% at 50% 46%, rgb(237 233 223 / 0.32), transparent 70%), linear-gradient(135deg, #B6B985 0%, #838B58 48%, #1E3B2A 100%)',
-    imageAlt: 'Página inicial do site da ZanFel',
+    imageAlt: 'Página inicial do site da ZanFel, com o título “Papel de qualidade para grandes ideias”',
     technologies: [],
     url: 'https://zanfell.bolt.host',
     featured: true,
@@ -80,7 +81,7 @@ export const projects: Project[] = [
     logo: '/images/projetos/mabs-contabilidade-logo.webp',
     // Gradiente nas cores da marca: dourado sobre preto
     coverBackground:
-      'radial-gradient(60% 75% at 50% 48%, rgb(220 168 83 / 0.2), transparent 70%), linear-gradient(135deg, #3A2A10 0%, #17110A 50%, #050505 100%)',
+      'radial-gradient(60% 75% at 50% 48%, rgb(220 168 83 / 0.2), transparent 70%), linear-gradient(135deg, #3A2A10 0%, #17110A 50%, #080B10 100%)',
     imageAlt: 'Página inicial do site da MABS Contabilidade',
     technologies: [],
     url: 'https://mabs-contabilidade.bolt.host',

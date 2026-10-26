@@ -5,12 +5,12 @@ type Size = 'md' | 'lg';
 
 const base =
   'group inline-flex items-center justify-center gap-2.5 rounded-full font-medium whitespace-nowrap ' +
-  'transition-[background-color,color,border-color,transform] duration-300 ease-[var(--ease-soft)] ' +
+  'transition-[background-color,color,border-color,box-shadow] duration-300 ease-[var(--ease-soft)] ' +
   'active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 select-none [text-shadow:none]';
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-white text-ink hover:bg-[#e6e6e6]',
-  outline: 'border border-line text-white hover:border-white/60 hover:bg-white/[0.04]',
+  primary: 'btn-shine bg-white text-ink hover:bg-[#ffffff] hover:shadow-[0_0_0_4px_rgb(54_221_232/0.12)]',
+  outline: 'border border-white/15 text-white hover:border-accent/50 hover:bg-accent/[0.06]',
   ghost: 'text-white hover:text-mute',
 };
 

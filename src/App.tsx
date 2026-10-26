@@ -5,7 +5,6 @@ import { Header } from './components/layout/Header';
 import { SceneLayer, type SceneMode } from './components/scene/SceneLayer';
 import { About } from './components/sections/About';
 import { Contact } from './components/sections/Contact';
-import { Differentials } from './components/sections/Differentials';
 import { Faq } from './components/sections/Faq';
 import { FinalCta } from './components/sections/FinalCta';
 import { Hero } from './components/sections/Hero';
@@ -28,7 +27,6 @@ export default function App() {
         <Services />
         <Portfolio />
         <About />
-        <Differentials />
         <Process />
         <Faq />
         <FinalCta />

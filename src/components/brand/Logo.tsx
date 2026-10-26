@@ -1,4 +1,11 @@
-import { SYMBOL_PATH, SYMBOL_VIEWBOX } from './symbolPath';
+/**
+ * Marca oficial da ORBYN TECH (identidade 2.0).
+ * Usa os arquivos originais fornecidos, com transparência real, sem redesenho nem efeitos.
+ *   /brand/orbyn-tech-logo.webp  logo horizontal (símbolo + ORBYN TECH), proporção 1363 × 362
+ *   /brand/orbyn-symbol.webp     somente o símbolo, proporção 1 × 1
+ * Os arquivos em alta resolução (PNG) ficam ao lado, em /public/brand.
+ */
+const LOGO_RATIO = 1363 / 362;
 
 type SymbolProps = {
   className?: string;
@@ -6,49 +13,43 @@ type SymbolProps = {
   title?: string;
 };
 
-/** Símbolo oficial da ORBYN TECH (herda a cor do texto via currentColor). */
-export function OrbynSymbol({ className, title }: SymbolProps) {
+/** Símbolo oficial da ORBYN TECH. Defina o tamanho pela classe (ex.: h-10 w-10). */
+export function OrbynSymbol({ className = '', title }: SymbolProps) {
   return (
-    <svg
-      viewBox={SYMBOL_VIEWBOX}
-      className={className}
-      role={title ? 'img' : undefined}
+    <img
+      src="/brand/orbyn-symbol.webp"
+      alt={title ?? ''}
       aria-hidden={title ? undefined : true}
-      aria-label={title}
-      focusable="false"
-    >
-      <path fill="currentColor" fillRule="evenodd" d={SYMBOL_PATH} />
-    </svg>
+      width={320}
+      height={320}
+      decoding="async"
+      draggable={false}
+      className={`select-none ${className}`}
+    />
   );
 }
 
 type LogoProps = {
+  /** Classes de altura (ex.: 'h-9 lg:h-10'); a largura acompanha a proporção original. */
   className?: string;
-  size?: 'sm' | 'md';
+  /** Carregamento prioritário (cabeçalho; o index.html também pré-carrega o arquivo). */
+  priority?: boolean;
 };
 
-/**
- * Assinatura completa: símbolo + ORBYN / TECH, como nas peças da marca.
- * O nome é texto real (melhor para acessibilidade e nitidez em qualquer tela).
- */
-export function Logo({ className = '', size = 'md' }: LogoProps) {
-  const symbol = size === 'sm' ? 'h-7 w-7' : 'h-8 w-8 sm:h-9 sm:w-9';
-  const name = size === 'sm' ? 'text-[0.95rem]' : 'text-[1.02rem] sm:text-[1.1rem]';
-
+/** Logo horizontal oficial. Largura calculada pela proporção original para evitar mudança de layout. */
+export function Logo({ className = 'h-10', priority = false }: LogoProps) {
+  const height = 144;
+  const width = Math.round(height * LOGO_RATIO);
   return (
-    <span className={`inline-flex items-center gap-2.5 text-white ${className}`}>
-      <OrbynSymbol className={`${symbol} shrink-0`} />
-      <span className="sr-only">ORBYN TECH</span>
-      <span className="flex flex-col leading-none" aria-hidden="true">
-        <span className={`${name} font-semibold tracking-[0.32em]`}>
-          ORBYN
-        </span>
-        <span
-          className="mt-[3px] pl-[0.08em] text-[0.5rem] font-medium tracking-[0.92em] text-mute"
-        >
-          TECH
-        </span>
-      </span>
-    </span>
+    <img
+      src="/brand/orbyn-tech-logo.webp"
+      alt="ORBYN TECH"
+      width={width}
+      height={height}
+      decoding="async"
+      loading={priority ? 'eager' : 'lazy'}
+      draggable={false}
+      className={`block w-auto max-w-none select-none ${className}`}
+    />
   );
 }

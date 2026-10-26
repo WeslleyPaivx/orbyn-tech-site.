@@ -11,7 +11,7 @@ const range = document.getElementById('lab-progress') as HTMLInputElement;
 const phase = document.getElementById('lab-phase') as HTMLInputElement;
 const out = document.getElementById('lab-out') as HTMLOutputElement;
 
-Object.assign(document.body.style, { margin: '0', background: '#050505', color: '#fff', font: '13px Inter, system-ui' });
+Object.assign(document.body.style, { margin: '0', background: '#080B10', color: '#F5F7FA', font: '13px Inter, system-ui' });
 Object.assign(canvas.style, { position: 'fixed', inset: '0', width: '100vw', height: '100vh', display: 'block' });
 const ui = document.getElementById('lab-ui') as HTMLElement;
 Object.assign(ui.style, { position: 'fixed', left: '16px', bottom: '16px', display: 'flex', gap: '16px', alignItems: 'center' });

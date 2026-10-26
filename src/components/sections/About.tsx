@@ -1,60 +1,74 @@
-import { site } from '../../config/site';
-import { OrbynSymbol } from '../brand/Logo';
+import { spotlight } from '../../hooks/useSpotlight';
 import { Container } from '../ui/Container';
 import { Reveal } from '../ui/Reveal';
 
 const MANIFESTO =
-  'A ORBYN TECH nasceu com o propósito de transformar ideias em soluções digitais modernas, funcionais e personalizadas.';
+  'A Orbyn Tech nasceu com o propósito de aproximar empresas da tecnologia, criando soluções digitais modernas, funcionais e adaptadas às necessidades de cada negócio.';
+
+const pillars = [
+  {
+    title: 'Desenvolvimento personalizado',
+    text: 'Cada projeto parte do seu negócio, dos seus processos e do seu público, não de um modelo pronto.',
+  },
+  {
+    title: 'Inovação',
+    text: 'Tecnologias atuais, inteligência artificial e automação aplicadas onde fazem diferença de verdade.',
+  },
+  {
+    title: 'Simplicidade',
+    text: 'Soluções fáceis de usar e de manter, com interfaces claras e sem complexidade desnecessária.',
+  },
+  {
+    title: 'Atendimento próximo',
+    text: 'Comunicação direta e transparente: você acompanha cada etapa e sabe exatamente o que está sendo feito.',
+  },
+];
 
 /**
- * Sobre nós: os fios se deitam em um horizonte ondulante (data-stage="3")
- * e o manifesto acende palavra por palavra conforme a leitura.
+ * Sobre a ORBYN TECH: os fios se deitam em um horizonte ondulante (data-stage="3"),
+ * o manifesto acende palavra por palavra conforme a leitura e os pilares surgem em sequência.
  */
 export function About() {
   return (
-    <section id="sobre" data-stage="3" aria-labelledby="sobre-title" className="legible relative pt-28 pb-24 sm:pt-40 sm:pb-32">
+    <section id="sobre" data-stage="3" aria-labelledby="sobre-title" className="relative pt-28 pb-24 sm:pt-40 sm:pb-32">
       <Container>
-        <Reveal>
-          <p className="eyebrow">
-            <span className="text-white/80">(04)</span>
-            Sobre nós
-          </p>
-        </Reveal>
-
-        <h2
-          id="sobre-title"
-          data-scrub-words
-          className="mt-8 max-w-[22ch] text-[clamp(1.9rem,4.6vw,3.9rem)] leading-[1.08] font-medium tracking-[-0.035em] text-white"
-        >
-          {MANIFESTO.split(' ').map((word, index, words) => (
-            <span key={index}>
-              <span data-word>{word}</span>
-              {index < words.length - 1 ? ' ' : null}
-            </span>
-          ))}
-        </h2>
-
-        <div className="mt-20 grid gap-12 border-t border-white/[0.12] pt-12 sm:mt-28 lg:grid-cols-12 lg:gap-14">
-          <Reveal className="lg:col-span-5">
-            <h3 className="text-2xl font-medium tracking-[-0.02em] text-white sm:text-3xl">
-              Tecnologia, criatividade e inovação.
-            </h3>
-          </Reveal>
-          <Reveal delay={100} className="space-y-6 text-lg leading-relaxed text-mute lg:col-span-7">
-            <p>
-              Acreditamos que cada negócio possui necessidades únicas e merece uma presença digital desenvolvida com
-              atenção aos detalhes.
-            </p>
-            <p>
-              Por isso, unimos design, desenvolvimento e tecnologia para criar sites, sistemas e aplicativos que fazem
-              sentido para o seu negócio hoje e acompanham o seu crescimento.
-            </p>
-            <p className="flex items-center gap-4 pt-4 text-white">
-              <OrbynSymbol className="h-9 w-9 shrink-0" />
-              <span className="text-xl font-medium tracking-[-0.01em]">{site.altSlogan}</span>
+        <div className="legible">
+          <Reveal>
+            <p className="eyebrow">
+              <span className="text-white/85">04</span>
+              <span className="h-px w-6 bg-white/20" aria-hidden="true" />
+              Sobre a Orbyn Tech
             </p>
           </Reveal>
+
+          <h2
+            id="sobre-title"
+            data-scrub-words
+            className="mt-8 max-w-[24ch] text-[clamp(1.85rem,4.4vw,3.7rem)] leading-[1.1] font-medium tracking-[-0.035em] text-white"
+          >
+            {MANIFESTO.split(' ').map((word, index, words) => (
+              <span key={index}>
+                <span data-word>{word}</span>
+                {index < words.length - 1 ? ' ' : null}
+              </span>
+            ))}
+          </h2>
         </div>
+
+        <ul className="mt-20 grid gap-4 sm:mt-28 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+          {pillars.map((pillar, index) => (
+            <Reveal as="li" key={pillar.title} delay={index * 90}>
+              <div onPointerMove={spotlight} className="spot-card group h-full rounded-2xl p-6 sm:p-7">
+                <p className="flex items-center gap-3 text-xs text-white/40 tabular-nums">
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/30 transition-colors duration-500 group-hover:bg-accent" />
+                  {String(index + 1).padStart(2, '0')}
+                </p>
+                <h3 className="mt-8 text-lg font-medium tracking-[-0.015em] text-white sm:text-xl">{pillar.title}</h3>
+                <p className="mt-3 text-[0.95rem] leading-relaxed text-mute">{pillar.text}</p>
+              </div>
+            </Reveal>
+          ))}
+        </ul>
       </Container>
     </section>
   );

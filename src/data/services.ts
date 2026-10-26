@@ -1,57 +1,68 @@
+export type ServiceIcon = 'sites' | 'systems' | 'chatbot' | 'automation' | 'saas';
+
 export type Service = {
   id: string;
   title: string;
   description: string;
   /** O que entra em cada frente de trabalho. */
   includes: string[];
+  icon: ServiceIcon;
   /** Como o serviço aparece na mensagem de WhatsApp. */
   messageLabel: string;
 };
 
-/** As quatro frentes da ORBYN TECH, na ordem em que aparecem no site. */
+/** Os cinco serviços da ORBYN TECH, na ordem em que aparecem no site. */
 export const services: Service[] = [
   {
     id: 'sites',
-    title: 'Desenvolvimento de sites',
-    description:
-      'Sites institucionais e landing pages modernos, rápidos e responsivos, criados para fortalecer a presença digital da sua empresa e transformar visitantes em oportunidades de negócio.',
-    includes: ['Sites institucionais', 'Landing pages', 'Catálogos de produtos', 'SEO e performance'],
+    title: 'Desenvolvimento de Sites',
+    description: 'Sites profissionais, responsivos e personalizados.',
+    includes: ['Sites institucionais', 'Landing pages', 'Catálogos', 'SEO e performance'],
+    icon: 'sites',
     messageLabel: 'o desenvolvimento de um site',
   },
   {
-    id: 'chatbots',
-    title: 'Chatbots inteligentes',
-    description:
-      'Assistentes virtuais que respondem clientes a qualquer hora, tiram dúvidas frequentes, organizam pedidos de orçamento e encaminham cada conversa para a pessoa certa da sua equipe.',
-    includes: ['Atendimento no WhatsApp e no site', 'Respostas 24 horas', 'Triagem de contatos', 'Integração com seus sistemas'],
-    messageLabel: 'um chatbot inteligente',
-  },
-  {
-    id: 'automacao-ia',
-    title: 'Automação com inteligência artificial',
-    description:
-      'Soluções inteligentes para agilizar processos, reduzir tarefas repetitivas, melhorar o atendimento e apoiar as decisões da operação da sua empresa.',
-    includes: ['Fluxos automáticos', 'Integração entre ferramentas', 'Relatórios e documentos', 'IA aplicada ao seu processo'],
-    messageLabel: 'automação com inteligência artificial',
-  },
-  {
     id: 'sistemas',
-    title: 'Sistemas personalizados',
-    description:
-      'Ferramentas sob medida, plataformas SaaS e aplicativos para Android e iOS que organizam, automatizam e acompanham o crescimento do seu negócio.',
-    includes: ['Sistemas sob medida', 'Plataformas SaaS', 'Aplicativos Android e iOS', 'Painéis de gestão'],
-    messageLabel: 'um sistema personalizado',
+    title: 'Sistemas e Aplicações Web',
+    description: 'Soluções digitais desenvolvidas conforme a necessidade de cada negócio.',
+    includes: ['Sistemas sob medida', 'Painéis de gestão', 'Aplicativos', 'Integrações'],
+    icon: 'systems',
+    messageLabel: 'um sistema ou aplicação web',
+  },
+  {
+    id: 'chatbots',
+    title: 'Chatbots com Inteligência Artificial',
+    description: 'Atendimento automatizado e integração com canais comerciais.',
+    includes: ['WhatsApp e site', 'Atendimento 24 horas', 'Triagem de contatos'],
+    icon: 'chatbot',
+    messageLabel: 'um chatbot com inteligência artificial',
+  },
+  {
+    id: 'automacoes',
+    title: 'Automações Inteligentes',
+    description: 'Otimização de processos e redução de tarefas repetitivas.',
+    includes: ['Fluxos automáticos', 'Relatórios e documentos', 'IA aplicada ao processo'],
+    icon: 'automation',
+    messageLabel: 'automações inteligentes',
+  },
+  {
+    id: 'saas',
+    title: 'Soluções SaaS',
+    description: 'Plataformas digitais e sistemas disponibilizados pela internet.',
+    includes: ['Plataformas por assinatura', 'Acesso de qualquer lugar', 'Escalável'],
+    icon: 'saas',
+    messageLabel: 'uma solução SaaS',
   },
 ];
 
-/** Opções do campo "Tipo de serviço" no formulário (mais detalhadas que as quatro frentes). */
+/** Opções do campo "Tipo de serviço" no formulário. */
 export const serviceOptions = [
   'Site institucional',
   'Landing page',
-  'Chatbot inteligente',
-  'Automação com IA',
-  'Sistema SaaS',
-  'Sistema personalizado',
+  'Sistema ou aplicação web',
+  'Chatbot com IA',
+  'Automação inteligente',
+  'Solução SaaS',
   'Aplicativo Android e iOS',
   'Ainda não sei / Outro',
 ];

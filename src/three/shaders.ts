@@ -237,6 +237,7 @@ uniform float uPixelRatio;
 uniform float uSizeScale;
 uniform float uBright;
 varying float vAlpha;
+varying float vCyan;
 
 void main() {
   float fi = mod(position.x, uActive);
@@ -256,11 +257,14 @@ void main() {
 
   gl_PointSize = aSize * uPixelRatio * uSizeScale / max(-mv.z, 0.5);
   vAlpha = taper * fog * twinkle * uBright * mix(1.0, 0.55, stageWeight(0, e));
+  // Cerca de 1 em cada 12 partículas é ciano: o detalhe tecnológico da identidade
+  vCyan = step(0.92, fract(position.y * 53.17 + position.x * 0.013));
 }
 `;
 
 export const particleFragment = /* glsl */ `
 varying float vAlpha;
+varying float vCyan;
 
 void main() {
   vec2 c = gl_PointCoord - 0.5;
@@ -269,7 +273,9 @@ void main() {
   float halo = exp(-r2 * 3.5) * 0.28;
   float a = (core + halo) * vAlpha;
   if (a < 0.003) discard;
-  gl_FragColor = vec4(vec3(1.0, 0.985, 0.96), a);
+  vec3 ice = vec3(0.961, 0.969, 0.98);
+  vec3 cyan = vec3(0.212, 0.867, 0.91);
+  gl_FragColor = vec4(mix(ice, cyan, vCyan), a * mix(1.0, 1.35, vCyan));
 }
 `;
 
@@ -345,7 +351,7 @@ void main() {
   vec3 base = vec3(0.022, 0.024, 0.028) + diff * 0.035;
   vec3 col = base + vec3(0.88, 0.9, 0.94) * env * mix(0.5, 1.0, fres);
   col += vec3(0.6, 0.63, 0.68) * fres * 0.18;
-  col += vec3(1.0, 0.97, 0.92) * edge * edge * 0.9;
+  col += vec3(0.62, 0.93, 0.96) * edge * edge * 0.9;
 
   gl_FragColor = vec4(col * uBright, 1.0);
 }

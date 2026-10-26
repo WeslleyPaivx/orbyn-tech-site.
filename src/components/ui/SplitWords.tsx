@@ -13,13 +13,24 @@ type SplitWordsProps = {
   delay?: number;
   /** Anima imediatamente (sem esperar entrar na tela), como no hero. */
   immediate?: boolean;
+  /** Destaca o ponto final em ciano (detalhe da identidade). */
+  accentPeriod?: boolean;
 };
 
 /**
  * Título que surge palavra por palavra, subindo de uma máscara.
  * O texto continua sendo texto real (lido normalmente por leitores de tela e buscadores).
  */
-export function SplitWords({ lines, as: Tag = 'h2', id, className = '', lineClassName = '', delay = 0, immediate }: SplitWordsProps) {
+export function SplitWords({
+  lines,
+  as: Tag = 'h2',
+  id,
+  className = '',
+  lineClassName = '',
+  delay = 0,
+  immediate,
+  accentPeriod,
+}: SplitWordsProps) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { threshold: 0.2 });
   const visible = immediate || inView;
@@ -39,7 +50,16 @@ export function SplitWords({ lines, as: Tag = 'h2', id, className = '', lineClas
             {line.split(' ').map((word, wi, words) => (
               <Fragment key={wi}>
                 <span className="split-word">
-                  <span style={{ '--word-index': index++ } as CSSProperties}>{word}</span>
+                  <span style={{ '--word-index': index++ } as CSSProperties}>
+                    {accentPeriod && word.endsWith('.') ? (
+                      <>
+                        {word.slice(0, -1)}
+                        <span className="text-accent">.</span>
+                      </>
+                    ) : (
+                      word
+                    )}
+                  </span>
                 </span>
                 {wi < words.length - 1 ? ' ' : null}
               </Fragment>

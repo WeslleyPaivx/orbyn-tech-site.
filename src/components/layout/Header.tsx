@@ -78,7 +78,7 @@ export function Header({ onMenuChange }: HeaderProps) {
           className="rounded-md"
           aria-label="ORBYN TECH — voltar ao início"
         >
-          <Logo />
+          <Logo priority className="h-8 sm:h-9 lg:h-10" />
         </a>
 
         <nav aria-label="Navegação principal" className="hidden lg:block">
@@ -98,7 +98,7 @@ export function Header({ onMenuChange }: HeaderProps) {
                     {item.label}
                     <span
                       aria-hidden="true"
-                      className={`absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-white transition-[opacity,transform] duration-300 ${
+                      className={`absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-accent shadow-[0_0_8px_rgb(54_221_232/0.8)] transition-[opacity,transform] duration-300 ${
                         isActive ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
                       }`}
                     />
@@ -171,7 +171,7 @@ export function Header({ onMenuChange }: HeaderProps) {
                     {item.label}
                     <span
                       aria-hidden="true"
-                      className={`h-1.5 w-1.5 rounded-full bg-white transition-opacity ${
+                      className={`h-1.5 w-1.5 rounded-full bg-accent transition-opacity ${
                         isActive ? 'opacity-100' : 'opacity-0'
                       }`}
                     />

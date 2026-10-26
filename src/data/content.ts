@@ -1,32 +1,3 @@
-export type Differential = { title: string; description: string };
-
-export const differentials: Differential[] = [
-  {
-    title: 'Desenvolvimento personalizado',
-    description: 'Cada projeto parte do seu negócio, não de um modelo pronto.',
-  },
-  {
-    title: 'Design moderno e responsivo',
-    description: 'Interfaces atuais que se adaptam a celulares, tablets e computadores.',
-  },
-  {
-    title: 'Foco na experiência do usuário',
-    description: 'Navegação clara para que seu cliente encontre o que procura sem esforço.',
-  },
-  {
-    title: 'Performance e otimização',
-    description: 'Código enxuto, carregamento rápido e boas práticas de SEO desde o início.',
-  },
-  {
-    title: 'Comunicação transparente',
-    description: 'Você acompanha cada etapa e sabe exatamente o que está sendo feito.',
-  },
-  {
-    title: 'Soluções pensadas para evoluir',
-    description: 'Estrutura preparada para receber novas funcionalidades quando você precisar.',
-  },
-];
-
 export type ProcessStep = { title: string; summary: string; detail: string };
 
 export const processSteps: ProcessStep[] = [
