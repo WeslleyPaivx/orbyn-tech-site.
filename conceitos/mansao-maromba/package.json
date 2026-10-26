@@ -1,0 +1,23 @@
+{
+  "name": "mansao-maromba-conceito",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Projeto conceitual da ORBYN TECH: experiência cinematográfica inspirada no Saabooor Energético. Não é o site oficial da marca.",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "build": "npm run typecheck && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0"
+  },
+  "devDependencies": {
+    "typescript": "~5.6.3",
+    "vite": "^5.4.11"
+  },
+  "engines": {
+    "node": "24.x"
+  }
+}

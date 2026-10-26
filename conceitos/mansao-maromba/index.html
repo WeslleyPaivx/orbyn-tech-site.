@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="pt-BR" class="intro-lock">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Saabooor Energético · Projeto conceitual</title>
+    <meta
+      name="description"
+      content="Projeto conceitual da Orbyn Tech: experiência cinematográfica inspirada no Saabooor Energético da Mansão Maromba. Não é o site oficial da marca."
+    />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#050505" />
+    <link rel="icon" type="image/png" href="/brand/favicon.png" />
+    <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/anton.woff" as="font" type="font/woff" crossorigin />
+    <link rel="preload" href="/fonts/archivo.woff" as="font" type="font/woff" crossorigin />
+    <link rel="preload" href="/brand/logo-poster.webp" as="image" />
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <!-- 1. Abertura -->
+    <div class="intro" id="intro" aria-label="Abertura: logo animada">
+      <video class="intro-video" muted playsinline preload="auto" aria-hidden="true"></video>
+      <img class="intro-fallback" src="/brand/logo-poster.webp" alt="" width="1246" height="1400" />
+      <span class="badge intro-badge">Projeto conceitual</span>
+      <button class="intro-skip" type="button">Pular abertura</button>
+      <div class="intro-bar" aria-hidden="true"><i></i></div>
+    </div>
+
+    <!-- 2. Cabeçalho -->
+    <header class="site-header" id="topo">
+      <div class="header-inner">
+        <a class="brand" href="#inicio" aria-label="Início">
+          <img class="brand-mark" src="/brand/logo-mark-sm.webp" alt="" width="258" height="250" />
+          <span class="brand-name">Mansão<br />Maromba</span>
+        </a>
+        <span class="badge header-badge">Projeto conceitual</span>
+        <nav class="nav" aria-label="Principal">
+          <a href="#inicio">Início</a>
+          <a href="#original-zero">Original Zero</a>
+          <a href="#produtos">Produtos</a>
+          <a href="#modos">Modos</a>
+          <a href="#conceito">Sobre o conceito</a>
+        </nav>
+        <a class="btn btn-solid btn-sm header-cta" href="#produtos">Ver a linha</a>
+        <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
+          <span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="menu" id="menu" hidden>
+      <nav aria-label="Menu">
+        <a href="#inicio"><small>01</small>Início</a>
+        <a href="#original-zero"><small>02</small>Original Zero</a>
+        <a href="#produtos"><small>03</small>Produtos</a>
+        <a href="#modos"><small>04</small>Modos</a>
+        <a href="#conceito"><small>05</small>Sobre o conceito</a>
+      </nav>
+      <p class="menu-note">Projeto conceitual · Orbyn Tech</p>
+    </div>
+
+    <main id="conteudo">
+      <!-- 3. Hero + mergulho controlado pela rolagem -->
+      <section class="dive" id="inicio" aria-label="Saabooor Energético: mergulho">
+        <div class="dive-sticky">
+          <canvas class="dive-canvas" aria-hidden="true"></canvas>
+          <img class="dive-poster" src="/frames/poster.webp" alt="" aria-hidden="true" />
+          <div class="dive-shade" aria-hidden="true"></div>
+
+          <div class="hero" data-hero>
+            <p class="eyebrow hero-in"><span class="dot"></span>Linha energética</p>
+            <h1 class="hero-title">
+              <span class="line"><span class="hero-in">SAABOOOR</span></span>
+              <span class="line"><span class="hero-in">ENERGÉTICO.</span></span>
+            </h1>
+            <p class="hero-sub hero-in"><span class="pill-gold">Também em versão Zero açúcar</span></p>
+            <p class="hero-text hero-in">O sabor marcante que você conhece. Sem cafeína, sem taurina e sem álcool.</p>
+            <div class="hero-actions hero-in">
+              <a class="btn btn-solid" href="#inicio" data-explore>Explore a experiência</a>
+            </div>
+          </div>
+          <a class="scroll-cue" href="#inicio" data-explore aria-label="Role para mergulhar">
+            <span>Role para mergulhar</span><i aria-hidden="true">↓</i>
+          </a>
+
+          <ol class="stages" aria-hidden="true">
+            <li data-stage="0"><b>01</b><span>Suspensa</span></li>
+            <li data-stage="1"><b>02</b><span>Queda</span></li>
+            <li data-stage="2"><b>03</b><span>Impacto</span></li>
+            <li data-stage="3"><b>04</b><span>Mergulho</span></li>
+            <li data-stage="4"><b>05</b><span>Revelação</span></li>
+          </ol>
+          <div class="stage-meter" aria-hidden="true"><span class="stage-num">01</span><i><b></b></i><span class="stage-name">Suspensa</span></div>
+
+          <div class="cap" data-window="0.21,0.41">
+            <p class="cap-k">02 — Queda</p>
+            <p class="cap-big">GRAVIDADE<br />AGINDO.</p>
+            <p class="cap-t">A garrafa original desce em direção ao dourado.</p>
+          </div>
+          <div class="cap" data-window="0.41,0.61">
+            <p class="cap-k">03 — Impacto</p>
+            <p class="cap-big">SPLASH<br />DOURADO.</p>
+            <p class="cap-t">Coroa de líquido, gotas e gás no primeiro contato.</p>
+          </div>
+          <div class="cap" data-window="0.61,0.84">
+            <p class="cap-k">04 — Mergulho</p>
+            <p class="cap-big">BOLHAS<br />E LUZ.</p>
+            <p class="cap-t">Abaixo da superfície, o gás sobe e a luz atravessa.</p>
+          </div>
+          <div class="reveal-end" data-window="0.85,1.2">
+            <p class="cap-k">05 — Revelação</p>
+            <p class="reveal-title">TODO O <em>SAABOOOR.</em></p>
+            <p class="reveal-facts">SEM CAFEÍNA <i>•</i> SEM TAURINA <i>•</i> SEM ÁLCOOL</p>
+          </div>
+          <div class="dive-loader" aria-hidden="true"><i></i></div>
+        </div>
+      </section>
+
+      <!-- 4. Original Zero -->
+      <section class="zero" id="original-zero" aria-labelledby="zero-title">
+        <canvas class="bubbles" aria-hidden="true"></canvas>
+        <div class="wrap zero-grid">
+          <figure class="zero-product" data-product-slot="original-zero"></figure>
+          <div class="zero-copy">
+            <p class="eyebrow"><span class="dot"></span>Original Zero · 1L</p>
+            <h2 class="display reveal" id="zero-title">ZERO DE EXCESSOS.<br /><em>SAABOOOR</em> DE SOBRA.</h2>
+            <p class="lead reveal">O sabor energético em uma versão sem açúcar, cafeína, taurina e álcool.</p>
+            <ul class="zero-facts">
+              <li class="reveal"><span>01</span><b>ZERO AÇÚCAR</b></li>
+              <li class="reveal"><span>02</span><b>SEM CAFEÍNA</b></li>
+              <li class="reveal"><span>03</span><b>SEM TAURINA</b></li>
+              <li class="reveal"><span>04</span><b>SEM ÁLCOOL</b></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Modos -->
+      <section class="modes" id="modos" aria-labelledby="modes-title">
+        <div class="modes-bg" aria-hidden="true"><i class="glow-a"></i><i class="glow-b"></i><i class="sweep"></i></div>
+        <canvas class="bubbles" aria-hidden="true"></canvas>
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow"><span class="dot"></span>Experiência</p>
+            <h2 class="display reveal" id="modes-title">QUAL É O SEU MODO?</h2>
+          </div>
+          <div class="mode-picker" role="tablist" aria-label="Modos"></div>
+          <div class="mode-stage" role="tabpanel" aria-live="polite">
+            <div class="mode-visual"></div>
+            <div class="mode-copy">
+              <p class="mode-index"></p>
+              <h3 class="mode-title"></h3>
+              <p class="mode-text"></p>
+              <p class="mode-note"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Vitrine -->
+      <section class="gallery" id="produtos" aria-labelledby="gallery-title">
+        <div class="gallery-bg" aria-hidden="true"></div>
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow"><span class="dot"></span>Vitrine</p>
+            <h2 class="display reveal" id="gallery-title">A LINHA COMPLETA.</h2>
+          </div>
+        </div>
+        <div class="showcase">
+          <p class="show-word" aria-hidden="true"></p>
+          <div class="show-stage"></div>
+          <div class="show-info wrap">
+            <p class="show-cat"></p>
+            <h3 class="show-name"></h3>
+            <p class="show-desc"></p>
+            <ul class="show-facts"></ul>
+            <p class="show-note"></p>
+          </div>
+        </div>
+        <div class="rail-wrap">
+          <div class="rail" role="listbox" aria-label="Produtos"></div>
+        </div>
+      </section>
+
+      <!-- 7. Manifesto -->
+      <section class="manifesto" aria-label="Manifesto">
+        <p class="manifesto-text">
+          <span class="mw">NÃO</span> <span class="mw">É</span> <span class="mw">SÓ</span> <span class="mw">UMA</span>
+          <span class="mw">BEBIDA.</span><br />
+          <span class="mw">É</span> <span class="mw mw-hot">SAABOOOR.</span>
+        </p>
+      </section>
+
+      <!-- 8. Sobre o conceito -->
+      <section class="concept" id="conceito" aria-labelledby="concept-title">
+        <div class="wrap concept-grid">
+          <div>
+            <p class="eyebrow"><span class="dot"></span>Sobre o conceito</p>
+            <h2 class="display-sm reveal" id="concept-title">UM ESTUDO DE EXPERIÊNCIA DIGITAL.</h2>
+          </div>
+          <div class="concept-body reveal">
+            <p>
+              Este site é um projeto conceitual criado pela Orbyn Tech para demonstrar narrativa por rolagem, vídeo
+              controlado quadro a quadro e apresentação de produto em alta fidelidade.
+            </p>
+            <p>
+              Não é o site oficial da Mansão Maromba e não representa campanha autorizada ou parceria com a marca. Marcas,
+              rótulos e fotografias pertencem aos seus titulares.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. Chamada final -->
+      <section class="final" aria-labelledby="final-title">
+        <div class="final-logo" aria-hidden="true">
+          <img src="/brand/logo-poster.webp" alt="" width="1246" height="1400" loading="lazy" />
+        </div>
+        <div class="wrap final-copy">
+          <h2 class="display reveal" id="final-title">PRONTO PARA CONHECER O <em>SAABOOOR?</em></h2>
+          <p class="lead reveal">Explore as diferentes versões do universo Mansão Maromba.</p>
+          <div class="final-actions reveal">
+            <a class="btn btn-solid" href="#produtos">Conhecer os produtos</a>
+            <a class="btn btn-ghost" href="#inicio">Voltar ao início</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <p class="footer-credit">Projeto conceitual desenvolvido por <a href="https://orbyntech.vercel.app/" target="_blank" rel="noopener">Orbyn Tech</a>.</p>
+        <p class="footer-legal">Não é o site oficial da Mansão Maromba. Sem vínculo, campanha ou parceria com a marca.</p>
+        <p class="footer-legal footer-alcohol">Evite o consumo excessivo de álcool. Se beber, não dirija. Venda e consumo de bebidas alcoólicas proibidos para menores de 18 anos.</p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

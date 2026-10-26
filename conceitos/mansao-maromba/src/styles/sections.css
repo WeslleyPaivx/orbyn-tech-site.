@@ -1,0 +1,225 @@
+/* ============================================================== Original Zero */
+.zero {
+  position: relative;
+  padding: clamp(100px, 14vw, 190px) 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 22% 50%, rgba(255, 8, 120, 0.17), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 80% 100%, rgba(233, 185, 87, 0.12), transparent 70%),
+    var(--ink);
+  overflow: hidden;
+}
+.bubbles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.75;
+}
+.zero-grid {
+  position: relative;
+  display: grid;
+  gap: 56px;
+  align-items: center;
+}
+.zero-product {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  margin: 0;
+}
+.zero-img {
+  height: clamp(340px, 52svh, 560px);
+}
+.zero-product figcaption {
+  font-size: 11px;
+  font-weight: 700;
+  font-stretch: 115%;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--metal);
+  text-align: center;
+}
+.zero-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 40px 0 0;
+  padding: 0;
+  list-style: none;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.zero-facts li {
+  display: grid;
+  gap: 18px;
+  padding: clamp(18px, 2.4vw, 28px);
+  background: rgba(17, 17, 21, 0.92);
+}
+.zero-facts span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--gold);
+}
+.zero-facts b {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.45rem, 2.6vw, 2.3rem);
+  line-height: 1;
+}
+.zero-facts li:first-child b {
+  color: var(--pink);
+}
+.zero-facts li:nth-child(2) {
+  transition-delay: 0.06s;
+}
+.zero-facts li:nth-child(3) {
+  transition-delay: 0.12s;
+}
+.zero-facts li:nth-child(4) {
+  transition-delay: 0.18s;
+}
+@media (min-width: 900px) {
+  .zero-grid {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(48px, 6vw, 110px);
+  }
+  .zero-img {
+    height: clamp(420px, 68vh, 640px);
+  }
+}
+
+/* ============================================================== cabeçalho de seção */
+.section-head {
+  position: relative;
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
+
+/* ============================================================== manifesto */
+.manifesto {
+  position: relative;
+  padding: clamp(120px, 22vh, 240px) var(--pad);
+  background: var(--ink);
+  overflow: hidden;
+}
+.manifesto-text {
+  margin: 0 auto;
+  max-width: 1500px;
+  font-family: var(--display);
+  font-size: clamp(3.3rem, 12.2vw, 13rem);
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+.mw {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+.mw-hot {
+  color: var(--pink);
+  transform-origin: left center;
+  text-shadow: 0 0 80px rgba(255, 8, 120, 0.35);
+}
+
+/* ============================================================== sobre o conceito */
+.concept {
+  padding: clamp(90px, 12vw, 150px) 0;
+  border-top: 1px solid var(--line);
+  background: var(--ink-2);
+}
+.concept-grid {
+  display: grid;
+  gap: 32px;
+}
+.concept-body p {
+  margin: 0 0 18px;
+  max-width: 56ch;
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.65;
+  color: rgba(247, 247, 247, 0.78);
+}
+@media (min-width: 900px) {
+  .concept-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+  }
+}
+
+/* ============================================================== chamada final */
+.final {
+  position: relative;
+  padding: clamp(90px, 14vh, 160px) 0 clamp(80px, 12vh, 140px);
+  background: #000;
+  text-align: center;
+  overflow: hidden;
+}
+.final-logo {
+  display: grid;
+  place-items: center;
+  margin-bottom: clamp(24px, 4vh, 48px);
+}
+.final-logo img {
+  width: min(34vh, 56vw, 340px);
+  height: auto;
+  mix-blend-mode: screen;
+}
+.final-copy .display {
+  font-size: clamp(2.6rem, 8vw, 7rem);
+  max-width: 14ch;
+  margin-inline: auto;
+}
+.final-copy .lead {
+  margin-inline: auto;
+}
+.final-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 34px;
+}
+@media (max-width: 480px) {
+  .final-actions .btn {
+    width: 100%;
+  }
+}
+
+/* ============================================================== rodapé */
+.footer {
+  padding: 40px 0 calc(40px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  background: #000;
+}
+.footer-inner {
+  display: grid;
+  gap: 10px;
+}
+.footer p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(247, 247, 247, 0.6);
+}
+.footer .footer-credit {
+  font-size: 14px;
+  color: rgba(247, 247, 247, 0.85);
+}
+.footer-credit a {
+  color: var(--white);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgba(247, 247, 247, 0.3);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.3s;
+}
+.footer-credit a:hover {
+  text-decoration-color: var(--pink);
+}
+.footer .footer-alcohol {
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
