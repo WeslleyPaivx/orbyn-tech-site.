@@ -12,6 +12,7 @@ import { setupDive } from './components/productDive';
 import { setupGallery } from './components/productGallery';
 import { setupHeader } from './components/siteHeader';
 import { setupZero } from './components/zeroShowcase';
+import { setupSmoothScroll, smoothAnchors } from './lib/smoothScroll';
 
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ ignoreMobileResize: true });
@@ -20,6 +21,8 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 async function init() {
   // A abertura roda enquanto os quadros do mergulho começam a baixar
   const intro = setupIntro();
+  setupSmoothScroll();
+  smoothAnchors(() => document.querySelector('.site-header')?.getBoundingClientRect().height ?? 64);
   setupHeader();
   const divePromise = setupDive();
   setupZero();

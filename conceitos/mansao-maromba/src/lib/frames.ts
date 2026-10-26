@@ -339,15 +339,14 @@ export class DiveRenderer {
 }
 
 /**
- * Tempo da rolagem → quadro do vídeo.
- * 0–20% suspensa · 20–40% queda · 40–60% impacto · 60–85% submersão · 85–100% revelação.
+ * Rolagem → quadro do vídeo. Quase linear: a garrafa começa a cair no primeiro
+ * movimento do dedo e o vídeo anda num ritmo constante, sem trechos parados.
  */
 const KEYS: [number, number][] = [
   [0, 0],
-  [0.2, 6],
-  [0.4, 56],
-  [0.6, 100],
-  [0.85, 148],
+  [0.34, 56],
+  [0.6, 104],
+  [0.9, 158],
   [1, 162],
 ];
 
@@ -357,10 +356,7 @@ export function progressToFrame(p: number, last = 162) {
     const [p1, f1] = KEYS[i];
     const [p0, f0] = KEYS[i - 1];
     if (p <= p1) {
-      let t = (p - p0) / (p1 - p0);
-      // A queda acelera; a revelação desacelera
-      if (i === 2) t = t * t;
-      if (i === KEYS.length - 1) t = 1 - (1 - t) * (1 - t);
+      const t = (p - p0) / (p1 - p0);
       return lerp(f0, f1, t) * scale;
     }
   }

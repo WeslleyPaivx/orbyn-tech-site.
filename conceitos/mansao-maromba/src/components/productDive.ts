@@ -1,9 +1,10 @@
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { $, $$, clamp, isMobile, lowPower, reduced, smooth, whileVisible } from '../lib/env';
 import { DiveRenderer, progressToFrame, type Manifest } from '../lib/frames';
+import { scrollToY } from '../lib/smoothScroll';
 
 const STAGES = ['Suspensa', 'Queda', 'Impacto', 'Mergulho', 'Revelação'];
-const STAGE_AT = [0, 0.2, 0.4, 0.6, 0.85];
+const STAGE_AT = [0, 0.07, 0.34, 0.6, 0.86];
 
 /**
  * Hero + mergulho: uma seção alta com um palco fixo (sticky).
@@ -17,7 +18,9 @@ export async function setupDive() {
   const cue = $('.scroll-cue', section);
   const shade = $('.dive-shade', section);
   const loader = $('.dive-loader', section);
-  const stageItems = $$('.stages li', section);
+  const depthN = $('.depth-n b', section);
+  const depthLine = $('.depth-line b', section);
+  const depthStage = $('.depth-stage', section);
   const meterNum = $('.stage-num', section);
   const meterName = $('.stage-name', section);
   const meterBar = $('.stage-meter b', section);
@@ -56,18 +59,18 @@ export async function setupDive() {
   const t0 = performance.now();
 
   const apply = (p: number) => {
-    // Hero sai nos primeiros 12%
-    const heroOut = smooth(0.025, 0.12, p);
+    // Hero sai logo no começo da rolagem
+    const heroOut = smooth(0.005, 0.07, p);
     hero.style.opacity = String(1 - heroOut);
     hero.style.transform = reduced ? 'none' : `translate3d(0, ${-heroOut * 60}px, 0)`;
     hero.style.visibility = heroOut >= 1 ? 'hidden' : 'visible';
-    const cueO = 1 - smooth(0.01, 0.06, p);
+    const cueO = 1 - smooth(0.003, 0.03, p);
     cue.style.opacity = String(cueO);
     cue.style.visibility = cueO <= 0.01 ? 'hidden' : 'visible';
 
     // Sombra lateral do hero e topo escuro da revelação
     shade.style.setProperty('--hero', String(1 - heroOut));
-    shade.style.setProperty('--end', String(smooth(0.84, 0.92, p)));
+    shade.style.setProperty('--end', String(smooth(0.85, 0.92, p)));
 
     for (const { node, a, b } of caps) {
       const t = (p - a) / (b - a);
@@ -81,30 +84,37 @@ export async function setupDive() {
     for (let i = 0; i < STAGE_AT.length; i++) if (p >= STAGE_AT[i]) stage = i;
     if (stage !== lastStage) {
       lastStage = stage;
-      stageItems.forEach((li, i) => li.classList.toggle('is-on', i === stage));
-      meterNum.textContent = `0${stage + 1}`;
       meterName.textContent = STAGES[stage];
+      depthStage.textContent = STAGES[stage];
     }
+    // Profundidade: 0 m até tocar o líquido, depois desce até 40 m
+    const depth = Math.round(smooth(0.34, 0.97, p) * 40);
+    const label = String(depth);
+    if (depthN.textContent !== label) {
+      depthN.textContent = label;
+      meterNum.textContent = `${label} m`;
+    }
+    depthLine.style.transform = `scaleY(${p.toFixed(4)})`;
     meterBar.style.transform = `scaleX(${p.toFixed(4)})`;
     section.style.setProperty('--p', p.toFixed(4));
 
     if (renderer) {
-      renderer.follow = smooth(0.55, 1, p);
+      renderer.follow = smooth(0.6, 1, p);
       const ho = 1 - heroOut;
       if (ho !== renderer.heroOffset) {
         renderer.heroOffset = ho;
         renderer.markDirty();
       }
-      renderer.fadeOut = smooth(0.95, 1, p) * 0.9;
+      renderer.fadeOut = smooth(0.96, 1, p) * 0.85;
     }
   };
 
   const draw = (p: number, now: number) => {
     if (!renderer) return;
     let f = progressToFrame(p, renderer.sourceFrames - 1);
-    // Garrafa "suspensa": oscila devagar entre os primeiros quadros enquanto ninguém rola
-    if (!reduced && p < 0.2) {
-      const idle = (1 - smooth(0, 0.2, p)) * 2.4 * (1 - Math.cos((now - t0) / 1000 * 1.15)) * 0.5;
+    // Parada no topo, a garrafa balança de leve; some assim que a rolagem começa
+    if (!reduced && p < 0.03) {
+      const idle = (1 - smooth(0, 0.03, p)) * 2.2 * (1 - Math.cos(((now - t0) / 1000) * 1.15)) * 0.5;
       f += idle;
     }
     renderer.render(f, !firstPaint);
@@ -117,12 +127,13 @@ export async function setupDive() {
   const tick = (now: number) => {
     raf = 0;
     if (!visible) return;
-    const k = reduced ? 1 : mobile ? 0.22 : 0.14;
+    // A rolagem suave já amortece no desktop; aqui só tira o serrilhado entre eventos
+    const k = reduced ? 1 : mobile ? 0.34 : 0.4;
     current += (target - current) * k;
     if (Math.abs(target - current) < 0.0002) current = target;
     apply(current);
     draw(current, now);
-    const idle = !reduced && current < 0.2;
+    const idle = !reduced && current < 0.03;
     if (idle || current !== target || !firstPaint) raf = requestAnimationFrame(tick);
   };
   const wake = () => {
@@ -158,7 +169,7 @@ export async function setupDive() {
       e.preventDefault();
       const top = section.getBoundingClientRect().top + window.scrollY;
       const span = section.offsetHeight - window.innerHeight;
-      window.scrollTo({ top: top + span * 0.3, behavior: reduced ? 'auto' : 'smooth' });
+      scrollToY(top + span * 0.36);
     }),
   );
 
