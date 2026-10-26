@@ -252,7 +252,7 @@ function setupModes(images: Record<string, string>) {
       pickEl.append(im);
     }
     const txt = document.createElement('div');
-    txt.innerHTML = '<p style="margin:0 0 4px;font-size:12px;letter-spacing:.18em;text-transform:uppercase">Sua lata</p><strong></strong>';
+    txt.innerHTML = '<p class="pick-label">Sua lata</p><strong></strong>';
     txt.querySelector('strong')!.textContent = `VOLTRA ${flavor.name}`;
     pickEl.append(txt);
     result.append(h, p, bars, pickEl);

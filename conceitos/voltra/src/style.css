@@ -530,6 +530,12 @@ a {
   width: 84px;
   height: auto;
 }
+.mode-result .pick .pick-label {
+  margin: 0 0 4px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
 .mode-result .pick strong {
   font-family: var(--display);
   font-weight: 400;
