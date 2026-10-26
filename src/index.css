@@ -259,9 +259,9 @@
   transition: transform 1.2s var(--ease-soft);
 }
 .orbit-spin {
-  /* Gira em torno do centro do desenho (viewBox 600 × 600) */
-  transform-box: view-box;
-  transform-origin: 300px 300px;
+  /* Camada própria: a rotação é feita pela GPU, sem repintar o SVG a cada quadro */
+  transform-origin: 50% 50%;
+  will-change: transform;
   animation: orbit-spin var(--orbit-duration, 90s) linear infinite;
 }
 .orbit-spin-reverse {

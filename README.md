@@ -60,17 +60,17 @@ O favicon (`favicon.svg`, `favicon.ico`, `favicon-32.png`) e os ícones do celul
 
 ## Escultura 3D
 
-Uma única cena WebGL desenha três camadas com os mesmos dados: a **escultura sólida** (anel torcido em grafite cromado), centenas de **filamentos** e milhares de **partículas** que correm por eles. Todas as formas são calculadas na GPU (`src/three/shaders.ts`), então a transformação não recria geometria e funciona igualmente para frente e para trás.
+Uma única cena WebGL desenha centenas de **filamentos** e milhares de **partículas** que correm por eles. Todas as formas são calculadas na GPU (`src/three/shaders.ts`), então a transformação não recria geometria e funciona igualmente para frente e para trás.
 
 | Seção (`data-stage`) | Composição |
 | --- | --- |
-| Início | Escultura sólida, com os fios gravados na superfície |
-| Serviços (`1`) | A escultura se dissolve e os fios se desenrolam em um feixe que atravessa a tela |
+| Início | Os fios desenham o símbolo da ORBYN TECH |
+| Serviços (`1`) | O símbolo se desfaz e os fios se desenrolam em um feixe que atravessa a tela |
 | Portfólio (`2`) | Os fios se reorganizam em uma torre de treliça |
 | Sobre nós (`3`) | Os fios se deitam em um horizonte ondulante |
-| Final (`4`) | Os fios desenham o símbolo da ORBYN TECH (`logoCurves.ts`, contornos extraídos de `public/brand/orbyn-symbol.png`) |
+| Final (`4`) | Os fios voltam a desenhar o símbolo (`logoCurves.ts`, contornos extraídos de `public/brand/orbyn-symbol.png`) |
 
-**Desempenho:** o código 3D é baixado depois da primeira pintura (arquivo separado). A densidade é escolhida pelo tipo de aparelho (`src/three/support.ts`) e, se os quadros passarem de ~40 ms, a cena reduz sozinha a resolução e depois a quantidade de fios. A animação pausa com a aba em segundo plano.
+**Desempenho:** o código 3D é baixado depois da primeira pintura (arquivo separado). A densidade é escolhida pelo tipo de aparelho (`src/three/support.ts`) e, se o aparelho não sustentar 50 quadros por segundo, a cena reduz sozinha a quantidade de fios e depois a resolução, sem nunca cortar a taxa de quadros. A animação pausa com a aba em segundo plano.
 
 **Sem WebGL 2** (ou se a cena falhar), o hero mostra o símbolo em órbita em SVG e o restante do site funciona normalmente. **Com movimento reduzido** ativado no sistema, a escultura aparece parada e só troca de composição entre as seções, sem animação.
 

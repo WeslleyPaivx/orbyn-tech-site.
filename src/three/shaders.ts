@@ -6,11 +6,11 @@
  * Assim, os mesmos filamentos podem assumir composições completamente diferentes
  * sem recriar geometria: basta mudar os uniforms uFrom, uTo e uLocal.
  *
- *   0  Escultura   — anel torcido em sela, superfície sólida cromada
+ *   0  Símbolo     — os fios desenham o símbolo da ORBYN TECH (abertura)
  *   1  Fluxo       — feixe de fios que se desenrola atravessando a tela
  *   2  Treliça     — torre hiperbolóide de fios cruzados
  *   3  Horizonte   — campo de linhas ondulando em profundidade
- *   4  Símbolo     — os fios desenham o símbolo oficial da ORBYN TECH
+ *   4  Símbolo     — os fios voltam a desenhar o símbolo (encerramento)
  */
 
 export const STAGE_COUNT = 5;
@@ -38,21 +38,6 @@ mat3 rotZ(float a) { float c = cos(a), s = sin(a); return mat3(c, s, 0.0, -s, c,
 /* Distribuição de baixa discrepância: qualquer prefixo de filamentos cobre a forma inteira,
    o que permite reduzir a quantidade desenhada sem abrir buracos. */
 float filamentCoord(float fi) { return fract((fi + 1.0) * 0.6180339887); }
-
-/* ---------------------------------------------------------------- 0 · Escultura */
-vec3 sculptSurface(float u, float v, float k) {
-  float R = 1.5;
-  float a = (0.46 + 0.16 * cos(2.0 * u + 0.6)) * k;
-  float b = (0.07 + 0.11 * (0.5 + 0.5 * sin(3.0 * u + 1.3))) * k;
-  float tw = u + 0.35 * sin(2.0 * u);
-  vec2 cs = vec2(a * cos(v), b * sin(v));
-  float ct = cos(tw), st = sin(tw);
-  cs = vec2(ct * cs.x - st * cs.y, st * cs.x + ct * cs.y);
-  float r = R + cs.x;
-  vec3 p = vec3(r * cos(u), cs.y + 0.42 * sin(2.0 * u + 0.4), r * sin(u));
-  p += 0.03 * sin(3.0 * u + uTime * 0.5 + v) * vec3(cos(u), 0.5, sin(u));
-  return rotZ(0.32) * rotX(1.05) * p;
-}
 
 /* ---------------------------------------------------------------- 1 · Fluxo */
 vec3 shapeFlow(float t, float f, vec3 h) {
@@ -106,11 +91,11 @@ vec3 shapeLogo(float t, float fi) {
   vec3 a = texelFetch(uLogo, ivec2(x0, row), 0).xyz;
   vec3 b = texelFetch(uLogo, ivec2(x1, row), 0).xyz;
   vec3 p = mix(a, b, fr) * 1.55;
-  return rotY(0.28 * sin(uTime * 0.18)) * rotX(0.1 * sin(uTime * 0.14)) * p;
+  return rotY(0.16 * sin(uTime * 0.18)) * rotX(0.08 * sin(uTime * 0.14)) * p;
 }
 
 vec3 shapeAt(int s, float t, float f, float fi, vec3 h) {
-  if (s == 0) return sculptSurface(t * TAU, f * TAU + t * TAU, 1.012);
+  if (s == 0) return shapeLogo(t, fi);
   if (s == 1) return shapeFlow(t, f, h);
   if (s == 2) return shapeLattice(t, f, fi, h);
   if (s == 3) return shapeHorizon(t, f);
@@ -144,9 +129,6 @@ vec3 filamentHash(float fi) {
   return vec3(hash11(fi * 1.31 + 0.17), hash11(fi * 2.17 + 3.1), hash11(fi * 0.73 + 7.7));
 }
 
-float stageWeight(int s, float e) {
-  return (uFrom == s ? 1.0 - e : 0.0) + (uTo == s && uFrom != uTo ? e : 0.0);
-}
 `;
 
 /* -------------------------------------------------------------------------------------------
@@ -187,8 +169,7 @@ void main() {
   dir = length(dir) > 1e-5 ? normalize(dir) : vec2(1.0, 0.0);
   vec2 nrm = vec2(-dir.y, dir.x);
 
-  float solid = stageWeight(0, e);
-  float width = uWidth * mix(1.0, 0.75, solid) + 1.0;
+  float width = uWidth + 1.0;
   cp.xy += nrm * side * width / uResolution * cp.w;
   gl_Position = cp;
 
@@ -206,7 +187,7 @@ void main() {
   float taper = mix(1.0, smoothstep(0.0, 0.07, t) * smoothstep(1.0, 0.93, t), open);
   float fog = smoothstep(15.0, 4.5, -mvP.z);
   float variation = 0.55 + 0.45 * h.z;
-  float alpha = mix(0.3, 0.2, solid);
+  float alpha = 0.3;
 
   vSide = side;
   vColor = vec3(0.74, 0.77, 0.82) * (0.22 + 0.78 * diff) + vec3(1.0) * spec * 1.4;
@@ -256,7 +237,7 @@ void main() {
   float twinkle = 0.65 + 0.35 * sin(uTime * (1.5 + h.y * 2.0) + position.y * 40.0);
 
   gl_PointSize = aSize * uPixelRatio * uSizeScale / max(-mv.z, 0.5);
-  vAlpha = taper * fog * twinkle * uBright * mix(1.0, 0.55, stageWeight(0, e));
+  vAlpha = taper * fog * twinkle * uBright;
   // Cerca de 1 em cada 12 partículas é ciano: o detalhe tecnológico da identidade
   vCyan = step(0.92, fract(position.y * 53.17 + position.x * 0.013));
 }
@@ -276,83 +257,5 @@ void main() {
   vec3 ice = vec3(0.961, 0.969, 0.98);
   vec3 cyan = vec3(0.212, 0.867, 0.91);
   gl_FragColor = vec4(mix(ice, cyan, vCyan), a * mix(1.0, 1.35, vCyan));
-}
-`;
-
-/* -------------------------------------------------------------------------------------------
- * Escultura sólida: a mesma superfície dos filamentos, em grafite cromado iluminado
- * por um estúdio procedural. Ao rolar, ela se dissolve com uma borda luminosa e
- * revela os filamentos que a compunham.
- * ----------------------------------------------------------------------------------------- */
-export const solidVertex = /* glsl */ `
-${common}
-varying vec3 vWorld;
-varying vec3 vNormal;
-varying vec3 vLocal;
-
-void main() {
-  float u = uv.x * TAU;
-  float v = uv.y * TAU;
-  vec3 p = sculptSurface(u, v, 1.0);
-  vec3 pu = sculptSurface(u + 0.01, v, 1.0);
-  vec3 pv = sculptSurface(u, v + 0.01, 1.0);
-  vec3 n = normalize(cross(pu - p, pv - p));
-  vLocal = p;
-  vec4 w = modelMatrix * vec4(p, 1.0);
-  vWorld = w.xyz;
-  vNormal = normalize(mat3(modelMatrix) * n);
-  gl_Position = projectionMatrix * viewMatrix * w;
-}
-`;
-
-export const solidFragment = /* glsl */ `
-uniform float uDissolve;
-uniform float uBright;
-uniform float uTime;
-varying vec3 vWorld;
-varying vec3 vNormal;
-varying vec3 vLocal;
-
-float hash13(vec3 p) {
-  p = fract(p * 0.1031);
-  p += dot(p, p.zyx + 31.32);
-  return fract((p.x + p.y) * p.z);
-}
-
-float noise3(vec3 x) {
-  vec3 i = floor(x);
-  vec3 f = fract(x);
-  f = f * f * (3.0 - 2.0 * f);
-  return mix(
-    mix(mix(hash13(i), hash13(i + vec3(1, 0, 0)), f.x), mix(hash13(i + vec3(0, 1, 0)), hash13(i + vec3(1, 1, 0)), f.x), f.y),
-    mix(mix(hash13(i + vec3(0, 0, 1)), hash13(i + vec3(1, 0, 1)), f.x), mix(hash13(i + vec3(0, 1, 1)), hash13(i + vec3(1, 1, 1)), f.x), f.y),
-    f.z
-  );
-}
-
-void main() {
-  float n = noise3(vLocal * 3.2 + vec3(0.0, uTime * 0.04, 0.0)) * 0.65 + noise3(vLocal * 9.0) * 0.35;
-  if (n < uDissolve) discard;
-  float edge = uDissolve > -0.05 ? 1.0 - smoothstep(0.0, 0.035, n - uDissolve) : 0.0;
-
-  vec3 N = normalize(vNormal);
-  vec3 V = normalize(cameraPosition - vWorld);
-  if (dot(N, V) < 0.0) N = -N;
-  vec3 R = reflect(-V, N);
-
-  float key = smoothstep(0.55, 0.93, dot(R, normalize(vec3(-0.55, 0.65, 0.55))));
-  float fill = smoothstep(0.72, 0.98, dot(R, normalize(vec3(0.85, 0.05, 0.5)))) * 0.45;
-  float top = smoothstep(0.25, 1.0, R.y) * 0.22;
-  float strip = exp(-pow((R.y + 0.05) * 9.0, 2.0)) * 0.32;
-  float env = key * 1.5 + fill + top + strip;
-
-  float fres = pow(1.0 - max(dot(N, V), 0.0), 4.0);
-  float diff = max(dot(N, normalize(vec3(-0.4, 0.8, 0.6))), 0.0);
-  vec3 base = vec3(0.022, 0.024, 0.028) + diff * 0.035;
-  vec3 col = base + vec3(0.88, 0.9, 0.94) * env * mix(0.5, 1.0, fres);
-  col += vec3(0.6, 0.63, 0.68) * fres * 0.18;
-  col += vec3(0.62, 0.93, 0.96) * edge * edge * 0.9;
-
-  gl_FragColor = vec4(col * uBright, 1.0);
 }
 `;

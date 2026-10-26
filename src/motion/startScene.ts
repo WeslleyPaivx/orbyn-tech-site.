@@ -105,9 +105,10 @@ export function startScene(canvas: HTMLCanvasElement, { onReady, onFail }: Start
     );
   }
 
-  // Manifesto: as palavras acendem conforme a leitura avança
+  // Manifesto: as palavras acendem conforme a leitura avança (só em telas maiores:
+  // no celular o texto já aparece inteiro, para a rolagem não precisar repintar o parágrafo)
   const tweens: gsap.core.Tween[] = [];
-  if (!reduced) {
+  if (!reduced && window.matchMedia('(min-width: 768px)').matches) {
     document.querySelectorAll<HTMLElement>('[data-scrub-words]').forEach((block) => {
       const words = block.querySelectorAll<HTMLElement>('[data-word]');
       if (!words.length) return;

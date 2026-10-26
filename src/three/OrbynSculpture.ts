@@ -9,7 +9,6 @@ import {
   Mesh,
   NearestFilter,
   PerspectiveCamera,
-  PlaneGeometry,
   Points,
   RGBAFormat,
   Scene,
@@ -26,8 +25,6 @@ import {
   filamentVertex,
   particleFragment,
   particleVertex,
-  solidFragment,
-  solidVertex,
 } from './shaders';
 
 import type { Quality } from './support';
@@ -38,17 +35,15 @@ type QualitySpec = {
   filaments: number;
   segments: number;
   particles: number;
-  meshU: number;
-  meshV: number;
   dprMax: number;
   antialias: boolean;
 };
 
 export const QUALITY: Record<Quality, QualitySpec> = {
-  high: { filaments: 380, segments: 200, particles: 3000, meshU: 320, meshV: 72, dprMax: 1.75, antialias: true },
-  medium: { filaments: 220, segments: 120, particles: 1400, meshU: 200, meshV: 48, dprMax: 1.5, antialias: true },
+  high: { filaments: 380, segments: 200, particles: 3000, dprMax: 1.75, antialias: true },
+  medium: { filaments: 220, segments: 120, particles: 1400, dprMax: 1.5, antialias: true },
   // Celulares: sem antisserrilhado da GPU (as fitas já suavizam a borda no shader) e menos vértices
-  low: { filaments: 150, segments: 90, particles: 700, meshU: 150, meshV: 36, dprMax: 1.25, antialias: false },
+  low: { filaments: 140, segments: 80, particles: 600, dprMax: 1.25, antialias: false },
 };
 
 /** Enquadramento de cada composição: posição e escala do objeto, câmera e intensidade. */
@@ -61,7 +56,7 @@ type StagePreset = {
 };
 
 const DESKTOP: StagePreset[] = [
-  { pos: [1.95, -0.05, 0], scale: 0.86, cam: [0, 0.1, 7.4], look: [0, 0, 0], bright: 1 },
+  { pos: [2.35, 0, 0], scale: 0.68, cam: [0, 0, 7.4], look: [0, 0, 0], bright: 1 },
   { pos: [0.6, -0.25, 0], scale: 0.92, cam: [0, 0.25, 8.0], look: [0, 0, 0], bright: 0.55 },
   { pos: [2.55, -0.1, 0], scale: 0.86, cam: [0, -0.4, 8.6], look: [0, 0, 0], bright: 0.6 },
   { pos: [0, -0.55, 0], scale: 1, cam: [0, 1.0, 7.6], look: [0, -0.3, 0], bright: 0.5 },
@@ -69,7 +64,7 @@ const DESKTOP: StagePreset[] = [
 ];
 
 const MOBILE: StagePreset[] = [
-  { pos: [0, 1.62, 0], scale: 0.54, cam: [0, 0, 8.4], look: [0, 0, 0], bright: 1 },
+  { pos: [0, 1.45, 0], scale: 0.6, cam: [0, 0, 8.4], look: [0, 0, 0], bright: 1 },
   { pos: [0, 0.2, 0], scale: 0.62, cam: [0, 0.2, 8.6], look: [0, 0, 0], bright: 0.45 },
   { pos: [0, 0.3, 0], scale: 0.72, cam: [0, -0.4, 9.2], look: [0, 0, 0], bright: 0.45 },
   { pos: [0, -0.6, 0], scale: 0.8, cam: [0, 1.0, 7.8], look: [0, -0.3, 0], bright: 0.42 },
@@ -100,7 +95,6 @@ export class OrbynSculpture {
   private scene = new Scene();
   private camera = new PerspectiveCamera(35, 1, 0.1, 60);
   private root = new Group();
-  private solid: Mesh;
   private filaments: Mesh;
   private particles: Points;
   private logoTexture: DataTexture;
@@ -124,12 +118,9 @@ export class OrbynSculpture {
   private elapsed = 0;
   private firstFrameDone = false;
   private perfSamples: number[] = [];
-  private warmupFrames = 30;
+  /** Ignora os primeiros quadros (carregamento da página) antes de medir o desempenho. */
+  private warmupFrames = 90;
   private activeFraction = 1;
-  /** Último recurso em aparelhos lentos: desenha um quadro sim, outro não (30 fps estáveis). */
-  private halfRate = false;
-  private skipNext = false;
-  private pendingDt = 0;
   private disposed = false;
   private camPos = new Vector3();
   private camLook = new Vector3();
@@ -150,7 +141,7 @@ export class OrbynSculpture {
 
     canvas.addEventListener('webglcontextlost', this.onContextLost, false);
 
-    const { filaments, segments, particles, meshU, meshV } = this.spec;
+    const { filaments, segments, particles } = this.spec;
 
     this.logoTexture = buildLogoTexture(filaments);
 
@@ -168,24 +159,9 @@ export class OrbynSculpture {
       uWidth: { value: 1.4 },
       uSegments: { value: segments },
       uBright: { value: 1 },
-      uDissolve: { value: -0.2 },
       uPixelRatio: { value: 1 },
       uSizeScale: { value: 1 },
     };
-
-    // Escultura sólida
-    const solidGeometry = new PlaneGeometry(1, 1, meshU, meshV);
-    this.solid = new Mesh(
-      solidGeometry,
-      new ShaderMaterial({
-        vertexShader: solidVertex,
-        fragmentShader: solidFragment,
-        uniforms: this.uniforms,
-        side: DoubleSide,
-      }),
-    );
-    this.solid.frustumCulled = false;
-    this.solid.renderOrder = 0;
 
     // Filamentos
     this.filaments = new Mesh(
@@ -218,7 +194,7 @@ export class OrbynSculpture {
     this.particles.frustumCulled = false;
     this.particles.renderOrder = 2;
 
-    this.root.add(this.solid, this.filaments, this.particles);
+    this.root.add(this.filaments, this.particles);
     this.scene.add(this.root);
 
     this.resize();
@@ -227,7 +203,7 @@ export class OrbynSculpture {
 
   /* -------------------------------------------------------------- controle externo */
 
-  /** Progresso da rolagem, de 0 (escultura) a 4 (símbolo). */
+  /** Progresso da rolagem, de 0 (símbolo na abertura) a 4 (símbolo no encerramento). */
   setTarget(value: number) {
     this.target = Math.min(Math.max(value, 0), STAGE_COUNT - 1);
   }
@@ -295,8 +271,6 @@ export class OrbynSculpture {
     this.disposed = true;
     this.stop();
     this.canvas.removeEventListener('webglcontextlost', this.onContextLost, false);
-    this.solid.geometry.dispose();
-    (this.solid.material as ShaderMaterial).dispose();
     this.filaments.geometry.dispose();
     (this.filaments.material as ShaderMaterial).dispose();
     this.particles.geometry.dispose();
@@ -314,17 +288,10 @@ export class OrbynSculpture {
     const dt = Math.min((now - this.lastTime) / 1000, 0.1);
     this.lastTime = now;
     this.frameId = requestAnimationFrame(this.tick);
-    if (this.halfRate) {
-      this.pendingDt += dt;
-      this.skipNext = !this.skipNext;
-      if (this.skipNext) return;
-    }
-    const step = this.halfRate ? Math.min(this.pendingDt, 0.1) : dt;
-    this.pendingDt = 0;
-    this.update(step);
+    this.update(dt);
     this.renderer.render(this.scene, this.camera);
     this.notifyFirstFrame();
-    this.monitor(step);
+    this.monitor(dt);
   };
 
   private update(dt: number) {
@@ -332,8 +299,8 @@ export class OrbynSculpture {
     if (this.options.fixedTime !== undefined) this.elapsed = this.options.fixedTime;
     else if (!reduced) this.elapsed += dt;
 
-    // Amortecimento: a forma acompanha a rolagem com inércia, nos dois sentidos
-    const k = reduced ? 1 : 1 - Math.exp(-dt * 3.2);
+    // Amortecimento: a forma acompanha a rolagem com uma inércia curta (sem ficar para trás), nos dois sentidos
+    const k = reduced ? 1 : 1 - Math.exp(-dt * 5.5);
     this.progress += (this.target - this.progress) * (dt === 0 ? 1 : k);
     this.phase += (this.phaseTarget - this.phase) * (dt === 0 ? 1 : 1 - Math.exp(-dt * 2.5));
     this.fade += (this.fadeTarget - this.fade) * (dt === 0 ? 1 : 1 - Math.exp(-dt * 3));
@@ -356,11 +323,6 @@ export class OrbynSculpture {
     u.uLocal.value = local;
     u.uPhase.value = this.phase;
 
-    // Escultura sólida: dissolve no início da primeira transição
-    const dissolve = from === 0 ? smooth(Math.min(local / 0.55, 1)) : 1;
-    u.uDissolve.value = lerp(-0.2, 1.15, dissolve);
-    this.solid.visible = from === 0 && dissolve < 0.999;
-
     // Enquadramento interpolado entre as composições
     const presets = this.mobile ? MOBILE : DESKTOP;
     const a = presets[from];
@@ -375,10 +337,10 @@ export class OrbynSculpture {
       this.pointerSmooth.x * 0.22 + Math.sin(drift * 0.11) * 0.08,
       0,
     );
-    // A escultura gira lentamente sobre si mesma enquanto está inteira
-    if (from === 0) root.rotation.y += Math.sin(drift * 0.16) * 0.35 * (1 - s);
 
     this.camPos.set(lerp(a.cam[0], b.cam[0], s), lerp(a.cam[1], b.cam[1], s), lerp(a.cam[2], b.cam[2], s));
+    // Vira o objeto de frente para a câmera mesmo quando está deslocado para o lado (o símbolo não fica achatado)
+    root.rotation.y += Math.atan2(this.camPos.x - root.position.x, this.camPos.z - root.position.z);
     this.camPos.x += Math.sin(drift * 0.07) * 0.25 + this.pointerSmooth.x * 0.3;
     this.camPos.y += Math.cos(drift * 0.09) * 0.12 + this.pointerSmooth.y * 0.18;
     this.camLook.set(lerp(a.look[0], b.look[0], s), lerp(a.look[1], b.look[1], s), lerp(a.look[2], b.look[2], s));
@@ -390,7 +352,8 @@ export class OrbynSculpture {
 
   /**
    * Qualidade adaptativa. A cada 40 quadros, se o quadro típico passar de 20 ms (abaixo de 50 fps),
-   * reduz um degrau: primeiro a resolução, depois a quantidade de fios e, por fim, a taxa de quadros.
+   * reduz um degrau: primeiro a quantidade de fios e partículas, depois a resolução.
+   * A taxa de quadros nunca é cortada: a cena acompanha a rolagem quadro a quadro.
    */
   private monitor(dt: number) {
     if (dt <= 0) return;
@@ -403,18 +366,18 @@ export class OrbynSculpture {
     const sorted = [...this.perfSamples].sort((x, y) => x - y);
     const median = sorted[Math.floor(sorted.length / 2)];
     this.perfSamples = [];
-    const budget = this.halfRate ? 1 / 26 : 1 / 50;
-    if (median <= budget) return;
-    if (this.dpr > 0.8) {
-      this.dprCap = Math.max(0.75, this.dpr - 0.2);
-      this.resize();
-    } else if (this.activeFraction > 0.5) {
-      this.activeFraction = Math.max(0.4, this.activeFraction - 0.2);
+    if (median <= 1 / 50) return;
+    if (this.activeFraction > 0.6) {
+      this.activeFraction = Math.max(0.55, this.activeFraction - 0.2);
       this.applyFraction();
-    } else if (!this.halfRate) {
-      this.halfRate = true;
+    } else if (this.dpr > 0.85) {
+      this.dprCap = Math.max(0.8, this.dpr - 0.2);
+      this.resize();
+    } else if (this.activeFraction > 0.4) {
+      this.activeFraction = 0.4;
+      this.applyFraction();
     }
-    this.warmupFrames = 10;
+    this.warmupFrames = 15;
   }
 
   private applyFraction() {
