@@ -22,9 +22,9 @@ type Spec = { particles: number; dprMax: number; size: number; maxSize: number; 
  * substituiu — mas continua com teto de tamanho e de opacidade.
  */
 const QUALITY: Record<Quality, Spec> = {
-  high: { particles: 26000, dprMax: 1.75, size: 36, maxSize: 9, peak: 1 },
-  medium: { particles: 13000, dprMax: 1.5, size: 38, maxSize: 10, peak: 0.95 },
-  low: { particles: 6000, dprMax: 1.25, size: 36, maxSize: 10, peak: 0.85 },
+  high: { particles: 26000, dprMax: 1.75, size: 26, maxSize: 6, peak: 1 },
+  medium: { particles: 13000, dprMax: 1.5, size: 28, maxSize: 6.5, peak: 0.95 },
+  low: { particles: 6000, dprMax: 1.25, size: 28, maxSize: 7, peak: 0.85 },
 };
 
 /** Paleta do protótipo aprovado. */
@@ -96,8 +96,8 @@ export class OrbScene {
       uOpacity: { value: 0 },
       uPixelRatio: { value: 1 },
       uBright: { value: 1 },
-      uGrow: { value: 0 },
-      uSwirl: { value: 0 },
+      // ~26°: a nebulosa é vista de viés, como na montagem, e não de frente.
+      uTilt: { value: 0.46 },
       uCursor: { value: new Vector3(0, 0, 999) },
       uRepelRadius: { value: 1.5 },
       uRepelStrength: { value: 0.9 },
@@ -201,43 +201,112 @@ export class OrbScene {
   };
 }
 
+/** Amostra normal (Box-Muller). Dispersão natural, sem bordas duras. */
+function gauss(): number {
+  let u = 0;
+  let v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+const ARMS = 3;
+/** Voltas que cada braço dá. Acima de ~0,8 os braços se cruzam e viram anel. */
+const TURNS = 0.62;
+
 /**
- * Nuvem esférica com viés para a casca. A distribuição de Marsaglia dá pontos
- * uniformes na esfera sem o acúmulo nos polos do sorteio ingênuo de ângulos;
- * o expoente empurra a maioria para fora, deixando o núcleo escuro e a borda
- * acesa — que é o que dá a leitura de orbe em vez de bola sólida.
+ * Geometria da nebulosa — TRÊS POPULAÇÕES, não uma casca uniforme.
+ *
+ * A versão anterior sorteava todos os pontos sobre uma esfera com a mesma
+ * estatística. Sem variação de densidade não existe arco, filamento nem
+ * silhueta: o olho lê confete. Aqui cada partícula pertence a uma das três
+ * populações que compõem a imagem da montagem:
+ *
+ *   NÚCLEO (0) — concentrado e aceso no centro, em ameixa profunda.
+ *   BRAÇO  (1) — espirais logarítmicas que esfiapam para fora. São elas que
+ *                desenham os arcos luminosos.
+ *   HALO   (2) — poucos pontos, grandes e quase apagados, formando a bruma
+ *                que dá atmosfera e profundidade em volta.
+ *
+ * O `aSpin` cai com o raio: matéria perto do centro gira mais rápido, então os
+ * braços se enrolam sozinhos com o tempo em vez de rodarem rígidos.
  */
 function buildOrbGeometry(count: number): BufferGeometry {
-  const radius = 2.5;
   const positions = new Float32Array(count * 3);
   const scales = new Float32Array(count);
   const noises = new Float32Array(count);
   const radialPush = new Float32Array(count);
   const mix = new Float32Array(count);
+  const spin = new Float32Array(count);
+  const kind = new Float32Array(count);
+
+  const coreCount = Math.round(count * 0.24);
+  const haloCount = Math.round(count * 0.18);
 
   for (let i = 0; i < count; i++) {
     const i3 = i * 3;
-    let u = 0;
-    let v = 0;
-    let s = 0;
-    do {
-      u = Math.random() * 2 - 1;
-      v = Math.random() * 2 - 1;
-      s = u * u + v * v;
-    } while (s >= 1 || s === 0);
+    let x = 0;
+    let y = 0;
+    let z = 0;
+    let radius = 0;
 
-    const factor = 2 * Math.sqrt(1 - s);
-    const rN = Math.pow(Math.random(), 0.4);
-    const r = radius * (0.55 + rN * 0.45);
+    if (i < coreCount) {
+      // Núcleo: denso no meio, caindo rápido para fora.
+      const r = Math.pow(Math.random(), 1.9) * 0.95;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      x = r * Math.sin(phi) * Math.cos(theta);
+      y = r * Math.cos(phi) * 0.62;
+      z = r * Math.sin(phi) * Math.sin(theta);
+      radius = r;
 
-    positions[i3] = u * factor * r;
-    positions[i3 + 1] = v * factor * r;
-    positions[i3 + 2] = (1 - 2 * s) * r;
+      kind[i] = 0;
+      mix[i] = 0.04 + Math.random() * 0.3;
+      scales[i] = 0.5 + Math.random() * 0.7;
+    } else if (i < coreCount + haloCount) {
+      // Halo: bruma larga e esparsa em volta de tudo.
+      const r = 1.5 + Math.pow(Math.random(), 0.7) * 1.8;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      x = r * Math.sin(phi) * Math.cos(theta);
+      y = r * Math.cos(phi) * 0.78;
+      z = r * Math.sin(phi) * Math.sin(theta);
+      radius = r;
 
-    mix[i] = rN;
-    scales[i] = 0.45 + Math.random() * 0.8;
+      kind[i] = 2;
+      mix[i] = 0.3 + Math.random() * 0.3;
+      scales[i] = 0.6 + Math.random() * 0.9;
+    } else {
+      // Braço: espiral logarítmica que esfiapa conforme se afasta.
+      const arm = i % ARMS;
+      const t = Math.sqrt(Math.random());
+      const r = 0.5 + t * 2.05;
+
+      // A dispersão cresce com o raio: colado na origem, aberto na ponta.
+      const spread = 0.05 + t * 0.2;
+      const angle = (arm * Math.PI * 2) / ARMS + t * TURNS * Math.PI * 2 + gauss() * spread;
+      const rr = r + gauss() * (0.04 + t * 0.18);
+
+      x = Math.cos(angle) * rr;
+      z = Math.sin(angle) * rr;
+      y = gauss() * (0.07 + t * 0.26);
+      radius = rr;
+
+      kind[i] = 1;
+      // Mais aceso na parte interna do braço; faíscas raras chegam ao rosa claro.
+      const sparkle = Math.random() < 0.07 ? 0.3 : 0;
+      mix[i] = Math.min(1, 0.45 + (1 - t) * 0.35 + Math.random() * 0.15 + sparkle);
+      scales[i] = 0.4 + Math.random() * 0.75;
+    }
+
+    positions[i3] = x;
+    positions[i3 + 1] = y;
+    positions[i3 + 2] = z;
+
     noises[i] = Math.random();
-    radialPush[i] = 0.4 + rN * 1.1;
+    radialPush[i] = 0.35 + Math.random() * 0.9;
+    // Rotação kepleriana aproximada: cai com o raio, nunca divide por zero.
+    spin[i] = 0.5 / (0.75 + radius * 0.85);
   }
 
   const geometry = new BufferGeometry();
@@ -246,5 +315,7 @@ function buildOrbGeometry(count: number): BufferGeometry {
   geometry.setAttribute('aNoise', new BufferAttribute(noises, 1));
   geometry.setAttribute('aRadialPush', new BufferAttribute(radialPush, 1));
   geometry.setAttribute('aMix', new BufferAttribute(mix, 1));
+  geometry.setAttribute('aSpin', new BufferAttribute(spin, 1));
+  geometry.setAttribute('aKind', new BufferAttribute(kind, 1));
   return geometry;
 }

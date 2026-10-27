@@ -15,9 +15,18 @@ export function PresencaGoogle() {
     <section className="section-z surface-dark surface-grid google-z" id="google" aria-labelledby="google-title">
       <div className="container-z google-row">
         <div className="phone-zone">
-          <Reveal className="phone-z">
-            <div className="phone-notch" aria-hidden="true" />
-            <div className="phone-inner" aria-hidden="true">
+          {/*
+            A entrada e a perspectiva vivem em elementos SEPARADOS de propósito.
+            Com as duas no mesmo nó, o `transform: translate3d(...)` do Reveal
+            (especificidade maior) sobrescrevia a perspectiva do celular e ele
+            renderizava reto — era por isso que parecia uma imagem colada no
+            fundo em vez de um objeto no espaço.
+          */}
+          <Reveal className="phone-reveal">
+            <div className="phone-z">
+              <div className="phone-glare" aria-hidden="true" />
+              <div className="phone-notch" aria-hidden="true" />
+              <div className="phone-inner" aria-hidden="true">
               <div className="phone-search">⌕ &nbsp; Sua Empresa</div>
               <div className="phone-cover" />
               <h4>Sua Empresa</h4>
@@ -41,10 +50,11 @@ export function PresencaGoogle() {
                   Salvar
                 </span>
               </div>
-              <div className="phone-line" />
-              <div className="phone-line is-short" />
-              <div className="phone-line" />
-              <div className="phone-line is-short" />
+                <div className="phone-line" />
+                <div className="phone-line is-short" />
+                <div className="phone-line" />
+                <div className="phone-line is-short" />
+              </div>
             </div>
           </Reveal>
 

@@ -1032,19 +1032,70 @@
     filter: blur(95px);
     opacity: 0.24;
   }
+  /* O Reveal cuida só da entrada. Deixar a entrada e a perspectiva no mesmo
+     elemento fazia o translate do Reveal sobrescrever o transform 3D, e o
+     celular renderizava reto. */
+  .phone-reveal {
+    perspective: 850px;
+    perspective-origin: 60% 45%;
+  }
+
   .phone-z {
     position: relative;
-    transform: perspective(850px) rotateY(18deg) rotateX(8deg) rotateZ(-8deg);
+    /* Sem perspective() aqui: ela vem do pai, então TODOS os filhos partilham
+       o mesmo ponto de fuga e o objeto se comporta como um corpo no espaço. */
+    transform: rotateY(18deg) rotateX(8deg) rotateZ(-8deg);
     width: 240px;
     height: 450px;
     border: 9px solid #1b1a29;
     border-radius: 32px;
     background: #eae9ef;
+    /* Três camadas de sombra: contato curto, queda média e projeção longa no
+       sentido da inclinação. Uma sombra só deixa o objeto boiando. */
     box-shadow:
+      6px 8px 16px #0009,
       18px 25px 55px #000c,
-      0 0 0 2px #97729f88;
+      42px 60px 110px #000a,
+      0 0 0 2px #97729f88,
+      inset 0 0 40px #ffffff14;
     overflow: hidden;
     color: #262033;
+    animation: phone-drift 11s ease-in-out infinite;
+  }
+
+  /* Reflexo diagonal na tela: é o que entrega que existe um vidro inclinado
+     recebendo a luz rosa da seção, em vez de um retângulo chapado. */
+  .phone-glare {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: linear-gradient(
+      118deg,
+      rgb(255 255 255 / 0.3) 0%,
+      rgb(255 255 255 / 0.08) 18%,
+      transparent 42%,
+      transparent 72%,
+      rgb(240 150 215 / 0.14) 100%
+    );
+  }
+
+  /* Deriva mínima, de respiração. Amplitude maior começa a brigar com a
+     leitura do conteúdo ao lado. */
+  @keyframes phone-drift {
+    0%,
+    100% {
+      transform: rotateY(18deg) rotateX(8deg) rotateZ(-8deg) translateY(0);
+    }
+    50% {
+      transform: rotateY(15.5deg) rotateX(6.5deg) rotateZ(-7deg) translateY(-10px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .phone-z {
+      animation: none;
+    }
   }
   .phone-notch {
     width: 80px;
@@ -1174,8 +1225,10 @@
     }
   }
   @media (max-width: 430px) {
-    .phone-z {
-      transform: scale(0.88) perspective(850px) rotateY(18deg) rotateX(8deg) rotateZ(-8deg);
+    /* A escala vai no PAI: posta no .phone-z ela entraria em conflito com a
+       animação de deriva, que também escreve transform. */
+    .phone-reveal {
+      scale: 0.88;
     }
     .floating-pill {
       font-size: 10px;
