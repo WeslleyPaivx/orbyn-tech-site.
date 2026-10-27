@@ -25,7 +25,11 @@ export const site = {
     display: '+55 11 94810-8450',
   },
   instagram: {
-    /** TODO: substituir pelo perfil da Zaniva quando existir. */
+    /**
+     * Mantido de propósito: o perfil será renomeado no próprio Instagram, que
+     * redireciona o endereço antigo. Quando isso acontecer, troque os dois
+     * campos aqui e o site inteiro acompanha.
+     */
     handle: '@orbyn.tech',
     url: 'https://www.instagram.com/orbyn.tech/',
   },

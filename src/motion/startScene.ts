@@ -8,7 +8,7 @@
  */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { OrbynSculpture } from '../three/OrbynSculpture';
+import { ZanivaField } from '../three/ZanivaField';
 import { detectQuality } from '../three/support';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -23,9 +23,9 @@ type StartOptions = {
 export function startScene(canvas: HTMLCanvasElement, { onReady, onFail }: StartOptions): () => void {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  let sculpture: OrbynSculpture;
+  let sculpture: ZanivaField;
   try {
-    sculpture = new OrbynSculpture(canvas, {
+    sculpture = new ZanivaField(canvas, {
       quality: detectQuality(),
       reducedMotion: reduced,
       onFirstFrame: onReady,
@@ -44,8 +44,10 @@ export function startScene(canvas: HTMLCanvasElement, { onReady, onFail }: Start
 
   // Com movimento reduzido a escultura continua acompanhando a rolagem (movimento iniciado pela
   // própria pessoa); só os movimentos automáticos (deriva, partículas correndo, ponteiro) ficam parados.
+  // As marcas somam de 0 até a quantidade de seções; a cena trabalha em 0..1.
+  const stages = Math.max(markers.length, 1);
   const apply = () => {
-    sculpture.setTarget(parts.reduce((sum, value) => sum + value, 0));
+    sculpture.setTarget(parts.reduce((sum, value) => sum + value, 0) / stages);
   };
 
   markers.forEach((marker, index) => {
@@ -66,8 +68,8 @@ export function startScene(canvas: HTMLCanvasElement, { onReady, onFail }: Start
     );
   });
 
-  // Dentro de "Serviços", os fios giram conforme cada serviço entra na tela
-  const services = document.getElementById('servicos');
+  // Dentro de "Soluções", a nuvem intensifica conforme cada serviço entra na tela
+  const services = document.getElementById('solucoes') ?? document.getElementById('servicos');
   if (services && !reduced) {
     triggers.push(
       ScrollTrigger.create({
@@ -118,7 +120,7 @@ export function startScene(canvas: HTMLCanvasElement, { onReady, onFail }: Start
 
   ScrollTrigger.refresh();
   // Ao abrir a página no meio (link com #secao ou recarregamento), já começa na composição certa
-  const initial = parts.reduce((sum, value) => sum + value, 0);
+  const initial = parts.reduce((sum, value) => sum + value, 0) / stages;
   sculpture.jumpTo(initial);
 
   sculpture.start();
