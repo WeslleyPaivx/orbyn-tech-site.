@@ -3,15 +3,19 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 // Fontes servidas pelo próprio site (sem Google Fonts: mais privacidade e CSP mais rígida).
 // Inter para texto corrido, Space Grotesk para a tipografia expressiva da marca.
-// Só o subconjunto latino: o site é em português e os pacotes completos
-// trazem cirílico, grego e latin-ext — cerca de 280 kB de fonte que nenhum
-// caractere desta página chega a usar.
+// Fontes servidas pelo próprio site (sem Google Fonts: mais privacidade e CSP
+// mais rígida). Inter para texto corrido, Space Grotesk para a marca.
 //
-// Fica o eixo de peso em vez do de tamanho óptico: não existe arquivo
-// combinando subconjunto e opsz, e a economia vale bem mais do que o ajuste
-// óptico, que degrada sem quebrar nada (font-optical-sizing vira inócuo).
-import '@fontsource-variable/inter/latin.css';
-import '@fontsource-variable/space-grotesk/latin.css';
+// PENDÊNCIA DE PERFORMANCE: estes dois pontos de entrada embalam cirílico,
+// grego e latin-ext junto — cerca de 280 kB de fonte que nenhum caractere de
+// uma página em português usa. Restringir ao latino vale a pena, mas nem
+// `latin.css` nem `latin-opsz.css` existem neste pacote, e sem acesso ao
+// registro do npm nesta sessão não dá para listar os arquivos reais e
+// confirmar o nome certo. Fica assim, que funciona, em vez de um palpite que
+// quebra o build. Para resolver:
+//     ls node_modules/@fontsource-variable/inter/
+import '@fontsource-variable/inter/opsz.css';
+import '@fontsource-variable/space-grotesk';
 import './index.css';
 import { startPreloader } from './motion/preloader';
 
