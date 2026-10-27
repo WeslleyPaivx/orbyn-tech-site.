@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { FloatingButtons } from './components/layout/FloatingButtons';
 import { Footer } from './components/layout/Footer';
 import { Header } from './components/layout/Header';
-import { SceneLayer, type SceneMode } from './components/scene/SceneLayer';
+import { SceneLayer } from './components/scene/SceneLayer';
 import { About } from './components/sections/About';
 import { Contact } from './components/sections/Contact';
 import { Faq } from './components/sections/Faq';
@@ -14,9 +14,12 @@ import { Services } from './components/sections/Services';
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [sceneMode, setSceneMode] = useState<SceneMode>('loading');
   const onMenuChange = useCallback((open: boolean) => setMenuOpen(open), []);
-  const onSceneMode = useCallback((mode: SceneMode) => setSceneMode(mode), []);
+
+  // A escultura herdada da Orbyn segue no ar só para o site não ficar sem
+  // fundo entre uma etapa e outra; ela sai quando a cena de partículas da
+  // Zaniva entrar no lugar (etapa 5).
+  const onSceneMode = useCallback(() => {}, []);
 
   return (
     <>
