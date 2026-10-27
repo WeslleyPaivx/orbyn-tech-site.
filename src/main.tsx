@@ -5,8 +5,12 @@ import App from './App';
 // Inter para texto corrido, Space Grotesk para a tipografia expressiva da marca.
 // Só o subconjunto latino: o site é em português e os pacotes completos
 // trazem cirílico, grego e latin-ext — cerca de 280 kB de fonte que nenhum
-// caractere desta página usa.
-import '@fontsource-variable/inter/latin-opsz.css';
+// caractere desta página chega a usar.
+//
+// Fica o eixo de peso em vez do de tamanho óptico: não existe arquivo
+// combinando subconjunto e opsz, e a economia vale bem mais do que o ajuste
+// óptico, que degrada sem quebrar nada (font-optical-sizing vira inócuo).
+import '@fontsource-variable/inter/latin.css';
 import '@fontsource-variable/space-grotesk/latin.css';
 import './index.css';
 import { startPreloader } from './motion/preloader';
