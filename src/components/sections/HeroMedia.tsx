@@ -15,6 +15,7 @@ export function HeroMedia() {
   const reducedMotion = usePrefersReducedMotion();
   const isSmall = useMediaQuery('(max-width: 767px)');
   const videoRef = useRef<HTMLVideoElement>(null);
+  const hostRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
 
   // O vídeo só é montado depois da primeira pintura: o poster leva o LCP,
@@ -37,8 +38,47 @@ export function HeroMedia() {
     }
   }, [mountVideo]);
 
+  // A paisagem recua ao rolar: escurece e afunda um pouco, abrindo espaço para
+  // a nuvem de partículas atrás. Fica fora do WebGL de propósito, para que a
+  // transição aconteça igual em aparelho sem placa de vídeo.
+  //
+  // Também pausa o vídeo quando ele sai de vista — decodificar quadros que
+  // ninguém vê é gasto puro de bateria.
+  useEffect(() => {
+    const host = hostRef.current;
+    if (!host || reducedMotion) return;
+
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const height = window.innerHeight || 1;
+      const p = Math.min(1, Math.max(0, window.scrollY / height));
+      host.style.setProperty('--hero-exit', p.toFixed(4));
+
+      const video = videoRef.current;
+      if (video) {
+        if (p >= 1 && !video.paused) video.pause();
+        else if (p < 1 && video.paused) void video.play().catch(() => {});
+      }
+    };
+
+    const onScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [reducedMotion]);
+
   return (
-    <div className="absolute inset-0 -z-20 overflow-hidden bg-sky" aria-hidden="true">
+    <div ref={hostRef} className="hero-stage absolute inset-0 -z-20 overflow-hidden bg-sky" aria-hidden="true">
       <img
         src={heroMedia.poster}
         alt=""
