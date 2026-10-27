@@ -869,10 +869,13 @@
        A transição é curta de propósito. Em 0,45s, com valor contínuo chegando
        a cada quadro, o cartão ficava perseguindo a rolagem com atraso visível;
        aqui ela só suaviza o degrau entre quadros. */
-    --card-focus: 0;
-    transform: perspective(650px) rotateY(calc(-12deg + var(--card-focus) * 9deg))
-      rotateX(calc(5deg - var(--card-focus) * 5deg)) rotateZ(calc(-4deg + var(--card-focus) * 4deg))
-      translateZ(calc(var(--card-focus) * 16px)) scale(calc(1 + var(--card-focus) * 0.025));
+    /* O valor é escrito pela rolagem no CARTÃO (.project-z) e herdado aqui.
+       Declarar `--card-focus: 0` nesta regra seria uma declaração local, que
+       vence a herdada: o transform ficaria preso no repouso para sempre. O
+       padrão vai no próprio var(). */
+    transform: perspective(650px) rotateY(calc(-12deg + var(--card-focus, 0) * 9deg))
+      rotateX(calc(5deg - var(--card-focus, 0) * 5deg)) rotateZ(calc(-4deg + var(--card-focus, 0) * 4deg))
+      translateZ(calc(var(--card-focus, 0) * 16px)) scale(calc(1 + var(--card-focus, 0) * 0.025));
     transition: transform 0.12s linear;
   }
 
