@@ -152,7 +152,7 @@ export function Contact() {
             label="Contato"
             size="md"
             title="Vamos transformar sua ideia em realidade?"
-            subtitle="Conte sobre seu projeto e descubra como a ORBYN TECH pode ajudar."
+            subtitle="Conte o que seu negócio precisa. Respondemos com os próximos passos, sem compromisso."
           />
 
           <Reveal delay={120} className="mt-10 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">

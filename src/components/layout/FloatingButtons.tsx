@@ -55,7 +55,7 @@ export function FloatingButtons({ hidden = false }: FloatingButtonsProps) {
         target="_blank"
         rel="noopener noreferrer"
         tabIndex={hide ? -1 : 0}
-        aria-label={`Instagram da ORBYN TECH (${site.instagram.handle})`}
+        aria-label={`Instagram da Zaniva (${site.instagram.handle})`}
         title={`Instagram ${site.instagram.handle}`}
         className="max-sm:hidden flex h-11 w-11 items-center justify-center rounded-full border border-line bg-ink-2 text-white shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-[border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-white/50"
       >
@@ -66,7 +66,7 @@ export function FloatingButtons({ hidden = false }: FloatingButtonsProps) {
         target="_blank"
         rel="noopener noreferrer"
         tabIndex={hide ? -1 : 0}
-        aria-label="Conversar com a ORBYN TECH pelo WhatsApp"
+        aria-label="Conversar com a Zaniva pelo WhatsApp"
         title="Conversar pelo WhatsApp"
         className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-white text-ink shadow-[0_10px_40px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.1)] transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.03]"
       >

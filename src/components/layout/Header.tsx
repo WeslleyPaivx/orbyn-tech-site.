@@ -76,9 +76,9 @@ export function Header({ onMenuChange }: HeaderProps) {
           href="#inicio"
           onClick={handleAnchorClick('inicio', close)}
           className="rounded-md"
-          aria-label="ORBYN TECH — voltar ao início"
+          aria-label="ZANIVA DIGITAL — voltar ao início"
         >
-          <Logo priority className="h-8 sm:h-9 lg:h-10" />
+          <Logo full className="h-7 sm:h-8 lg:h-9" />
         </a>
 
         <nav aria-label="Navegação principal" className="hidden lg:block">

@@ -3,7 +3,7 @@ import { whatsappMessages } from '../../config/site';
 import { displayDomain, getPublishedProjects, type Project } from '../../data/projects';
 import { usePrefersReducedMotion } from '../../hooks/useMediaQuery';
 import { whatsappUrl } from '../../lib/whatsapp';
-import { OrbynSymbol } from '../brand/Logo';
+import { ZanivaSymbol } from '../brand/Logo';
 import { ButtonLink } from '../ui/Button';
 import { ArrowUpRight, Lock } from '../ui/Icons';
 import { Container } from '../ui/Container';
@@ -188,7 +188,7 @@ function ProjectRow({ project, index, total }: { project: Project; index: number
 function EmptyState() {
   return (
     <div className="rounded-2xl border border-line bg-ink-2 px-6 py-16 text-center sm:px-10 sm:py-20">
-      <OrbynSymbol className="mx-auto h-12 w-12" />
+      <ZanivaSymbol className="mx-auto h-12 w-12 text-violet" />
       <p className="mt-8 text-2xl font-semibold tracking-[-0.02em] text-white sm:text-3xl">Novos projetos em breve.</p>
       <p className="mx-auto mt-4 max-w-md leading-relaxed text-mute">
         Estamos preparando esta galeria. Enquanto isso, conte sobre a sua ideia e veja como podemos ajudar.
@@ -215,10 +215,10 @@ export function Portfolio() {
       <Container>
         <SectionHeading
           id="portfolio-title"
-          index="03"
+          index="04"
           label="Portfólio"
           title="Projetos desenvolvidos."
-          subtitle="Sites criados pela ORBYN TECH em diferentes segmentos. Abra cada projeto para navegar pela versão publicada."
+          subtitle="Projetos entregues em diferentes segmentos. Abra cada um para navegar pela versão publicada."
         />
 
         <div className="mt-16 sm:mt-24">

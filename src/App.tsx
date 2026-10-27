@@ -8,17 +8,15 @@ import { Contact } from './components/sections/Contact';
 import { Faq } from './components/sections/Faq';
 import { FinalCta } from './components/sections/FinalCta';
 import { Hero } from './components/sections/Hero';
+import { Manifesto } from './components/sections/Manifesto';
 import { Portfolio } from './components/sections/Portfolio';
+import { PresencaGoogle } from './components/sections/PresencaGoogle';
 import { Process } from './components/sections/Process';
-import { Services } from './components/sections/Services';
+import { Solucoes } from './components/sections/Solucoes';
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const onMenuChange = useCallback((open: boolean) => setMenuOpen(open), []);
-
-  // A escultura herdada da Orbyn segue no ar só para o site não ficar sem
-  // fundo entre uma etapa e outra; ela sai quando a cena de partículas da
-  // Zaniva entrar no lugar (etapa 5).
   const onSceneMode = useCallback(() => {}, []);
 
   return (
@@ -26,11 +24,14 @@ export default function App() {
       <SceneLayer onModeChange={onSceneMode} />
       <Header onMenuChange={onMenuChange} />
       <main id="conteudo" className="relative z-[1]">
+        {/* A ordem segue as seções 01 a 08 do briefing. */}
         <Hero />
-        <Services />
+        <Manifesto />
+        <Solucoes />
         <Portfolio />
-        <About />
+        <PresencaGoogle />
         <Process />
+        <About />
         <Faq />
         <FinalCta />
         <Contact />

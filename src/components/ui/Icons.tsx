@@ -113,3 +113,29 @@ export const SaasIcon = (p: IconProps) => (
     <path d="M12 15.5v-5M9.75 12.5 12 10.25l2.25 2.25" />
   </Svg>
 );
+
+/* --- Ícones das soluções da Zaniva ---------------------------------------- */
+
+/** Presença local: alfinete de mapa sobre um traço de rua. */
+export const LocalIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 21s-6-5.3-6-10a6 6 0 1 1 12 0c0 4.7-6 10-6 10Z" />
+    <circle cx="12" cy="11" r="2.2" />
+  </Svg>
+);
+
+/** Inteligência artificial e automações: núcleo com nós ligados. */
+export const AiIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="3" />
+    <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" />
+  </Svg>
+);
+
+/** Suporte e evolução: escudo com seta de continuidade. */
+export const SupportIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 3 5 6v5.5c0 4 2.9 7.6 7 9.5 4.1-1.9 7-5.5 7-9.5V6l-7-3Z" />
+    <path d="M9.5 12.2l1.9 1.9 3.3-3.6" />
+  </Svg>
+);

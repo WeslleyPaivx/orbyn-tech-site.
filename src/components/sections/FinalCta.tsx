@@ -27,20 +27,20 @@ export function FinalCta() {
       <Container className="legible relative text-center">
         <Reveal>
           <p className="eyebrow justify-center">
-            <span className="text-white/85">07</span>
-            <span className="h-px w-6 bg-white/20" aria-hidden="true" />
+            <span className="text-sky/85">08</span>
+            <span className="h-px w-6 bg-sky/20" aria-hidden="true" />
             Próximo passo
           </p>
         </Reveal>
         <SplitWords
           id="futuro-title"
-          lines={['Seu futuro digital', 'começa aqui.']}
+          lines={['Sua próxima evolução', 'começa aqui.']}
           accentPeriod
-          className="mx-auto mt-7 max-w-[16ch] text-[clamp(2.6rem,8.4vw,7rem)] leading-[0.98] font-medium tracking-[-0.05em] text-white"
+          className="mx-auto mt-7 max-w-[17ch] font-display text-[clamp(2.4rem,8vw,6.4rem)] leading-[0.98] font-bold tracking-[-0.03em] text-sky"
         />
         <Reveal delay={150}>
-          <p className="mx-auto mt-8 max-w-md text-lg leading-relaxed text-mute">
-            Conte o que você precisa e receba um orçamento sem compromisso, direto no WhatsApp.
+          <p className="mx-auto mt-8 max-w-lg text-lg leading-relaxed text-mute">
+            Conte o que seu negócio precisa. Nós transformamos ideias em soluções digitais.
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Magnetic>
@@ -50,7 +50,7 @@ export function FinalCta() {
               </ButtonLink>
             </Magnetic>
             <Magnetic>
-              <ButtonLink href="#contato" onClick={handleAnchorClick('contato')} variant="outline" size="lg">
+              <ButtonLink href="#contato" onClick={handleAnchorClick('contato')} variant="onDark" size="lg">
                 Preencher formulário
               </ButtonLink>
             </Magnetic>
