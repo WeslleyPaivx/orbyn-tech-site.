@@ -27,7 +27,7 @@ export function cleanField(value: string, max: number, multiline = false): strin
 /** Mensagem organizada enviada pelo formulário de contato. */
 export function buildQuoteMessage(data: QuoteRequest): string {
   return [
-    'Olá, ORBYN TECH! Gostaria de solicitar um orçamento.',
+    'Olá, Zaniva! Gostaria de solicitar um orçamento.',
     '',
     `*Nome:* ${cleanField(data.name, 80)}`,
     `*WhatsApp:* ${cleanField(data.whatsapp, 20)}`,

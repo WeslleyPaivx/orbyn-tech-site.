@@ -1,9 +1,9 @@
 {
-  "name": "orbyn-tech-site",
+  "name": "zaniva-digital-site",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
-  "description": "Site institucional da ORBYN TECH — sites, chatbots inteligentes, automação com IA e sistemas personalizados, com escultura 3D em WebGL.",
+  "description": "Site da ZANIVA DIGITAL — sites e landing pages, sistemas, automações com IA, chatbots e presença no Google, com paisagem Pink Grass e cena WebGL.",
   "scripts": {
     "dev": "vite",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json",
@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.0",
+    "@fontsource-variable/space-grotesk": "^5.2.0",
     "gsap": "^3.13.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

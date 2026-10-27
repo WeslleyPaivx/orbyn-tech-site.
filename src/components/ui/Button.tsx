@@ -1,6 +1,13 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 
-type Variant = 'primary' | 'outline' | 'ghost';
+/**
+ * O site alterna entre fundo claro (hero, sobre a paisagem) e fundo escuro
+ * (demais seções), então cada variante declara em qual fundo ela vive:
+ *   - `primary`   violeta sólido, legível nos dois fundos
+ *   - `outline`   contorno ameixa, para usar SOBRE FUNDO CLARO
+ *   - `onDark`    contorno claro, para usar SOBRE FUNDO ESCURO
+ */
+type Variant = 'primary' | 'outline' | 'onDark' | 'ghost';
 type Size = 'md' | 'lg';
 
 const base =
@@ -9,9 +16,13 @@ const base =
   'active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 select-none [text-shadow:none]';
 
 const variants: Record<Variant, string> = {
-  primary: 'btn-shine bg-white text-ink hover:bg-[#ffffff] hover:shadow-[0_0_0_4px_rgb(54_221_232/0.12)]',
-  outline: 'border border-white/15 text-white hover:border-accent/50 hover:bg-accent/[0.06]',
-  ghost: 'text-white hover:text-mute',
+  primary:
+    'btn-shine bg-violet text-sky hover:bg-plum hover:shadow-[0_0_0_4px_rgb(121_56_116/0.18)]',
+  outline:
+    'border border-plum/25 text-plum hover:border-violet hover:bg-violet/[0.07]',
+  onDark:
+    'border border-sky/20 text-sky hover:border-orchid/60 hover:bg-orchid/[0.08]',
+  ghost: 'text-sky hover:text-orchid',
 };
 
 const sizes: Record<Size, string> = {

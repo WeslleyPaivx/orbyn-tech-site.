@@ -1,21 +1,64 @@
 @import 'tailwindcss';
 
 /* ---------------------------------------------------------------------------
- * Identidade ORBYN TECH 2.0 — tokens
- * Preto e branco dominam; o ciano aparece só como detalhe tecnológico.
+ * Identidade ZANIVA — tokens
+ * ---------------------------------------------------------------------------
+ * A paleta nasce da paisagem Pink Grass. Os valores abaixo foram amostrados
+ * dos pixels reais de pink-grass.jpg, não escolhidos à mão:
+ *
+ *   céu (topo)      #F0EFFD    campo claro   #DCCAE2
+ *   campo médio     #78487B    campo escuro  #2A1D3F
+ *   rocha           #574B64    magenta vivo  #D06AB7
+ *
+ * Regra de contraste que governa o site:
+ *   - Sobre fundo claro, texto em --color-plum ou --color-ink.
+ *   - --color-orchid e --color-bloom NÃO passam em contraste como texto sobre
+ *     fundo claro; ali servem só como elemento gráfico.
+ *   - Sobre fundo escuro, ambos passam com folga (5,7:1 e 6,4:1).
  * ------------------------------------------------------------------------- */
 @theme {
-  --color-ink: #080b10; /* preto profundo */
-  --color-ink-2: #121820; /* grafite */
-  --color-ink-3: #19212b;
-  --color-line: #222b37;
-  --color-mute: #9ca6b5; /* cinza sofisticado */
-  --color-white: #f5f7fa; /* branco gelo (substitui o branco puro em todo o site) */
-  --color-accent: #36dde8; /* ciano sutil */
+  /* Escuros — superfícies e texto sobre claro */
+  --color-ink: #120f25; /* preto profundo, fundo principal */
+  --color-ink-2: #1b1733; /* elevação 1 */
+  --color-ink-3: #241d3f; /* elevação 2 */
+  --color-plum: #371f47; /* ameixa, superfícies e texto sobre o céu */
+  --color-line: #342a4e; /* traços e bordas no escuro */
+  --color-stone: #574b64; /* rocha, bordas discretas */
+
+  /* Claros */
+  --color-sky: #f0effd; /* céu do Pink Grass — fundo claro e texto no escuro */
+  --color-mist: #dccae2; /* campo claro, texto secundário no escuro */
+  --color-white: #ffffff;
+
+  /* Acentos */
+  --color-violet: #793874; /* primária: botões e links no claro */
+  --color-orchid: #bf84b9; /* rosa suave: texto no escuro, grafismo no claro */
+  --color-bloom: #d06ab7; /* magenta vivo do campo: realce e partículas */
+
+  /* Compatibilidade com componentes legados */
+  --color-mute: #a99bc0;
+  --color-accent: #bf84b9;
 
   --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Space Grotesk Variable', 'Space Grotesk', var(--font-sans);
 
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-cine: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ---------------------------------------------------------------------
+   * Arte dirigida do hero. O material é 1,34:1 e nenhuma tela tem essa
+   * proporção, então o ponto de foco muda por formato:
+   *
+   * Desktop (~16:9, mais largo que o material): o `cover` escala pela
+   * largura e sobra 33% de altura. Em 32% o horizonte cai a ~56% da caixa —
+   * céu suficiente para a tipografia, campo com presença.
+   *
+   * Celular (~0,46:1, muito mais alto): o `cover` escala pela altura e
+   * sobra 190% de largura; a altura inteira aparece, com o horizonte no meio.
+   * O recorte horizontal em 62% enquadra a pedra grande e as hastes floridas.
+   * ------------------------------------------------------------------- */
+  --hero-focus-desktop: 50% 32%;
+  --hero-focus-mobile: 62% 50%;
 }
 
 /* ---------------------------------------------------------------------------
@@ -404,5 +447,53 @@
 @keyframes fade-in {
   from {
     opacity: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * HERO — paisagem Pink Grass
+ * ---------------------------------------------------------------------------
+ * O enquadramento muda por formato. Ver a nota nos tokens --hero-focus-*:
+ * o material é 1,34:1 e nenhuma tela tem essa proporção, então o recorte é
+ * dirigido em vez de deixado por conta do navegador.
+ * ------------------------------------------------------------------------- */
+@layer components {
+  .hero-media {
+    object-position: var(--hero-focus-mobile);
+  }
+
+  @media (min-width: 768px) {
+    .hero-media {
+      object-position: var(--hero-focus-desktop);
+    }
+  }
+
+  /* Véu mínimo: assegura o contraste do texto escuro sobre o céu sem
+     achatar a cor da paisagem. O campo embaixo fica intocado. */
+  .hero-scrim {
+    background:
+      linear-gradient(to bottom, rgb(240 239 253 / 0.78) 0%, rgb(240 239 253 / 0.28) 38%, transparent 62%);
+  }
+
+  @media (min-width: 768px) {
+    .hero-scrim {
+      background:
+        linear-gradient(to bottom, rgb(240 239 253 / 0.62) 0%, rgb(240 239 253 / 0.12) 46%, transparent 68%),
+        linear-gradient(to right, rgb(240 239 253 / 0.46) 0%, transparent 56%);
+    }
+  }
+
+  /* Marcações técnicas discretas do hero */
+  .hero-tick {
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    color: var(--color-violet);
+  }
+
+  .hero-rule {
+    height: 1px;
+    background: linear-gradient(to right, var(--color-violet), transparent);
   }
 }

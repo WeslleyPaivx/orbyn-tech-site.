@@ -23,7 +23,7 @@ export default function App() {
       <SceneLayer onModeChange={onSceneMode} />
       <Header onMenuChange={onMenuChange} />
       <main id="conteudo" className="relative z-[1]">
-        <Hero fallback={sceneMode === 'fallback'} />
+        <Hero />
         <Services />
         <Portfolio />
         <About />
