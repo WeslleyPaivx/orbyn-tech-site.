@@ -71,7 +71,41 @@
         Ative o JavaScript para navegar pelo site da ZANIVA DIGITAL. Fale conosco pelo WhatsApp:
         <a href="https://wa.me/5511948108450" rel="noopener noreferrer">+55 11 94810-8450</a>.
       </p>
+      <!-- Onde o script nunca roda, a cortina nunca poderia subir. -->
+      <style>
+        [data-preloader] {
+          display: none !important;
+        }
+      </style>
     </noscript>
+
+    <!--
+      Cortina de carregamento. Fica no HTML inicial de propósito: montada pelo
+      React, haveria um piscar da página antes dela. Os estilos são inline pelo
+      mesmo motivo — a folha de estilo ainda não chegou.
+    -->
+    <div data-preloader class="preloader" role="status" aria-live="polite">
+      <span class="preloader-bracket" data-corner="tl" aria-hidden="true"></span>
+      <span class="preloader-bracket" data-corner="tr" aria-hidden="true"></span>
+      <span class="preloader-bracket" data-corner="bl" aria-hidden="true"></span>
+      <span class="preloader-bracket" data-corner="br" aria-hidden="true"></span>
+
+      <div class="preloader-column">
+        <svg class="preloader-mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+          <path d="M24,26 H76 V37 H24 Z" fill="#F0EFFD" />
+          <path d="M58,37 H76 L42,63 H24 Z" fill="#BF84B9" />
+          <path d="M24,63 H76 V74 H24 Z" fill="#F0EFFD" />
+        </svg>
+        <div class="preloader-rule" aria-hidden="true">
+          <span class="preloader-fill" data-preloader-fill></span>
+        </div>
+        <p class="preloader-readout">
+          <span aria-hidden="true">CARREGANDO <span data-preloader-count>000</span></span>
+          <span class="sr-only">Carregando o site da Zaniva Digital</span>
+        </p>
+      </div>
+    </div>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

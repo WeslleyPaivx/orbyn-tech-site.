@@ -17,6 +17,7 @@ export function SceneLayer({ onModeChange }: SceneLayerProps) {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+
     if (!canvas || !supportsWebGL2()) {
       setFailed(true);
       onModeChange?.('fallback');
@@ -38,7 +39,7 @@ export function SceneLayer({ onModeChange }: SceneLayerProps) {
           if (cancelled) return;
           cleanup = startScene(canvas, {
             onReady: () => {
-              if (cancelled) return;
+                      if (cancelled) return;
               setReady(true);
               onModeChange?.('webgl');
             },

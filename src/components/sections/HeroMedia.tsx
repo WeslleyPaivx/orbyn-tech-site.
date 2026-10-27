@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { heroMedia } from '../../config/site';
 import { useMediaQuery, usePrefersReducedMotion } from '../../hooks/useMediaQuery';
+import { HERO_READY_EVENT } from '../../motion/preloader';
 
 /**
  * A paisagem Pink Grass como cenário do hero.
@@ -77,6 +78,11 @@ export function HeroMedia() {
     };
   }, [reducedMotion]);
 
+  // O poster é o LCP e o terceiro portão da cortina de carregamento. Dispara
+  // também em caso de erro: se a imagem falhar, a cortina não pode ficar presa
+  // esperando um evento que nunca vem.
+  const announceHero = () => window.dispatchEvent(new Event(HERO_READY_EVENT));
+
   return (
     <div ref={hostRef} className="hero-stage absolute inset-0 -z-20 overflow-hidden bg-sky" aria-hidden="true">
       <img
@@ -85,6 +91,8 @@ export function HeroMedia() {
         decoding="async"
         fetchPriority="high"
         className="hero-media absolute inset-0 h-full w-full object-cover"
+        onLoad={announceHero}
+        onError={announceHero}
       />
 
       {mountVideo && (

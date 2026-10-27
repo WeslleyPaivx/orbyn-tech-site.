@@ -6,6 +6,11 @@ import App from './App';
 import '@fontsource-variable/inter/opsz.css';
 import '@fontsource-variable/space-grotesk';
 import './index.css';
+import { startPreloader } from './motion/preloader';
+
+// Antes de montar o React: a cortina já está no HTML e precisa começar a
+// contar desde o primeiro quadro.
+startPreloader();
 
 const root = document.getElementById('root');
 if (!root) throw new Error('Elemento #root não encontrado em index.html');

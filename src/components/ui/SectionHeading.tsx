@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Decoded } from './Decoded';
 import { Reveal } from './Reveal';
 import { SplitWords } from './SplitWords';
 
@@ -22,9 +23,9 @@ export function SectionHeading({ id, index, label, title, subtitle, className = 
       {label && (
         <Reveal>
           <p className="eyebrow">
-            {index && <span className="text-white/85">{index}</span>}
-            {index && <span className="h-px w-6 bg-white/20" aria-hidden="true" />}
-            {label}
+            {index && <span className="text-sky/85">{index}</span>}
+            {index && <span className="h-px w-6 bg-sky/20" aria-hidden="true" />}
+            <Decoded text={label} />
           </p>
         </Reveal>
       )}
@@ -32,7 +33,7 @@ export function SectionHeading({ id, index, label, title, subtitle, className = 
         id={id}
         lines={title}
         accentPeriod
-        className={`mt-6 ${titleSize} leading-[1.02] font-medium tracking-[-0.04em] text-white`}
+        className={`mt-6 font-display ${titleSize} leading-[1.02] font-bold tracking-[-0.025em] text-sky`}
       />
       {subtitle && (
         <Reveal delay={120}>

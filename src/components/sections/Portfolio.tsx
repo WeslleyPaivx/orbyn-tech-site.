@@ -4,6 +4,7 @@ import { displayDomain, getPublishedProjects, type Project } from '../../data/pr
 import { usePrefersReducedMotion } from '../../hooks/useMediaQuery';
 import { whatsappUrl } from '../../lib/whatsapp';
 import { ZanivaSymbol } from '../brand/Logo';
+import { tilt, untilt } from '../../hooks/useTilt';
 import { ButtonLink } from '../ui/Button';
 import { ArrowUpRight, Lock } from '../ui/Icons';
 import { Container } from '../ui/Container';
@@ -90,7 +91,11 @@ function Screen({ project }: { project: Project }) {
 
 function BrowserMockup({ project }: { project: Project }) {
   return (
-    <div className="relative overflow-hidden rounded-xl border border-white/[0.12] bg-ink shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)] transition-[border-color,box-shadow] duration-700 group-hover:border-accent/30 group-hover:shadow-[0_40px_90px_-30px_rgba(0,0,0,0.95),0_0_0_1px_rgb(54_221_232/0.08)]">
+    <div
+      onPointerMove={tilt}
+      onPointerLeave={untilt}
+      className="tilt-card relative overflow-hidden rounded-xl border border-line bg-ink shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)] transition-[border-color,box-shadow] duration-700 group-hover:border-orchid/35 group-hover:shadow-[0_40px_90px_-30px_rgba(0,0,0,0.95),0_0_0_1px_rgb(191_132_185/0.12)]"
+    >
       <div className="flex h-9 items-center gap-3 border-b border-line bg-ink-2 px-3.5" aria-hidden="true">
         <span className="flex shrink-0 gap-1.5">
           <span className="h-2.5 w-2.5 rounded-full bg-white/[0.16]" />
@@ -112,7 +117,7 @@ function BrowserMockup({ project }: { project: Project }) {
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
           style={{
             background:
-              'radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 30%), rgb(245 247 250 / 0.12), transparent 55%)',
+              'radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 30%), rgb(240 239 253 / 0.14), transparent 55%)',
           }}
           aria-hidden="true"
         />

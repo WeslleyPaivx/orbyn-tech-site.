@@ -365,7 +365,10 @@
 /* Cartões do portfólio com profundidade (inclinação definida pelo ponteiro) */
 .tilt-card {
   transform: perspective(1200px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-  transition: transform 0.9s var(--ease-soft);
+  /* Curto o bastante para acompanhar o cursor sem arrastar, longo o bastante
+     para o retorno ao repouso não ser um estalo. Em 0,9s o cartão parecia
+     perseguir o ponteiro com atraso visível. */
+  transition: transform 0.4s var(--ease-cine);
   will-change: transform;
 }
 
@@ -530,6 +533,249 @@
     }
     .hero-stage::after {
       opacity: 0;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * GRADE REATIVA AO CURSOR (adaptada do ARTEFAKT)
+ * ---------------------------------------------------------------------------
+ * A superfície é DOIS elementos, não um fundo pintado, e a ordem é estrutural:
+ *
+ *   1º  .lattice-beam  — o realce do ponteiro, position: fixed
+ *   2º  .lattice-bars  — as barras da grade, por cima
+ *
+ * As barras pintam POR CIMA da luz, e é esse o efeito inteiro: o brilho só
+ * sobrevive dentro das células, lendo como a grade acendendo em quadradinhos,
+ * nunca como uma lanterna atravessando a página. Trocar a ordem desmancha.
+ *
+ * A curva de queda é o que impede o realce de virar um borrão — não o raio.
+ * Um radial simples de cor a transparente é um cone linear, com miolo chapado
+ * e borda visível. As paradas explícitas, o halo bem mais largo a um sexto da
+ * força e o mesmo tratamento no par atrasado é o que dissolve tudo na página.
+ *
+ * Dois elementos em vez de um porque um único elemento precisaria de
+ * background-attachment: fixed para o realce, e fundo fixo não é rolado pelo
+ * compositor: é repintado a cada quadro na área visível inteira.
+ * ------------------------------------------------------------------------- */
+@layer components {
+  .lattice {
+    --lattice-reach: 22rem;
+    --lattice-pitch: 56px;
+    --lattice-gap: 1px;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    /* Sem overflow: hidden de propósito. O facho é position: fixed, e o
+       navegador recorta descendente fixo por ancestral com overflow escondido
+       em parte dos casos — o recorte comeria justamente o rastro nas bordas.
+       Também nada de transform aqui: transform vira bloco de contenção e a
+       metade fixa sai de sincronia com a página. */
+  }
+
+  .lattice-beam {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(
+        circle var(--lattice-reach) at var(--pointer-x, -100vw) var(--pointer-y, -100vh),
+        rgb(208 106 183 / 0.17) 0%,
+        rgb(208 106 183 / 0.13) 26%,
+        rgb(191 132 185 / 0.08) 52%,
+        rgb(191 132 185 / 0.04) 74%,
+        rgb(191 132 185 / 0.012) 89%,
+        transparent 100%
+      ),
+      radial-gradient(
+        circle calc(var(--lattice-reach) * 1.75) at var(--pointer-x, -100vw) var(--pointer-y, -100vh),
+        rgb(191 132 185 / 0.04) 0%,
+        rgb(191 132 185 / 0.022) 48%,
+        transparent 100%
+      ),
+      radial-gradient(
+        circle calc(var(--lattice-reach) * 1.2) at var(--pointer-lag-x, -100vw) var(--pointer-lag-y, -100vh),
+        rgb(121 56 116 / 0.075) 0%,
+        rgb(121 56 116 / 0.034) 52%,
+        transparent 100%
+      );
+  }
+
+  /* Sem ponteiro fino não existe realce para desenhar. */
+  @media (hover: none) and (pointer: coarse) {
+    .lattice-beam {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lattice-beam {
+      display: none;
+    }
+  }
+
+  /* As barras, por cima do realce.
+     A LINHA FINA é opaca e a CÉLULA é transparente — nessa ordem. É isso que
+     faz a luz sobreviver só dentro das células, acendendo a grade em
+     quadradinhos. Invertido, o realce vira um rabisco de linhas. */
+  .lattice-bars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      repeating-linear-gradient(
+        to right,
+        var(--color-ink) 0 var(--lattice-gap),
+        transparent var(--lattice-gap) var(--lattice-pitch)
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        var(--color-ink) 0 var(--lattice-gap),
+        transparent var(--lattice-gap) var(--lattice-pitch)
+      );
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Utilitário: conteúdo só para leitor de tela
+ * O Tailwind 4 já traz `sr-only`, mas o decodificador depende dele para manter
+ * o nome acessível estável, então fica declarado aqui de forma explícita.
+ * ------------------------------------------------------------------------- */
+@layer components {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * CORTINA DE CARREGAMENTO
+ * Os cantos crescem e somem na saída — o mesmo gesto dos botões quando o
+ * ponteiro os encontra, na escala da tela inteira.
+ * A barra é movida por transform: scaleX, nunca por width: é uma tarefa só de
+ * compositor por quadro, em vez de recalcular layout.
+ * ------------------------------------------------------------------------- */
+@layer components {
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    background-color: var(--color-ink);
+    transition: opacity 500ms var(--ease-soft);
+  }
+  .preloader[data-leaving='true'] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .preloader-column {
+    display: flex;
+    width: 16rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .preloader-column {
+      width: 20rem;
+    }
+  }
+
+  .preloader-mark {
+    height: 3rem;
+    width: 3rem;
+    transition: transform 700ms var(--ease-cine);
+  }
+  @media (min-width: 768px) {
+    .preloader-mark {
+      height: 4rem;
+      width: 4rem;
+    }
+  }
+  .preloader[data-leaving='true'] .preloader-mark {
+    transform: scale(1.05);
+  }
+
+  .preloader-rule {
+    position: relative;
+    height: 1px;
+    width: 100%;
+    background: rgb(240 239 253 / 0.25);
+  }
+  .preloader-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--color-sky);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  .preloader-readout {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    font-variant-numeric: tabular-nums;
+    color: rgb(240 239 253 / 0.45);
+  }
+  @media (min-width: 768px) {
+    .preloader-readout {
+      font-size: 0.95rem;
+    }
+  }
+
+  .preloader-bracket {
+    position: absolute;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-color: rgb(191 132 185 / 0.55);
+    transition:
+      transform 700ms var(--ease-cine),
+      opacity 700ms var(--ease-cine);
+  }
+  .preloader-bracket[data-corner='tl'] {
+    top: 2.5rem;
+    left: 2.5rem;
+    border-top-width: 1px;
+    border-left-width: 1px;
+  }
+  .preloader-bracket[data-corner='tr'] {
+    top: 2.5rem;
+    right: 2.5rem;
+    border-top-width: 1px;
+    border-right-width: 1px;
+  }
+  .preloader-bracket[data-corner='bl'] {
+    bottom: 2.5rem;
+    left: 2.5rem;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+  }
+  .preloader-bracket[data-corner='br'] {
+    bottom: 2.5rem;
+    right: 2.5rem;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+  }
+  .preloader[data-leaving='true'] .preloader-bracket {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .preloader-mark,
+    .preloader-bracket {
+      transition: opacity 300ms linear;
+      transform: none;
     }
   }
 }
