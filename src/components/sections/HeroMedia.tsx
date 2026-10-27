@@ -86,7 +86,7 @@ export function HeroMedia() {
   return (
     <div ref={hostRef} className="hero-stage absolute inset-0 -z-20 overflow-hidden bg-sky" aria-hidden="true">
       <img
-        src={heroMedia.poster}
+        src={isSmall ? heroMedia.posterPortrait : heroMedia.poster}
         alt=""
         decoding="async"
         fetchPriority="high"
@@ -100,8 +100,8 @@ export function HeroMedia() {
           ref={videoRef}
           className="hero-media absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-[var(--ease-cine)]"
           style={{ opacity: ready ? 1 : 0 }}
-          src={isSmall ? heroMedia.videoSmall : heroMedia.videoLarge}
-          poster={heroMedia.poster}
+          src={isSmall ? heroMedia.videoPortrait : heroMedia.videoLandscape}
+          poster={isSmall ? heroMedia.posterPortrait : heroMedia.poster}
           muted
           loop
           playsInline

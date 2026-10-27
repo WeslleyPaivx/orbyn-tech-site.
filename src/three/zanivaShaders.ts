@@ -37,6 +37,7 @@ uniform float uActivity;
 uniform vec3 uCore;
 uniform vec3 uMid;
 uniform vec3 uRim;
+uniform float uMaxSize;
 
 attribute float aScale;
 attribute float aNoise;
@@ -78,9 +79,21 @@ void main() {
   col = mix(col, uRim, smoothstep(0.58, 1.0, aMix));
   vColor = col * uBright;
 
-  vAlpha = uOpacity * (0.34 + 0.66 * aMix);
+  float depth = -mv.z;
 
-  gl_PointSize = uSize * aScale * uPixelRatio / max(-mv.z, 0.1);
+  // Partícula perto demais vira uma mancha na cara do leitor. Duas travas:
+  //
+  // 1. TETO no tamanho. Sem ele, dividir pela distância explode: com a câmera
+  //    mergulhando e a nuvem crescendo, a frente chega a z ~1,3 e um ponto de
+  //    10px vira 46px. Foi isso que cobriu o texto de bolhas.
+  // 2. DESVANECIMENTO de proximidade. O que passa perto demais some em vez de
+  //    ser só limitado, senão o teto acumula discos opacos no primeiro plano.
+  float size = uSize * aScale * uPixelRatio / max(depth, 0.1);
+  gl_PointSize = min(size, uMaxSize * uPixelRatio);
+
+  float nearFade = smoothstep(1.6, 3.4, depth);
+
+  vAlpha = uOpacity * (0.34 + 0.66 * aMix) * nearFade;
 }
 `;
 
@@ -89,14 +102,15 @@ varying vec3 vColor;
 varying float vAlpha;
 
 void main() {
-  // Sprite radial suave. O quadrado concentra o núcleo e apaga a borda,
-  // que é o que dá o brilho sem precisar de um passe de bloom.
+  // Sprite radial. O cubo concentra o núcleo e apaga a borda bem antes do
+  // limite do quadrado — com blending aditivo, uma queda larga faz centenas de
+  // sprites se somarem num leite esbranquiçado em vez de pontos de luz.
   vec2 uv = gl_PointCoord - 0.5;
   float d = dot(uv, uv);
-  float a = smoothstep(0.25, 0.0, d);
-  a *= a;
+  float a = smoothstep(0.2, 0.0, d);
+  a = a * a * a;
 
-  if (a < 0.003) discard;
+  if (a < 0.004) discard;
 
   gl_FragColor = vec4(vColor, a * vAlpha);
 }

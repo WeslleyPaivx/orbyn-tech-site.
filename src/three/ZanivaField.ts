@@ -21,6 +21,10 @@ type QualitySpec = {
   particles: number;
   dprMax: number;
   size: number;
+  /** Teto do ponto em pixels CSS. Sem isto a frente da nuvem vira mancha. */
+  maxSize: number;
+  /** Opacidade máxima do campo. A nuvem é fundo; o texto vem na frente. */
+  peak: number;
 };
 
 /**
@@ -29,9 +33,11 @@ type QualitySpec = {
  * cena é enfeite — a parte comercial do site não depende dela.
  */
 export const QUALITY: Record<Quality, QualitySpec> = {
-  high: { particles: 24000, dprMax: 1.75, size: 58 },
-  medium: { particles: 11000, dprMax: 1.5, size: 66 },
-  low: { particles: 4500, dprMax: 1.25, size: 74 },
+  high: { particles: 24000, dprMax: 1.75, size: 30, maxSize: 7, peak: 0.5 },
+  medium: { particles: 11000, dprMax: 1.5, size: 32, maxSize: 8, peak: 0.46 },
+  // Celular: ponto menor, não maior. Aumentar o tamanho para compensar a
+  // densidade menor foi exatamente o erro que encheu a tela de bolhas.
+  low: { particles: 4500, dprMax: 1.25, size: 30, maxSize: 8, peak: 0.4 },
 };
 
 /** Paleta amostrada da paisagem Pink Grass. */
@@ -103,6 +109,7 @@ export class ZanivaField {
     this.uniforms = {
       uTime: { value: 0 },
       uSize: { value: this.spec.size },
+      uMaxSize: { value: this.spec.maxSize },
       uOpacity: { value: 0 },
       uPixelRatio: { value: 1 },
       uBright: { value: 1 },
@@ -232,19 +239,21 @@ export class ZanivaField {
     const p = this.progress;
 
     this.uniforms.uTime.value = reduced ? 0 : time;
-    this.uniforms.uGrow.value = p * 0.42;
+    // Crescimento e mergulho contidos: o que empurrava a nuvem para cima do
+    // leitor era a combinação dos dois no fim da rolagem.
+    this.uniforms.uGrow.value = p * 0.16;
     this.uniforms.uSwirl.value = p * 0.85;
     this.uniforms.uActivity.value = this.activity;
     (this.uniforms.uCursor.value as Vector3).copy(this.pointer);
 
-    // A nuvem aparece conforme a paisagem do hero sai de cena e some de novo
-    // onde o conteúdo precisa de silêncio visual.
+    // A nuvem aparece conforme a paisagem do hero sai de cena. O teto por
+    // nível de aparelho mantém ela como FUNDO: o texto é que tem de ganhar.
     const emerge = Math.min(1, Math.max(0, p * 1.6));
-    this.uniforms.uOpacity.value = emerge * this.fade * 1.15;
+    this.uniforms.uOpacity.value = emerge * this.fade * this.spec.peak;
     this.uniforms.uBright.value = 0.92 + this.phase * 0.22;
 
     // Mergulho da câmera
-    this.camera.position.z = 7 - p * 2.1;
+    this.camera.position.z = 7 - p * 1.1;
     if (!reduced) {
       this.camera.position.x = this.pointer.x * 0.12;
       this.camera.position.y = this.pointer.y * 0.1;

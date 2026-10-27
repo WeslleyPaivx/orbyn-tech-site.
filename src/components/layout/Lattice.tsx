@@ -14,6 +14,9 @@ export function Lattice() {
 
   return (
     <div className="lattice" aria-hidden="true">
+      {/* Véu entre a nuvem e o conteúdo. A cena é fundo; quem precisa ganhar
+          a disputa de contraste é o texto, sempre. */}
+      <div className="lattice-veil" />
       <div className="lattice-beam" />
       <div className="lattice-bars" />
     </div>

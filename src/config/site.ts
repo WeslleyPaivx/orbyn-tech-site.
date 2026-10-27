@@ -53,14 +53,21 @@ export const brand = {
   symbolSrc: '',
 } as const;
 
-/** Mídia da paisagem Pink Grass, já otimizada para web. */
+/**
+ * Mídia da paisagem Pink Grass.
+ *
+ * São DUAS montagens, não um arquivo redimensionado. O material é 1,34:1 e o
+ * celular é ~0,46:1: recortado por CSS, o navegador joga fora dois terços da
+ * largura e precisa esticar o resto — a versão de 960px virava um borrão na
+ * tela do telefone. A montagem vertical recorta na origem, aproveitando a
+ * altura inteira do original, e chega ao aparelho em resolução cheia.
+ */
 export const heroMedia = {
-  videoLarge: '/media/hero-1920.mp4',
-  videoSmall: '/media/hero-960.mp4',
+  videoLandscape: '/media/hero-1920.mp4',
+  videoPortrait: '/media/hero-portrait.mp4',
   poster: '/media/hero-poster.webp',
+  posterPortrait: '/media/hero-poster-portrait.webp',
   blur: '/media/hero-blur.webp',
-  /** Proporção nativa do material (2892×2160). */
-  aspectRatio: 1920 / 1434,
   alt:
     'Paisagem de colinas cobertas por capim rosa e violeta, com pedras escuras e céu claro.',
 } as const;

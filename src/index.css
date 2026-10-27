@@ -53,12 +53,15 @@
    * largura e sobra 33% de altura. Em 32% o horizonte cai a ~56% da caixa —
    * céu suficiente para a tipografia, campo com presença.
    *
-   * Celular (~0,46:1, muito mais alto): o `cover` escala pela altura e
-   * sobra 190% de largura; a altura inteira aparece, com o horizonte no meio.
-   * O recorte horizontal em 62% enquadra a pedra grande e as hastes floridas.
+   * Celular: NÃO é o mesmo arquivo recortado por CSS. Recortar o material
+   * deitado aqui jogaria fora dois terços da largura e esticaria o resto — foi
+   * o que deixou o vídeo borrado no telefone. Agora existe uma montagem
+   * vertical própria, recortada na origem em resolução cheia, então o ponto de
+   * foco é o centro.
    * ------------------------------------------------------------------- */
   --hero-focus-desktop: 50% 32%;
-  --hero-focus-mobile: 62% 50%;
+  /* A montagem vertical já vem recortada na origem: centralizar basta. */
+  --hero-focus-mobile: 50% 50%;
 }
 
 /* ---------------------------------------------------------------------------
@@ -572,6 +575,15 @@
        em parte dos casos — o recorte comeria justamente o rastro nas bordas.
        Também nada de transform aqui: transform vira bloco de contenção e a
        metade fixa sai de sincronia com a página. */
+  }
+
+  /* Véu de legibilidade: entre a nuvem de partículas e o conteúdo.
+     Sem ele o campo disputa contraste com cada parágrafo, e a nuvem ganha. */
+  .lattice-veil {
+    position: absolute;
+    inset: 0;
+    background: rgb(18 15 37 / 0.46);
+    pointer-events: none;
   }
 
   .lattice-beam {
