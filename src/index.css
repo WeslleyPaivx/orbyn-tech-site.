@@ -515,8 +515,12 @@
       justify-content: flex-start;
       padding-top: 170px;
     }
+    /* O .hero-content declara width:100% e vence o .container-z, então no
+       celular a manchete encostava nas duas bordas da tela. O respiro vem
+       aqui, com a mesma medida que o container usa nesta faixa (18px). */
     .hero-copy {
       margin-left: 0;
+      padding-inline: 18px;
     }
     .hero-z h1 {
       font-size: clamp(51px, 12vw, 76px);
@@ -526,8 +530,11 @@
       font-size: 14px;
       max-width: 315px;
     }
+    /* Mesma história do .hero-copy: left:0/right:0 anulam o container, e o
+       "SCROLL" e o "01 / 08" encostavam nas bordas. */
     .hero-bottom {
       bottom: 22px;
+      padding-inline: 18px;
     }
     .mini-labels {
       display: none;
