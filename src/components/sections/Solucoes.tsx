@@ -1,107 +1,105 @@
+import type { ReactNode } from 'react';
 import { whatsappMessages } from '../../config/site';
-import { services, type ServiceIcon } from '../../data/services';
+import { services } from '../../data/services';
 import { spotlight } from '../../hooks/useSpotlight';
+import { handleAnchorClick } from '../../lib/scroll';
 import { whatsappUrl } from '../../lib/whatsapp';
-import {
-  AiIcon,
-  ArrowUpRight,
-  ChatbotIcon,
-  LocalIcon,
-  SitesIcon,
-  SupportIcon,
-  SystemsIcon,
-} from '../ui/Icons';
-import { Container } from '../ui/Container';
+import { Eyebrow } from '../ui/Eyebrow';
 import { Reveal } from '../ui/Reveal';
-import { SectionHeading } from '../ui/SectionHeading';
-
-const icons: Record<ServiceIcon, typeof SitesIcon> = {
-  sites: SitesIcon,
-  local: LocalIcon,
-  ai: AiIcon,
-  chatbot: ChatbotIcon,
-  systems: SystemsIcon,
-  support: SupportIcon,
-};
 
 /**
- * Seção 03 — Soluções digitais.
- * Seis cartões em grade de três colunas; a nuvem de partículas se intensifica
- * atrás da seção (data-stage="1") conforme a rolagem avança.
+ * Ícones autorais em traço, desenhados para a seção. Não são de biblioteca:
+ * cada um é a figura do próprio serviço — janela com setas para web, alfinete
+ * para presença local, núcleo com eixos para IA, balão para chatbot, sólido
+ * em camadas para sistemas, cubo fechado para suporte.
  */
+const ART: Record<string, ReactNode> = {
+  sites: <path d="M13 20H77V69H13zM13 33H77M20 26h2m4 0h2m4 0h2M28 47l-9 9 9 9m34-18 9 9-9 9m-14-26-6 36" />,
+  local: (
+    <>
+      <path d="M45 77s25-27 25-43a25 25 0 1 0-50 0c0 16 25 43 25 43Z" />
+      <circle cx="45" cy="34" r="10" />
+      <circle cx="45" cy="34" r="3" fill="currentColor" />
+    </>
+  ),
+  ai: (
+    <>
+      <circle cx="45" cy="45" r="25" />
+      <circle cx="45" cy="45" r="16" />
+      <path d="M18 45h54M45 18v54M24 27l42 36M64 25 26 65" />
+    </>
+  ),
+  chatbot: (
+    <>
+      <rect x="15" y="17" width="60" height="48" rx="12" />
+      <path d="M28 65V78l16-13M29 40h4m10 0h4m10 0h4" strokeWidth={4} strokeLinecap="round" />
+    </>
+  ),
+  systems: <path d="M45 7 76 25 45 43 14 25 45 7ZM14 39l31 18 31-18M14 54l31 18 31-18M14 25v29m62-29v29" />,
+  support: <path d="M44 9 75 27v37L44 82 13 64V27L44 9ZM44 9v73M13 27l31 18 31-18" />,
+};
+
+/** Os dois últimos ocupam duas colunas cada, formando a segunda fileira. */
+const WIDE = new Set(['sistemas', 'suporte']);
+
+/** 03 — SOLUÇÕES DIGITAIS. Quatro cartões em linha, dois largos embaixo. */
 export function Solucoes() {
   return (
-    <section id="solucoes" data-stage="1" aria-labelledby="solucoes-title" className="relative py-28 sm:py-40">
-      <Container>
-        <div className="legible grid items-end gap-8 lg:grid-cols-12">
-          <SectionHeading
-            id="solucoes-title"
-            index="03"
-            label="Soluções digitais"
-            title="Seis frentes, uma presença digital inteira."
-            className="lg:col-span-8"
-          />
-          <Reveal delay={120} className="lg:col-span-4">
-            <p className="max-w-md leading-relaxed text-mute lg:ml-auto">
-              Do primeiro site à automação com inteligência artificial. Você começa por onde aperta mais e cresce a
-              partir dali.
-            </p>
-          </Reveal>
+    <section className="section-z surface-dark surface-grid" id="solucoes" aria-labelledby="solucoes-title">
+      <div className="container-z">
+        <Reveal>
+          <Eyebrow index="03" label="Soluções digitais" />
+        </Reveal>
+
+        <Reveal className="header-row-z">
+          <h2 id="solucoes-title" className="subhead-z">
+            Tudo o que seu negócio precisa
+            <br />
+            para crescer no digital.
+          </h2>
+          <p className="dim-z">
+            Desenvolvemos soluções completas para empresas que querem se destacar, atrair mais clientes e evoluir com
+            tecnologia.
+          </p>
+        </Reveal>
+
+        <div className="services-grid">
+          {services.map((service, index) => (
+            <Reveal
+              as="article"
+              key={service.id}
+              delay={(index % 4) * 80}
+              className={`service-z ${WIDE.has(service.id) ? 'is-wide' : ''}`}
+            >
+              <div onPointerMove={spotlight} style={{ display: 'contents' }}>
+                <div className="service-art" aria-hidden="true">
+                  <svg viewBox="0 0 90 90" fill="none" stroke="currentColor" strokeWidth={1.5}>
+                    {ART[service.icon]}
+                  </svg>
+                </div>
+                <div className="service-content">
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
+                  {service.id === 'google' ? (
+                    <a href="#google" onClick={handleAnchorClick('google')}>
+                      Saiba mais ↗
+                    </a>
+                  ) : (
+                    <a
+                      href={whatsappUrl(whatsappMessages.service(service.messageLabel))}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Pedir orçamento de ${service.title} pelo WhatsApp`}
+                    >
+                      Saiba mais ↗
+                    </a>
+                  )}
+                </div>
+              </div>
+            </Reveal>
+          ))}
         </div>
-
-        <ul className="mt-14 grid gap-4 sm:mt-20 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-          {services.map((service, index) => {
-            const Icon = icons[service.icon];
-            return (
-              <Reveal as="li" key={service.id} delay={(index % 3) * 90}>
-                <article
-                  onPointerMove={spotlight}
-                  className="spot-card group flex h-full flex-col rounded-2xl p-6 sm:p-8"
-                >
-                  <div className="flex items-start justify-between">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-ink/60 text-sky transition-[border-color,color] duration-500 group-hover:border-orchid/50 group-hover:text-orchid">
-                      <Icon
-                        className="h-[1.35rem] w-[1.35rem] transition-transform duration-700 ease-[var(--ease-soft)] group-hover:scale-110"
-                        strokeWidth={1.5}
-                      />
-                    </span>
-                    <span className="font-display text-xs tracking-[0.18em] text-orchid/70 tabular-nums">
-                      {service.number}
-                    </span>
-                  </div>
-
-                  <h3 className="mt-10 font-display text-[1.35rem] leading-tight font-medium tracking-[-0.01em] text-sky sm:text-[1.45rem]">
-                    {service.title}
-                  </h3>
-                  <p className="mt-3 max-w-[42ch] leading-relaxed text-mute">{service.description}</p>
-
-                  <ul className="mt-6 flex flex-wrap gap-2" aria-label={`O que inclui ${service.title}`}>
-                    {service.includes.map((item) => (
-                      <li key={item} className="rounded-full border border-line px-3 py-1 text-xs text-mist/80">
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <a
-                    href={whatsappUrl(whatsappMessages.service(service.messageLabel))}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-auto inline-flex min-h-11 items-center gap-2 self-start rounded-md pt-8 text-[0.92rem] font-medium text-sky/85 transition-colors hover:text-orchid"
-                    aria-label={`Pedir orçamento de ${service.title} pelo WhatsApp`}
-                  >
-                    Pedir orçamento
-                    <ArrowUpRight
-                      className="h-4 w-4 transition-transform duration-500 ease-[var(--ease-soft)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                      strokeWidth={2}
-                    />
-                  </a>
-                </article>
-              </Reveal>
-            );
-          })}
-        </ul>
-      </Container>
+      </div>
     </section>
   );
 }

@@ -6,91 +6,64 @@ import { HERO_READY_EVENT } from '../../motion/preloader';
 /**
  * A paisagem Pink Grass como cenário do hero.
  *
- * Arte dirigida: o material é 1,34:1 e nenhuma tela tem essa proporção, então
- * o ponto de foco muda entre desktop e celular (tokens --hero-focus-*).
+ * São duas montagens do material original, não um arquivo redimensionado: o
+ * Pink Grass é 1,34:1 e o celular é ~0,46:1, então recortar o deitado por CSS
+ * jogava fora dois terços da largura e borrava o resto. A montagem vertical é
+ * recortada na origem, em resolução cheia.
  *
- * O vídeo só entra depois que o poster já pintou, e nunca entra quando o
- * visitante pede menos movimento — nesses casos a imagem estática fica.
+ * O vídeo só entra depois da primeira pintura, nunca sob movimento reduzido, e
+ * pausa quando sai de vista.
  */
 export function HeroMedia() {
   const reducedMotion = usePrefersReducedMotion();
-  const isSmall = useMediaQuery('(max-width: 767px)');
+  const isSmall = useMediaQuery('(max-width: 720px)');
   const videoRef = useRef<HTMLVideoElement>(null);
-  const hostRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
-
-  // O vídeo só é montado depois da primeira pintura: o poster leva o LCP,
-  // o vídeo entra em seguida sem disputar banda com o conteúdo crítico.
   const [mountVideo, setMountVideo] = useState(false);
+
+  const poster = isSmall ? heroMedia.posterPortrait : heroMedia.poster;
+
+  // O poster é o LCP e o terceiro portão da cortina. Dispara também em erro:
+  // se a imagem falhar, a cortina não pode ficar presa esperando.
+  const announceHero = () => window.dispatchEvent(new Event(HERO_READY_EVENT));
+
   useEffect(() => {
     if (reducedMotion) return;
     const id = window.requestAnimationFrame(() => setMountVideo(true));
     return () => window.cancelAnimationFrame(id);
   }, [reducedMotion]);
 
-  // Alguns navegadores recusam o autoplay mesmo com muted; sem isso o hero
+  // Alguns navegadores recusam o autoplay mesmo com muted; sem isto o hero
   // ficaria congelado no primeiro quadro sem nenhum aviso.
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !mountVideo) return;
     const attempt = video.play();
-    if (attempt && typeof attempt.catch === 'function') {
-      attempt.catch(() => setReady(false));
-    }
+    if (attempt && typeof attempt.catch === 'function') attempt.catch(() => setReady(false));
   }, [mountVideo]);
 
-  // A paisagem recua ao rolar: escurece e afunda um pouco, abrindo espaço para
-  // a nuvem de partículas atrás. Fica fora do WebGL de propósito, para que a
-  // transição aconteça igual em aparelho sem placa de vídeo.
-  //
-  // Também pausa o vídeo quando ele sai de vista — decodificar quadros que
-  // ninguém vê é gasto puro de bateria.
+  // Decodificar quadro que ninguém vê é gasto de bateria sem contrapartida.
   useEffect(() => {
-    const host = hostRef.current;
-    if (!host || reducedMotion) return;
-
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      const height = window.innerHeight || 1;
-      const p = Math.min(1, Math.max(0, window.scrollY / height));
-      host.style.setProperty('--hero-exit', p.toFixed(4));
-
-      const video = videoRef.current;
-      if (video) {
-        if (p >= 1 && !video.paused) video.pause();
-        else if (p < 1 && video.paused) void video.play().catch(() => {});
-      }
-    };
-
+    const video = videoRef.current;
+    if (!video || reducedMotion) return;
     const onScroll = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(update);
+      const past = window.scrollY > (window.innerHeight || 0);
+      if (past && !video.paused) video.pause();
+      else if (!past && video.paused) void video.play().catch(() => {});
     };
-
-    update();
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
-  }, [reducedMotion]);
-
-  // O poster é o LCP e o terceiro portão da cortina de carregamento. Dispara
-  // também em caso de erro: se a imagem falhar, a cortina não pode ficar presa
-  // esperando um evento que nunca vem.
-  const announceHero = () => window.dispatchEvent(new Event(HERO_READY_EVENT));
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [reducedMotion, mountVideo]);
 
   return (
-    <div ref={hostRef} className="hero-stage absolute inset-0 -z-20 overflow-hidden bg-sky" aria-hidden="true">
+    <>
       <img
-        src={isSmall ? heroMedia.posterPortrait : heroMedia.poster}
+        className="hero-media"
+        src={poster}
         alt=""
+        aria-hidden="true"
         decoding="async"
         fetchPriority="high"
-        className="hero-media absolute inset-0 h-full w-full object-cover"
         onLoad={announceHero}
         onError={announceHero}
       />
@@ -98,23 +71,23 @@ export function HeroMedia() {
       {mountVideo && (
         <video
           ref={videoRef}
-          className="hero-media absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-[var(--ease-cine)]"
-          style={{ opacity: ready ? 1 : 0 }}
+          className="hero-media"
+          style={{ opacity: ready ? 1 : 0, transition: 'opacity 1s var(--ease-cine)' }}
           src={isSmall ? heroMedia.videoPortrait : heroMedia.videoLandscape}
-          poster={isSmall ? heroMedia.posterPortrait : heroMedia.poster}
+          poster={poster}
           muted
           loop
           playsInline
           autoPlay
           preload="auto"
           tabIndex={-1}
+          aria-hidden="true"
           onPlaying={() => setReady(true)}
         />
       )}
 
-      {/* Garante contraste do texto escuro mesmo se a área clara do céu
-          deslocar durante o loop. Leve o bastante para não achatar a cor. */}
-      <div className="hero-scrim pointer-events-none absolute inset-0" />
-    </div>
+      <div className="hero-shade" aria-hidden="true" />
+      <div className="chip-noise" aria-hidden="true" />
+    </>
   );
 }

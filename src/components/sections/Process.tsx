@@ -1,40 +1,45 @@
 import { processSteps } from '../../data/content';
-import { Container } from '../ui/Container';
+import { Eyebrow } from '../ui/Eyebrow';
 import { Reveal } from '../ui/Reveal';
-import { SectionHeading } from '../ui/SectionHeading';
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
-/** Processo em cinco etapas, lado a lado no desktop e em sequência no celular. */
+/**
+ * 06 — NOSSO PROCESSO.
+ *
+ * Cinco etapas ligadas por um fio violeta no desktop. No celular o fio sai e
+ * as etapas viram duas colunas: uma linha horizontal espremida em 360px vira
+ * um risco ilegível em vez de uma ligação.
+ */
 export function Process() {
   return (
-    <section id="processo" aria-labelledby="processo-title" className="legible relative py-24 sm:py-32">
-      <Container>
-        <SectionHeading
-          id="processo-title"
-          index="06"
-          label="Nosso processo"
-          title="Diagnóstico antes de proposta."
-          size="md"
-        />
+    <section className="section-z surface-dark surface-grid process-z" id="processo" aria-labelledby="processo-title">
+      <div className="container-z">
+        <Reveal className="process-intro">
+          <Eyebrow index="06" label="Nosso processo" />
+          <h2 id="processo-title" className="subhead-z">
+            Um caminho claro
+            <br />
+            da ideia ao resultado.
+          </h2>
+          <p className="dim-z">
+            Trabalhamos lado a lado com você em cada etapa, com organização, transparência e foco no que realmente
+            importa.
+          </p>
+        </Reveal>
 
-        <ol className="mt-14 grid gap-x-8 sm:mt-20 md:grid-cols-2 lg:grid-cols-5">
+        <Reveal as="ol" className="timeline-z">
           {processSteps.map((step, index) => (
-            <Reveal as="li" key={step.title} delay={index * 80} className="relative border-t border-line py-8 lg:pr-2">
-              <span
-                className="absolute -top-[3px] left-0 h-[5px] w-[5px] rounded-full bg-orchid shadow-[0_0_10px_rgb(191_132_185/0.8)]"
-                aria-hidden="true"
-              />
-              <p className="font-display text-sm tracking-[0.14em] text-orchid/80 tabular-nums">
-                ETAPA {pad(index + 1)}
-              </p>
-              <h3 className="mt-5 font-display text-xl font-medium tracking-[-0.01em] text-sky">{step.title}</h3>
-              <p className="mt-2 text-[0.95rem] text-mist">{step.summary}</p>
-              <p className="mt-4 text-[0.95rem] leading-relaxed text-mute">{step.detail}</p>
-            </Reveal>
+            <li className="step-z" key={step.title}>
+              <div className="step-number" aria-hidden="true">
+                {pad(index + 1)}
+              </div>
+              <h3>{step.title}</h3>
+              <p>{step.summary}</p>
+            </li>
           ))}
-        </ol>
-      </Container>
+        </Reveal>
+      </div>
     </section>
   );
 }

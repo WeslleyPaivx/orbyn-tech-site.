@@ -24,8 +24,7 @@ export const services: Service[] = [
     id: 'sites',
     number: '01',
     title: 'Sites e experiências web',
-    description:
-      'Sites institucionais e landing pages construídos para carregar rápido, funcionar bem no celular e transformar visita em contato.',
+    description: 'Sites institucionais e landing pages que realmente impressionam.',
     includes: ['Sites institucionais', 'Landing pages', 'Performance e SEO técnico', 'Acessibilidade'],
     icon: 'sites',
     messageLabel: 'um site ou landing page',
@@ -34,8 +33,7 @@ export const services: Service[] = [
     id: 'google',
     number: '02',
     title: 'Google Meu Negócio e presença local',
-    description:
-      'Organização e manutenção do Perfil da Empresa no Google: informações corretas, fotos, avaliações acompanhadas e indicadores sob o olho.',
+    description: 'Mais visibilidade para o seu negócio no Google, Maps e nas buscas.',
     includes: ['Perfil estruturado', 'Rotina de publicações', 'Acompanhamento de avaliações', 'Leitura de indicadores'],
     icon: 'local',
     messageLabel: 'a gestão do Perfil da Empresa no Google',
@@ -44,8 +42,7 @@ export const services: Service[] = [
     id: 'ia',
     number: '03',
     title: 'Inteligência artificial e automações',
-    description:
-      'Fluxos que tiram da sua equipe o trabalho repetitivo — triagem, resposta, relatório, cadastro — e devolvem o tempo para o que exige gente.',
+    description: 'Processos mais rápidos, inteligentes e eficientes para o seu dia a dia.',
     includes: ['Automação de processos', 'Integração entre sistemas', 'IA aplicada ao fluxo', 'Relatórios automáticos'],
     icon: 'ai',
     messageLabel: 'automações com inteligência artificial',
@@ -53,9 +50,8 @@ export const services: Service[] = [
   {
     id: 'chatbots',
     number: '04',
-    title: 'Chatbots e atendimento inteligente',
-    description:
-      'Atendimento que responde fora do horário comercial, separa o que é urgente e entrega a conversa pronta para a sua equipe assumir.',
+    title: 'Chatbots e atendimento',
+    description: 'Atendimento automático 24 horas, com mais agilidade no primeiro contato.',
     includes: ['WhatsApp e site', 'Atendimento fora de horário', 'Triagem de contatos', 'Passagem para humano'],
     icon: 'chatbot',
     messageLabel: 'um chatbot ou atendimento automatizado',
@@ -64,8 +60,7 @@ export const services: Service[] = [
     id: 'sistemas',
     number: '05',
     title: 'Sistemas e aplicações',
-    description:
-      'Painéis, cadastros e sistemas sob medida para quando a planilha já não dá conta e o software pronto não serve.',
+    description: 'Soluções sob medida para as necessidades do seu negócio.',
     includes: ['Sistemas sob medida', 'Painéis de gestão', 'Áreas restritas', 'Integrações'],
     icon: 'systems',
     messageLabel: 'um sistema ou aplicação web',
@@ -74,8 +69,7 @@ export const services: Service[] = [
     id: 'suporte',
     number: '06',
     title: 'Suporte e evolução digital',
-    description:
-      'Manutenção, ajustes e consultoria depois da entrega. O projeto continua recebendo atenção em vez de envelhecer sozinho.',
+    description: 'Manutenção, melhorias e novas funcionalidades para seus projetos.',
     includes: ['Manutenção e correções', 'Novas funcionalidades', 'Consultoria de presença digital', 'Acompanhamento'],
     icon: 'support',
     messageLabel: 'suporte e evolução digital',

@@ -21,7 +21,7 @@ function resolveSiteUrl(): string {
 /** Injeta a URL no index.html e gera sitemap.xml e robots.txt no build. */
 function seoFiles(siteUrl: string): Plugin {
   return {
-    name: 'orbyn-seo-files',
+    name: 'zaniva-seo-files',
     transformIndexHtml(html) {
       return html.replaceAll('__SITE_URL__', siteUrl);
     },
@@ -53,7 +53,8 @@ export default defineConfig({
   build: {
     target: 'es2020',
     cssMinify: true,
-    // A cena 3D (Three.js + GSAP) fica em um arquivo separado, baixado depois da primeira pintura
+    // A orbe do manifesto (Three.js) fica em um arquivo separado, baixado só
+    // quando a seção se aproxima da tela
     chunkSizeWarningLimit: 900,
   },
 });

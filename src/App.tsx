@@ -1,53 +1,44 @@
-import { useCallback, useState } from 'react';
-import { FloatingButtons } from './components/layout/FloatingButtons';
+import { useEffect } from 'react';
 import { Footer } from './components/layout/Footer';
-import { Header } from './components/layout/Header';
-import { Lattice } from './components/layout/Lattice';
-import { SceneLayer } from './components/scene/SceneLayer';
 import { About } from './components/sections/About';
-import { Contact } from './components/sections/Contact';
-import { Faq } from './components/sections/Faq';
-import { FinalCta } from './components/sections/FinalCta';
+import { Contato } from './components/sections/Contato';
 import { Hero } from './components/sections/Hero';
 import { Manifesto } from './components/sections/Manifesto';
 import { Portfolio } from './components/sections/Portfolio';
 import { PresencaGoogle } from './components/sections/PresencaGoogle';
 import { Process } from './components/sections/Process';
 import { Solucoes } from './components/sections/Solucoes';
+import { startCursorGlow } from './motion/cursorGlow';
 
+/**
+ * As oito seções da montagem aprovada, uma abaixo da outra.
+ *
+ * Não existe mais camada 3D global atrás da página: a única cena WebGL é a
+ * orbe do manifesto, contida na própria seção. Era a camada global que fazia
+ * a nuvem disputar contraste com cada parágrafo do site.
+ */
 export default function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const onMenuChange = useCallback((open: boolean) => setMenuOpen(open), []);
-  const onSceneMode = useCallback(() => {}, []);
+  useEffect(() => startCursorGlow(), []);
 
   return (
     <>
-      <SceneLayer onModeChange={onSceneMode} />
-      <Header onMenuChange={onMenuChange} />
-      <main id="conteudo" className="relative z-[1]">
-        {/* A ordem segue as seções 01 a 08 do briefing. */}
+      <a href="#conteudo" className="sr-only">
+        Pular para o conteúdo
+      </a>
+      <div className="cursor-glow" id="cursor-glow" aria-hidden="true" />
+
+      <main id="conteudo">
         <Hero />
-        {/* A grade começa depois do hero: sobre a paisagem clara ela não tem
-            o que acender, e competiria com a fotografia. */}
-        <div className="relative isolate">
-          <Lattice />
-          <div className="relative z-[1]">
-            <Manifesto />
-            <Solucoes />
-            <Portfolio />
-            <PresencaGoogle />
-            <Process />
-            <About />
-            <Faq />
-            <FinalCta />
-            <Contact />
-          </div>
-        </div>
+        <Manifesto />
+        <Solucoes />
+        <Portfolio />
+        <PresencaGoogle />
+        <Process />
+        <About />
+        <Contato />
       </main>
-      <div className="relative z-[1]">
-        <Footer />
-      </div>
-      <FloatingButtons hidden={menuOpen} />
+
+      <Footer />
     </>
   );
 }

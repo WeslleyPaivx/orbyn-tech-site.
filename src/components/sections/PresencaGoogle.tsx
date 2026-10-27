@@ -1,77 +1,87 @@
 import { whatsappMessages } from '../../config/site';
-import { googlePresence } from '../../data/content';
 import { whatsappUrl } from '../../lib/whatsapp';
-import { ArrowUpRight, CircleAlert } from '../ui/Icons';
-import { ButtonLink } from '../ui/Button';
-import { Container } from '../ui/Container';
-import { Magnetic } from '../ui/Magnetic';
+import { Eyebrow } from '../ui/Eyebrow';
 import { Reveal } from '../ui/Reveal';
-import { SectionHeading } from '../ui/SectionHeading';
 
 /**
- * Seção 05 — Presença no Google.
+ * 05 — PRESENÇA NO GOOGLE.
  *
- * A nota de honestidade não é rodapé escondido: fica em destaque, porque
- * prometer primeira posição é o golpe mais comum desse serviço e dizer o
- * contrário em voz alta é o que separa a Zaniva de quem promete.
+ * O celular à esquerda ilustra o PERFIL DA EMPRESA NO GOOGLE — a ficha que
+ * aparece na busca e no Maps —, não anúncios pagos. Por isso a tela mostra
+ * avaliações, rota, telefone e horário: é o que o perfil realmente tem.
  */
 export function PresencaGoogle() {
   return (
-    <section id="google" aria-labelledby="google-title" className="relative py-28 sm:py-40">
-      <Container>
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-5">
-            <SectionHeading
-              id="google-title"
-              index="05"
-              label="Presença local"
-              title={[...googlePresence.title]}
-              size="md"
-            />
-            <Reveal delay={120}>
-              <p className="mt-7 max-w-xl leading-relaxed text-mute">{googlePresence.lead}</p>
-            </Reveal>
-
-            <Reveal delay={200}>
-              <div className="mt-10">
-                <Magnetic>
-                  <ButtonLink
-                    href={whatsappUrl(whatsappMessages.google)}
-                    external
-                    variant="onDark"
-                    size="lg"
-                    className="w-full sm:w-auto"
-                  >
-                    Quero melhorar minha presença no Google
-                    <ArrowUpRight
-                      className="h-4 w-4 transition-transform duration-500 ease-[var(--ease-soft)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                      strokeWidth={2}
-                    />
-                  </ButtonLink>
-                </Magnetic>
+    <section className="section-z surface-dark surface-grid google-z" id="google" aria-labelledby="google-title">
+      <div className="container-z google-row">
+        <div className="phone-zone">
+          <Reveal className="phone-z">
+            <div className="phone-notch" aria-hidden="true" />
+            <div className="phone-inner" aria-hidden="true">
+              <div className="phone-search">⌕ &nbsp; Sua Empresa</div>
+              <div className="phone-cover" />
+              <h4>Sua Empresa</h4>
+              <div style={{ fontSize: 10, color: '#777' }}>Perfil da Empresa no Google</div>
+              <div className="phone-stars">★★★★★</div>
+              <div className="phone-row">
+                <span>
+                  ◉<br />
+                  Rotas
+                </span>
+                <span>
+                  ☎<br />
+                  Ligar
+                </span>
+                <span>
+                  ▣<br />
+                  Website
+                </span>
+                <span>
+                  ⌂<br />
+                  Salvar
+                </span>
               </div>
-            </Reveal>
+              <div className="phone-line" />
+              <div className="phone-line is-short" />
+              <div className="phone-line" />
+              <div className="phone-line is-short" />
+            </div>
+          </Reveal>
+
+          <div className="floating-pill float-a" aria-hidden="true">
+            ⌖ &nbsp; Mais visibilidade
           </div>
-
-          <div className="lg:col-span-7">
-            <ul className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
-              {googlePresence.items.map((item, index) => (
-                <Reveal as="li" key={item.title} delay={index * 90} className="bg-ink p-6 sm:p-8">
-                  <h3 className="font-display text-[1.1rem] font-medium tracking-[-0.01em] text-sky">{item.title}</h3>
-                  <p className="mt-3 leading-relaxed text-mute">{item.text}</p>
-                </Reveal>
-              ))}
-            </ul>
-
-            <Reveal delay={200}>
-              <p className="mt-6 flex gap-3 rounded-2xl border border-violet/40 bg-ink-2/70 p-5 text-[0.95rem] leading-relaxed text-mist sm:p-6">
-                <CircleAlert className="mt-0.5 h-5 w-5 shrink-0 text-orchid" strokeWidth={1.75} />
-                <span>{googlePresence.honesty}</span>
-              </p>
-            </Reveal>
+          <div className="floating-pill float-b" aria-hidden="true">
+            ✧ &nbsp; Relatórios de desempenho
           </div>
         </div>
-      </Container>
+
+        <Reveal className="google-copy">
+          <Eyebrow index="05" label="Presença digital" />
+          <h2 id="google-title" className="subhead-z">
+            Sua empresa em
+            <br />
+            destaque no Google.
+          </h2>
+          <p className="dim-z">
+            Gerenciamos e otimizamos o Perfil da Empresa no Google para que seu negócio seja encontrado, gere mais
+            conexões e mantenha uma presença profissional e atualizada.
+          </p>
+          <div className="benefits">
+            <span>Mais presença local</span>
+            <span>Acompanhamento de avaliações</span>
+            <span>Relatórios de desempenho</span>
+          </div>
+          <a
+            className="btn-z is-primary"
+            href={whatsappUrl(whatsappMessages.google)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Quero melhorar minha presença ↗
+          </a>
+        </Reveal>
+      </div>
     </section>
   );
 }

@@ -1,96 +1,85 @@
-import { navItems, site, whatsappMessages } from '../../config/site';
-import { services } from '../../data/services';
+import { navItems, site } from '../../config/site';
 import { handleAnchorClick } from '../../lib/scroll';
 import { whatsappUrl } from '../../lib/whatsapp';
-import { Logo } from '../brand/Logo';
-import { InstagramIcon, WhatsAppIcon } from '../ui/BrandIcons';
-import { Container } from '../ui/Container';
 
+const SERVICE_LINKS = [
+  { id: 'solucoes', label: 'Desenvolvimento de sites' },
+  { id: 'google', label: 'Google Meu Negócio' },
+  { id: 'solucoes', label: 'Automações e IA' },
+  { id: 'solucoes', label: 'Chatbots' },
+  { id: 'solucoes', label: 'Sistemas e aplicações' },
+];
+
+/**
+ * 09 — RODAPÉ.
+ *
+ * O Instagram aparece como "em breve" em vez de apontar para o perfil antigo
+ * da Orbyn: mandar um visitante da Zaniva para a marca anterior é pior do que
+ * não ter link. Volta a ser link quando o perfil novo existir.
+ */
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden border-t border-line bg-ink pt-20 pb-28 sm:pb-12">
-      <Container>
-        <div className="grid grid-cols-2 gap-x-8 gap-y-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          <div className="col-span-2 lg:col-span-1">
-            <a href="#inicio" onClick={handleAnchorClick('inicio')} aria-label="ZANIVA DIGITAL — voltar ao início" className="inline-block rounded-md">
-              <Logo full className="h-9" />
+    <footer className="footer-z">
+      <div className="container-z">
+        <div className="foot-grid">
+          <div className="foot-brand">
+            <a className="brand-z" href="#inicio" onClick={handleAnchorClick('inicio')}>
+              zaniva.
             </a>
-            <p className="mt-6 max-w-xs leading-relaxed text-mute">{site.description}</p>
+            <p className="eyebrow-z" style={{ marginTop: 8 }}>
+              AGÊNCIA DIGITAL
+            </p>
+            <p className="dim-z">Estratégia. Tecnologia. Resultados.</p>
           </div>
 
           <nav aria-label="Navegação do rodapé">
-            <h2 className="text-sm font-medium text-white">Navegação</h2>
-            <ul className="mt-5 space-y-3">
+            <h2 className="foot-title">Navegação</h2>
+            <div className="foot-group">
               {navItems.map((item) => (
-                <li key={item.id}>
-                  <a
-                    href={`#${item.id}`}
-                    onClick={handleAnchorClick(item.id)}
-                    className="text-mute transition-colors hover:text-white"
-                  >
-                    {item.label}
-                  </a>
-                </li>
+                <a key={item.id} href={`#${item.id}`} onClick={handleAnchorClick(item.id)}>
+                  {item.label}
+                </a>
               ))}
-            </ul>
+            </div>
           </nav>
 
           <div>
-            <h2 className="text-sm font-medium text-white">Serviços</h2>
-            <ul className="mt-5 space-y-3">
-              {services.map((service) => (
-                <li key={service.id}>
-                  <a
-                    href={whatsappUrl(whatsappMessages.service(service.messageLabel))}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-mute transition-colors hover:text-white"
-                  >
-                    {service.title}
-                  </a>
-                </li>
+            <h2 className="foot-title">Serviços</h2>
+            <div className="foot-group">
+              {SERVICE_LINKS.map((item) => (
+                <a key={item.label} href={`#${item.id}`} onClick={handleAnchorClick(item.id)}>
+                  {item.label}
+                </a>
               ))}
-            </ul>
+            </div>
           </div>
 
-          <div className="col-span-2 sm:col-span-1">
-            <h2 className="text-sm font-medium text-white">Contato</h2>
-            <ul className="mt-5 space-y-3">
-              <li>
-                <a
-                  href={whatsappUrl(whatsappMessages.floating)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 text-mute transition-colors hover:text-white"
-                >
-                  <WhatsAppIcon className="h-[1.1rem] w-[1.1rem]" />
-                  {site.whatsapp.display}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={site.instagram.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 text-mute transition-colors hover:text-white"
-                >
-                  <InstagramIcon className="h-[1.1rem] w-[1.1rem]" />
-                  {site.instagram.handle}
-                </a>
-              </li>
-            </ul>
+          <div>
+            <h2 className="foot-title">Conecte-se</h2>
+            <div className="foot-group">
+              <span>Instagram (em breve)</span>
+              <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer">
+                WhatsApp
+              </a>
+              <a href={`tel:+${site.whatsapp.number}`}>{site.whatsapp.display}</a>
+            </div>
+          </div>
+
+          <div className="foot-cta">
+            <p>Vamos conversar sobre seu projeto?</p>
+            <a className="btn-z is-primary" href="#contato" onClick={handleAnchorClick('contato')}>
+              Solicitar orçamento ↗
+            </a>
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-3 border-t border-line pt-8 text-sm text-white/45 sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            © {year} {site.name}. Todos os direitos reservados.
-          </p>
-          <p>{site.slogan}</p>
+        <div className="copyright-z">
+          <span>© {year} Zaniva Digital. Todos os direitos reservados.</span>
+          <span>{site.whatsapp.display}</span>
         </div>
-      </Container>
+      </div>
     </footer>
   );
 }
