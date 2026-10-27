@@ -85,8 +85,6 @@ void main() {
 `;
 
 export const fieldFragment = /* glsl */ `
-precision mediump float;
-
 varying vec3 vColor;
 varying float vAlpha;
 
