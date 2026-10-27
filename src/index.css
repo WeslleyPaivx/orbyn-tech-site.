@@ -852,14 +852,38 @@
     box-shadow:
       0 15px 45px #000a,
       0 0 0 1px #9180a94d;
-    transform: perspective(650px) rotateY(-12deg) rotateX(5deg) rotateZ(-4deg);
     overflow: hidden;
-    transition: transform 0.45s var(--ease-soft);
     position: relative;
+
+    /* --card-focus vai de 0 (repouso, torcido) a 1 (de frente para o leitor) e
+       é escrito pela rolagem, cartão a cartão. A interpolação acontece aqui,
+       num único transform: uma tarefa de compositor por quadro.
+
+       A transição é curta de propósito. Em 0,45s, com valor contínuo chegando
+       a cada quadro, o cartão ficava perseguindo a rolagem com atraso visível;
+       aqui ela só suaviza o degrau entre quadros. */
+    --card-focus: 0;
+    transform: perspective(650px) rotateY(calc(-12deg + var(--card-focus) * 9deg))
+      rotateX(calc(5deg - var(--card-focus) * 5deg)) rotateZ(calc(-4deg + var(--card-focus) * 4deg))
+      translateZ(calc(var(--card-focus) * 16px)) scale(calc(1 + var(--card-focus) * 0.025));
+    transition: transform 0.12s linear;
   }
-  .project-z:hover .browser-z,
-  .project-z.is-focused .browser-z {
-    transform: perspective(650px) rotateY(-3deg) rotateX(0deg) rotateZ(0deg);
+
+  /* No desktop o ponteiro ainda pode trazer o cartão à frente por conta
+     própria, sem esperar a rolagem. */
+  @media (hover: hover) and (pointer: fine) {
+    .project-z:hover .browser-z {
+      --card-focus: 1;
+      transition: transform 0.4s var(--ease-cine);
+    }
+  }
+
+  /* Sem a coreografia, o cartão fica de frente e legível em vez de torcido. */
+  @media (prefers-reduced-motion: reduce) {
+    .browser-z {
+      --card-focus: 1;
+      transition: none;
+    }
   }
   .brow-bar {
     height: 21px;
