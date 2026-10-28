@@ -10,13 +10,7 @@ const SERVICE_LINKS = [
   { id: 'solucoes', label: 'Sistemas e aplicações' },
 ];
 
-/**
- * 09 — RODAPÉ.
- *
- * O Instagram aparece como "em breve" em vez de apontar para o perfil antigo
- * da Orbyn: mandar um visitante da Zaniva para a marca anterior é pior do que
- * não ter link. Volta a ser link quando o perfil novo existir.
- */
+/** 09 — RODAPÉ. */
 export function Footer() {
   const year = new Date().getFullYear();
 
@@ -59,7 +53,9 @@ export function Footer() {
           <div>
             <h2 className="foot-title">Conecte-se</h2>
             <div className="foot-group">
-              <span>Instagram (em breve)</span>
+              <a href={site.instagram.url} target="_blank" rel="noopener noreferrer">
+                Instagram
+              </a>
               <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer">
                 WhatsApp
               </a>

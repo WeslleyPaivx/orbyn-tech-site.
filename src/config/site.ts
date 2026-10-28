@@ -4,10 +4,7 @@
  * Altere aqui e todo o site acompanha: cabeçalho, rodapé, botões, metadados
  * e mensagens do WhatsApp. Nenhum componente precisa ser editado.
  *
- * ATENÇÃO — itens herdados da ORBYN TECH que ainda precisam de confirmação:
- *   - instagram: o perfil abaixo ainda é o da Orbyn. Troque quando o perfil
- *     da Zaniva existir. Não foi inventado um handle novo de propósito.
- *   - whatsapp: número real preservado do projeto anterior.
+ * O WhatsApp é o número real preservado do projeto anterior.
  */
 
 export const site = {
@@ -25,13 +22,8 @@ export const site = {
     display: '+55 11 94810-8450',
   },
   instagram: {
-    /**
-     * Mantido de propósito: o perfil será renomeado no próprio Instagram, que
-     * redireciona o endereço antigo. Quando isso acontecer, troque os dois
-     * campos aqui e o site inteiro acompanha.
-     */
-    handle: '@orbyn.tech',
-    url: 'https://www.instagram.com/orbyn.tech/',
+    handle: '@zaniva.digital',
+    url: 'https://www.instagram.com/zaniva.digital/',
   },
   founders: [
     { name: 'Weslley Paiva', photo: '' },
