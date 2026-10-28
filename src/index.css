@@ -423,7 +423,11 @@
   }
   .hero-copy {
     margin-left: 7%;
-    max-width: 725px;
+    /* 725px (a medida do protótipo) não comporta "uma nova dimensão." em uma
+       linha no corpo da manchete a 1440px, e a manchete quebrava em TRÊS
+       linhas. A montagem mostra duas, e o <br> depois de "ganha" confirma a
+       intenção: a segunda linha é uma só. */
+    max-width: 880px;
   }
   .hero-copy .eyebrow-z {
     color: #c455b0;
