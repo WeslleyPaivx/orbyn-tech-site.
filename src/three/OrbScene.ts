@@ -261,7 +261,10 @@ function buildOrbGeometry(count: number): BufferGeometry {
       radius = r;
 
       kind[i] = 0;
-      mix[i] = 0.04 + Math.random() * 0.3;
+      // O NÚCLEO É A PARTE MAIS ACESA. Na primeira tentativa ele recebeu o
+      // tom profundo e o centro virou um buraco escuro na tela — uma
+      // nebulosa acende de dentro para fora, não o contrário.
+      mix[i] = Math.min(1, 0.72 + (1 - Math.min(1, radius / 0.95)) * 0.3 + Math.random() * 0.12);
       scales[i] = 0.5 + Math.random() * 0.7;
     } else if (i < coreCount + haloCount) {
       // Halo: bruma larga e esparsa em volta de tudo.
@@ -274,7 +277,8 @@ function buildOrbGeometry(count: number): BufferGeometry {
       radius = r;
 
       kind[i] = 2;
-      mix[i] = 0.3 + Math.random() * 0.3;
+      // A bruma é o tom mais profundo: ela afasta, não chama atenção.
+      mix[i] = 0.08 + Math.random() * 0.27;
       scales[i] = 0.6 + Math.random() * 0.9;
     } else {
       // Braço: espiral logarítmica que esfiapa conforme se afasta.
