@@ -59,7 +59,7 @@ export const projects: Project[] = [
     description:
       'Desenvolvimento de presença digital para empresa do setor de papéis gráficos, com apresentação dos produtos e navegação moderna.',
     // Captura real da página inicial (1440 px de largura, reduzida para 1120 px)
-    image: '/images/projetos/zanfel.webp',
+    image: '/images/projetos/zanfel-site.webp',
     logo: '/images/projetos/zanfel-logo.webp',
     // Gradiente nas cores da marca: sálvia, oliva e verde-escuro
     coverBackground:
@@ -77,12 +77,12 @@ export const projects: Project[] = [
     category: 'Site institucional',
     description:
       'Desenvolvimento de site institucional para escritório de contabilidade, destacando seus serviços, identidade profissional e canais de atendimento.',
-    image: '',
+    image: '/images/projetos/mabs-contabilidade-site.webp',
     logo: '/images/projetos/mabs-contabilidade-logo.webp',
     // Gradiente nas cores da marca: dourado sobre preto
     coverBackground:
       'radial-gradient(60% 75% at 50% 48%, rgb(220 168 83 / 0.2), transparent 70%), linear-gradient(135deg, #3A2A10 0%, #17110A 50%, #080B10 100%)',
-    imageAlt: 'Página inicial do site da MABS Contabilidade',
+    imageAlt: 'Página inicial do site da MABS Contabilidade, com o título “Contabilidade estratégica para empresas que querem crescer com segurança”',
     technologies: [],
     url: 'https://mabs-contabilidade.bolt.host',
     featured: true,

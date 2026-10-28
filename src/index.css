@@ -911,6 +911,16 @@
       transition: none;
     }
   }
+  /* Captura real dentro da moldura. Ancorada no topo: é o cabeçalho e a
+     manchete do site do cliente que identificam o projeto em miniatura. */
+  .browser-shot {
+    display: block;
+    width: 100%;
+    height: calc(100% - 21px);
+    object-fit: cover;
+    object-position: 50% 0;
+  }
+
   .brow-bar {
     height: 21px;
     background: #272832;

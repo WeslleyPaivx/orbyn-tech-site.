@@ -30,23 +30,33 @@ function BrowserMock({ project }: { project: Project }) {
     logo: project.name.toUpperCase(),
     title: project.description,
   };
+
+  // Captura real quando ela existe; a redução tipográfica fica de reserva
+  // para projeto ainda sem imagem — assim nenhum cartão aparece vazio.
+  const hasShot = Boolean(project.image);
+
   return (
     <div className="project-visual">
-      <div className="browser-z" data-site={skin.site} aria-hidden="true">
+      <div className="browser-z" data-site={hasShot ? 'shot' : skin.site} aria-hidden={hasShot ? undefined : true}>
         <div className="brow-bar">
           <i />
           <i />
           <i />
         </div>
-        <div className="browser-body">
-          <div className="browser-logo">{skin.logo}</div>
-          <div className="browser-title">{skin.title}</div>
-          <div className="browser-block">
-            <i />
-            <i />
-            <i />
+
+        {hasShot ? (
+          <img className="browser-shot" src={project.image} alt={project.imageAlt ?? `Site da ${project.name}`} loading="lazy" decoding="async" />
+        ) : (
+          <div className="browser-body">
+            <div className="browser-logo">{skin.logo}</div>
+            <div className="browser-title">{skin.title}</div>
+            <div className="browser-block">
+              <i />
+              <i />
+              <i />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
