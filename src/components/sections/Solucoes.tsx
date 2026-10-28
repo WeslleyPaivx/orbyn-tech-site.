@@ -55,7 +55,10 @@ export function Solucoes() {
           <h2 id="solucoes-title" className="subhead-z">
             Tudo o que seu negócio precisa
             {/* A quebra é a da montagem, mas só no desktop: a 390px a primeira
-                linha já quebra sozinha e a forçada deixava "precisa" órfã. */}
+                linha já quebra sozinha e a forçada deixava "precisa" órfã.
+                O espaço explícito é obrigatório: com o <br> escondido no
+                celular, sem ele as palavras encostam ("precisapara"). */}
+            {' '}
             <br className="br-wide" />
             para crescer no digital.
           </h2>
