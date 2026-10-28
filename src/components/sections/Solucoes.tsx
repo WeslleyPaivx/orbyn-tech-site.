@@ -54,7 +54,9 @@ export function Solucoes() {
         <Reveal className="header-row-z">
           <h2 id="solucoes-title" className="subhead-z">
             Tudo o que seu negócio precisa
-            <br />
+            {/* A quebra é a da montagem, mas só no desktop: a 390px a primeira
+                linha já quebra sozinha e a forçada deixava "precisa" órfã. */}
+            <br className="br-wide" />
             para crescer no digital.
           </h2>
           <p className="dim-z">

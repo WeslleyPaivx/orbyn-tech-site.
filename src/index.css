@@ -86,6 +86,18 @@
     }
   }
 
+  /* Quebra de linha que vale só no desktop. As quebras da montagem foram
+     compostas para a largura dela; repetidas no celular, deixam palavras
+     órfãs sozinhas numa linha. */
+  .br-wide {
+    display: none;
+  }
+  @media (min-width: 721px) {
+    .br-wide {
+      display: inline;
+    }
+  }
+
   .section-z {
     position: relative;
     isolation: isolate;
