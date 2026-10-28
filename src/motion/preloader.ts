@@ -49,9 +49,28 @@ export function startPreloader(): void {
   let shown = 0;
   let frame = 0;
 
+  // Declarado ANTES dos portões: um portão pode fechar de forma síncrona (a
+  // página já estar carregada quando isto roda) e chamar a saída na mesma
+  // volta. Declarado depois, cairia na zona morta temporal do const.
+  const dismiss = () => {
+    if (dismissed) return;
+    dismissed = true;
+    cancelAnimationFrame(frame);
+    if (count) count.textContent = '100';
+    if (fill) fill.style.transform = 'scaleX(1)';
+    curtain.setAttribute('data-leaving', 'true');
+    // Removido do DOM depois da saída: uma cortina invisível ainda é um
+    // elemento de tela cheia na frente de tudo.
+    window.setTimeout(() => curtain.remove(), 700);
+  };
+
   const gate = () => {
     gatesDone += 1;
-    if (gatesDone >= TOTAL_GATES) finished = true;
+    if (gatesDone < TOTAL_GATES) return;
+    finished = true;
+    // A saída é agendada por RELÓGIO, não pelo laço de animação.
+    const waited = performance.now() - started;
+    window.setTimeout(dismiss, Math.max(0, FLOOR_MS - waited));
   };
 
   // Portão 1 — fontes
@@ -65,26 +84,11 @@ export function startPreloader(): void {
   // Portão 3 — o poster do hero
   window.addEventListener(HERO_READY_EVENT, gate, { once: true });
 
-  const dismiss = () => {
+  // O laço cuida APENAS do número e da barra enchendo. Ele não decide mais
+  // quando a cortina sai: quem decide são os portões e o relógio acima.
+  const tick = () => {
     if (dismissed) return;
-    dismissed = true;
-    cancelAnimationFrame(frame);
-    if (count) count.textContent = '100';
-    if (fill) fill.style.transform = 'scaleX(1)';
-    curtain.setAttribute('data-leaving', 'true');
-    // Removido do DOM depois da saída: uma cortina invisível ainda é um
-    // elemento de tela cheia na frente de tudo.
-    window.setTimeout(() => curtain.remove(), 700);
-  };
-
-  const tick = (now: number) => {
     frame = requestAnimationFrame(tick);
-    const elapsed = now - started;
-
-    if (elapsed > PATIENCE_MS) {
-      dismiss();
-      return;
-    }
 
     const target = gatesDone / TOTAL_GATES;
     // Sem o teto a contagem para entre os portões; com ele, ela escorre.
@@ -93,9 +97,16 @@ export function startPreloader(): void {
 
     if (fill) fill.style.transform = `scaleX(${shown.toFixed(4)})`;
     if (count) count.textContent = String(Math.round(shown * 100)).padStart(3, '0');
-
-    if (finished && elapsed >= FLOOR_MS && shown > 0.985) dismiss();
   };
+
+  // Rede de segurança por RELÓGIO. Estava dentro do laço de animação, e era
+  // um erro grave: requestAnimationFrame não roda em aba de fundo nem com o
+  // painel escondido, então a proteção dependia exatamente daquilo de que ela
+  // deveria proteger. Medido no preview: página pronta em 103ms, cortina
+  // ainda de pé aos 9,6s com o contador parado em 000, saindo só aos 21,6s —
+  // com o limite nominal de 8s. Uma cortina capaz de sobreviver aos próprios
+  // portões é pior do que não ter cortina.
+  window.setTimeout(dismiss, PATIENCE_MS);
 
   frame = requestAnimationFrame(tick);
 }
