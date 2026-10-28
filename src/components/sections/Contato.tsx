@@ -45,10 +45,12 @@ export function Contato() {
         </div>
       </Reveal>
 
-      <div className="bottom-social" aria-hidden="true">
+      <div className="bottom-social">
         INSTAGRAM
         <br />
-        <span style={{ opacity: 0.7 }}>Novo perfil em definição</span>
+        <a href={site.instagram.url} target="_blank" rel="noopener noreferrer">
+          {site.instagram.handle}
+        </a>
       </div>
     </section>
   );

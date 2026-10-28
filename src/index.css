@@ -1487,6 +1487,21 @@
     line-height: 1.6;
   }
 
+  /* O perfil virou link de verdade: precisa parecer clicável sem roubar a cena */
+  .bottom-social a {
+    color: inherit;
+    opacity: 0.72;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+    transition: opacity 0.4s var(--ease-soft);
+  }
+
+  .bottom-social a:hover,
+  .bottom-social a:focus-visible {
+    opacity: 1;
+  }
+
   @media (max-width: 720px) {
     .contact-z {
       min-height: 480px;
