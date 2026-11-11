@@ -1,0 +1,18 @@
+/* ZANIVA DIGITAL — tokens.
+ * A estrutura é a do template Sopro; a paleta é a da Zaniva: branco-lavanda no
+ * hero, roxo-noite no resto da página, rosa quente como único acento. */
+:root {
+  --branco: #f8f5fd; /* fundo do hero, texto sobre o roxo-noite */
+  --preto: #0d0718; /* roxo-noite: o nome do hero, o fundo do resto, o menu */
+  --acento: #e05ac1; /* rosa quente: o ar das letras, hover de links e do menu */
+  --acento-claro: #f096d7;
+  --cinza: #8f86a3; /* rótulos, legendas, metadados */
+  --linha: rgb(248 245 253 / 0.16);
+
+  --gutter: clamp(16px, 1.6vw, 28px);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --display: 'Archivo Black', 'Arial Black', sans-serif;
+  --corpo: 'Inter Tight Variable', 'Inter Tight', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}

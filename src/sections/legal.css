@@ -1,0 +1,86 @@
+/* Páginas legais: o roxo-noite do site, o texto numa coluna de leitura. */
+.legal-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--gutter);
+  border-bottom: 1px solid var(--linha);
+}
+.legal-top__logo {
+  font-size: 26px;
+}
+.legal-top__back {
+  color: var(--branco);
+}
+
+.legal {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 12vh var(--gutter) 14vh;
+}
+.legal__title {
+  margin: 18px 0 14px;
+}
+.legal__intro {
+  margin-top: 34px;
+  padding-left: 18px;
+  border-left: 1px solid var(--acento);
+}
+.legal h2 {
+  margin: 56px 0 14px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.15;
+}
+.legal p,
+.legal li {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #cfc8dc;
+}
+.legal p {
+  margin: 0 0 14px;
+}
+.legal ul,
+.legal ol {
+  margin: 0 0 16px;
+  padding-left: 1.3em;
+}
+.legal ul {
+  list-style: disc;
+}
+.legal ol {
+  list-style: decimal;
+}
+.legal li {
+  margin-bottom: 8px;
+}
+.legal li::marker {
+  color: var(--acento);
+}
+.legal strong {
+  color: var(--branco);
+  font-weight: 650;
+}
+.legal a {
+  color: var(--acento-claro);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.legal a:hover {
+  color: var(--acento);
+}
+
+.legal-foot {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 18px var(--gutter) var(--gutter);
+  border-top: 1px solid var(--linha);
+}
+.legal-foot__links {
+  display: flex;
+  gap: 22px;
+}

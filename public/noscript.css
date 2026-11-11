@@ -1,0 +1,18 @@
+/* Sem JavaScript: sem abertura, e o nome do hero aparece chapado, em linha. */
+.loader {
+  display: none !important;
+}
+.hero__word {
+  inset: auto var(--gutter) auto var(--gutter);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  font-size: 17vw;
+}
+.hero__word span {
+  position: static;
+}
+.contato__word {
+  font-size: 17vw;
+}

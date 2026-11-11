@@ -1,15 +1,14 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="intro-on">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>ZANIVA DIGITAL | O digital ganha uma nova dimensão</title>
     <meta
       name="description"
-      content="A Zaniva Digital desenvolve sites e landing pages, sistemas e aplicações web, automações com inteligência artificial, chatbots e gestão do Perfil da Empresa no Google."
+      content="A Zaniva Digital cria sites e landing pages, motion, design e identidade visual, cuida do Google Meu Negócio e monta CRM, automações e chatbots para o seu negócio."
     />
-    <meta name="theme-color" content="#080914" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0d0718" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="__SITE_URL__/" />
 
@@ -18,8 +17,8 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- O poster do hero é o LCP: carrega antes de qualquer outra imagem. -->
-    <link rel="preload" as="image" href="/media/hero-poster.webp" type="image/webp" fetchpriority="high" />
+    <!-- As letras infladas do hero: a página só monta com elas. -->
+    <link rel="preload" as="image" href="/infla/cheio.webp" type="image/webp" fetchpriority="high" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -28,20 +27,19 @@
     <meta property="og:title" content="ZANIVA DIGITAL | O digital ganha uma nova dimensão" />
     <meta
       property="og:description"
-      content="Unimos estratégia, tecnologia e criatividade para transformar a presença digital de negócios."
+      content="Sites, motion, Google Meu Negócio, design, CRM, automações e chatbots para o seu negócio."
     />
     <meta property="og:url" content="__SITE_URL__/" />
     <meta property="og:image" content="__SITE_URL__/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Paisagem de capim rosa e violeta sob céu claro, com a marca Zaniva Digital." />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="ZANIVA DIGITAL | O digital ganha uma nova dimensão" />
     <meta
       name="twitter:description"
-      content="Unimos estratégia, tecnologia e criatividade para transformar a presença digital de negócios."
+      content="Sites, motion, Google Meu Negócio, design, CRM, automações e chatbots para o seu negócio."
     />
     <meta name="twitter:image" content="__SITE_URL__/og-image.jpg" />
 
@@ -56,6 +54,9 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DDXLQYQTZC"></script>
     <script async src="/analytics.js"></script>
 
+    <!-- Sem JavaScript: sem abertura, e a página aparece direto. -->
+    <noscript><link rel="stylesheet" href="/noscript.css" /></noscript>
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -63,7 +64,8 @@
         "name": "ZANIVA DIGITAL",
         "url": "__SITE_URL__/",
         "slogan": "O digital ganha uma nova dimensão.",
-        "description": "Agência digital: sites e landing pages, sistemas e aplicações web, automações com inteligência artificial, chatbots e gestão do Perfil da Empresa no Google.",
+        "description": "Agência digital: sites e landing pages, motion, design e identidade visual, Google Meu Negócio, CRM, automações e chatbots.",
+        "email": "zanivaagenciadigital@gmail.com",
         "sameAs": ["https://www.instagram.com/zaniva.digital/"],
         "contactPoint": {
           "@type": "ContactPoint",
@@ -77,42 +79,263 @@
   <body>
     <noscript>
       <img height="1" width="1" alt="" src="https://www.facebook.com/tr?id=2209783362936447&amp;ev=PageView&amp;noscript=1" />
-      <p class="noscript-message">
-        Ative o JavaScript para navegar pelo site da ZANIVA DIGITAL. Fale conosco pelo WhatsApp:
-        <a href="https://wa.me/5511948108450" rel="noopener noreferrer">+55 11 94810-8450</a>.
-      </p>
-      <!-- Onde o script nunca roda, a cortina nunca poderia subir. -->
-      <style>
-        [data-preloader] {
-          display: none !important;
-        }
-      </style>
     </noscript>
 
-    <!--
-      Cortina de carregamento. Fica no HTML inicial de propósito: montada pelo
-      React, haveria um piscar da página antes dela. Os estilos são inline pelo
-      mesmo motivo — a folha de estilo ainda não chegou.
-    -->
-    <div data-preloader class="preloader" role="status" aria-live="polite">
-      <span class="preloader-bracket" data-corner="tl" aria-hidden="true"></span>
-      <span class="preloader-bracket" data-corner="tr" aria-hidden="true"></span>
-      <span class="preloader-bracket" data-corner="bl" aria-hidden="true"></span>
-      <span class="preloader-bracket" data-corner="br" aria-hidden="true"></span>
-
-      <div class="preloader-column">
-        <span class="preloader-mark" aria-hidden="true">zaniva.</span>
-        <div class="preloader-rule" aria-hidden="true">
-          <span class="preloader-fill" data-preloader-fill></span>
-        </div>
-        <p class="preloader-readout">
-          <span aria-hidden="true">CARREGANDO <span data-preloader-count>000</span></span>
-          <span class="sr-only">Carregando o site da Zaniva Digital</span>
-        </p>
-      </div>
+    <!-- Abertura: o anel do Z° enche como balão, a contagem desce e a cortina sobe. -->
+    <div class="loader" data-loader aria-hidden="true">
+      <span class="mono-z loader__s">Z<i></i></span>
+      <span class="loader__count label">100</span>
     </div>
 
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <a class="sr-only" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="nav">
+      <a class="nav__logo mono-z" href="#topo" aria-label="Zaniva Digital, voltar ao início">Z<i></i></a>
+      <button class="nav__menu label" type="button" aria-expanded="false" aria-controls="menu">
+        <span class="nav__menu-label">Menu</span>
+        <span class="nav__plus" aria-hidden="true">+</span>
+      </button>
+    </header>
+
+    <nav class="menu" id="menu" aria-label="Menu" aria-hidden="true" inert>
+      <ol class="menu__list">
+        <li><a href="#objetos"><span class="label">01</span><span class="menu__txt">Presença</span></a></li>
+        <li><a href="#trabalhos"><span class="label">02</span><span class="menu__txt">Trabalhos</span></a></li>
+        <li><a href="#estudio"><span class="label">03</span><span class="menu__txt">Sobre</span></a></li>
+        <li><a href="#servicos"><span class="label">04</span><span class="menu__txt">Serviços</span></a></li>
+        <li><a href="#contato"><span class="label">05</span><span class="menu__txt">Contato</span></a></li>
+      </ol>
+      <p class="menu__foot label">
+        <a class="link-hover" href="https://wa.me/5511948108450" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a class="link-hover" href="https://www.instagram.com/zaniva.digital/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a class="link-hover" href="mailto:zanivaagenciadigital@gmail.com">zanivaagenciadigital@gmail.com</a>
+      </p>
+    </nav>
+
+    <main id="conteudo">
+      <!-- HERO: o nome chapado e a tinta que mostra, por dentro, o nome inflado. -->
+      <section class="hero" id="topo">
+        <h1 class="sr-only">
+          ZANIVA DIGITAL, agência digital: sites e landing pages, motion, design e identidade visual, Google Meu Negócio,
+          CRM, automações e chatbots.
+        </h1>
+        <p class="hero__lead" data-hero-in>O digital ganha uma nova dimensão.<br />A gente cria, automatiza e coloca a sua marca no ar.</p>
+        <p class="hero__tags label" data-hero-in>Sites · Motion · Google · Automação</p>
+
+        <div class="hero__word" aria-hidden="true" data-hero-in>
+          <span>Z</span><span>A</span><span>N</span><span>I</span><span>V</span><span>A</span>
+        </div>
+        <canvas class="hero__ink" aria-hidden="true"></canvas>
+
+        <div class="hero__foot">
+          <a
+            class="pill pill--dark"
+            data-hero-in
+            href="https://wa.me/5511948108450?text=Ol%C3%A1%2C%20Zaniva!%20Gostaria%20de%20solicitar%20um%20or%C3%A7amento."
+            target="_blank"
+            rel="noopener noreferrer"
+            >Pedir orçamento →</a
+          >
+          <p class="label hero__place" data-hero-in>Agência digital · SP</p>
+          <p class="label hero__social" data-hero-in>
+            <a class="link-hover" href="https://www.instagram.com/zaniva.digital/" target="_blank" rel="noopener noreferrer">Instagram</a>
+            /
+            <a class="link-hover" href="https://wa.me/5511948108450" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+          </p>
+        </div>
+      </section>
+
+      <!-- OBJETOS: os infláveis enchem, boiam e fogem do cursor. -->
+      <section class="objetos" id="objetos" aria-labelledby="objetos-title">
+        <div class="objetos__field" aria-hidden="true">
+          <img class="obj obj--1" src="/img/obj-nuvem.webp" alt="" data-depth="0.8" width="640" height="451" />
+          <img class="obj obj--2" src="/img/obj-raio.webp" alt="" data-depth="1.3" width="640" height="1095" />
+          <img class="obj obj--3" src="/img/obj-anel.webp" alt="" data-depth="1" width="640" height="661" />
+          <img class="obj obj--4" src="/img/obj-gota.webp" alt="" data-depth="0.6" width="640" height="881" />
+          <img class="obj obj--5" src="/img/obj-piao.webp" alt="" data-depth="1.4" width="640" height="681" />
+        </div>
+        <div class="objetos__copy">
+          <p class="label" data-lines>(Presença com volume)</p>
+          <h2 class="big" id="objetos-title" data-lines>
+            <span class="ln"><span>Marca não é só logo.</span></span>
+            <span class="ln"><span>É o espaço que ela</span></span>
+            <span class="ln"><span>ocupa quando alguém</span></span>
+            <span class="ln"><span>procura por você.</span></span>
+          </h2>
+        </div>
+      </section>
+
+      <!-- TRABALHOS: o título se monta de letras espalhadas; a grade solta dos projetos. -->
+      <section class="trabalhos" id="trabalhos" aria-labelledby="trabalhos-title">
+        <h2 class="trabalhos__title" id="trabalhos-title" aria-label="Trabalhos">
+          <span aria-hidden="true">T</span><span aria-hidden="true">R</span><span aria-hidden="true">A</span><span aria-hidden="true">B</span><span aria-hidden="true">A</span><span aria-hidden="true">L</span><span aria-hidden="true">H</span><span aria-hidden="true">O</span><span aria-hidden="true">S</span>
+        </h2>
+        <div class="trabalhos__meta label">
+          <span>(02) Sites no ar</span>
+          <span>Projetos reais</span>
+        </div>
+
+        <ol class="cases">
+          <li class="case-card case-card--1">
+            <a href="https://zanfell.bolt.host/" target="_blank" rel="noopener noreferrer">
+              <div class="case-card__photo">
+                <img src="/img/case-zanfel.webp" alt="Página inicial do site da ZanFel, com o título “Papel de qualidade para grandes ideias”" loading="lazy" width="1200" height="900" />
+              </div>
+              <div class="case-card__meta label"><span>01 — ZanFel</span><span>Site institucional</span></div>
+              <p class="case-card__line">Papel offset e papéis gráficos, com os produtos à mostra e navegação moderna.</p>
+            </a>
+          </li>
+          <li class="case-card case-card--2">
+            <a href="https://mabs-contabilidade.bolt.host/" target="_blank" rel="noopener noreferrer">
+              <div class="case-card__photo">
+                <img src="/img/case-mabs.webp" alt="Página inicial do site da MABS Contabilidade, com o título “Contabilidade estratégica para empresas que querem crescer com segurança”" loading="lazy" width="1200" height="900" />
+              </div>
+              <div class="case-card__meta label"><span>02 — MABS Contabilidade</span><span>Site institucional</span></div>
+              <p class="case-card__line">Serviços, identidade profissional e canais de atendimento num site só.</p>
+            </a>
+          </li>
+          <li class="case-card case-card--text case-card--3">
+            <a href="#case">
+              <span class="label">03 — Zaniva</span>
+              <span class="case-card__big">Ver o case em destaque ↓</span>
+            </a>
+          </li>
+          <li class="case-card case-card--text case-card--4">
+            <a href="https://wa.me/5511948108450?text=Ol%C3%A1%2C%20Zaniva!%20Quero%20que%20o%20meu%20projeto%20seja%20o%20pr%C3%B3ximo." target="_blank" rel="noopener noreferrer">
+              <span class="label">04 — O seu negócio</span>
+              <span class="case-card__big">Pode ser o próximo. Chamar no WhatsApp ↗</span>
+            </a>
+          </li>
+        </ol>
+      </section>
+
+      <!-- CASE EM TELA CHEIA: a foto recua até virar a tela da sala de concreto. -->
+      <section class="case" id="case" aria-labelledby="case-title">
+        <div class="case__stage">
+          <img class="case__sala" src="/img/sala.webp" alt="" width="2400" height="1351" />
+          <div class="case__screen">
+            <img src="/img/case-zaniva.webp" alt="Colinas cobertas de capim rosa e violeta, a paisagem da identidade visual da Zaniva" width="2200" height="1650" />
+          </div>
+          <div class="case__copy">
+            <p class="label" data-beat>Case em destaque — Zaniva</p>
+            <h2 class="case__title" id="case-title" data-beat>A paisagem que virou<br />a cara da Zaniva.</h2>
+            <p class="label" data-beat>Identidade · Site · Motion</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ESTÚDIO: o manifesto, o pedestal, a paisagem e as três frases. -->
+      <section class="estudio" id="estudio" aria-labelledby="estudio-title">
+        <p class="label estudio__tag" data-lines>(Sobre a Zaniva)</p>
+        <h2 class="sr-only" id="estudio-title">Sobre a Zaniva</h2>
+        <p class="estudio__manifesto" data-lines>
+          <span class="ln"><span>A Zaniva nasceu da união de desenvolvimento,</span></span>
+          <span class="ln"><span>automação e presença digital. A gente pega a ideia</span></span>
+          <span class="ln"><span>do seu negócio e dá forma, volume e alcance</span></span>
+          <span class="ln"><span>até ela ocupar o lugar que merece.</span></span>
+        </p>
+        <p class="label estudio__founders" data-lines>Weslley Paiva e Dener Zanetoni — co-fundadores</p>
+
+        <div class="estudio__media">
+          <figure class="estudio__pedestal" data-speed="1.25">
+            <img src="/img/pedestal.webp" alt="" loading="lazy" width="800" height="1000" />
+          </figure>
+          <figure class="estudio__paisagem">
+            <div class="estudio__frame">
+              <img src="/img/paisagem.webp" alt="Escultura inflável rosa num campo verde sob céu nublado" loading="lazy" width="2000" height="1126" />
+            </div>
+            <figcaption class="label">Ideias com volume.</figcaption>
+          </figure>
+        </div>
+
+        <ol class="estudio__nums">
+          <li data-lines>
+            <span class="label">01</span>
+            <span class="estudio__num"><span class="ln"><span>Briefing antes de tudo.</span></span></span>
+            <span class="label">Entender o negócio antes de propor qualquer coisa.</span>
+          </li>
+          <li data-lines>
+            <span class="label">02</span>
+            <span class="estudio__num"><span class="ln"><span>Contrato assinado.</span></span></span>
+            <span class="label">Escopo, prazo e ajustes combinados por escrito.</span>
+          </li>
+          <li data-lines>
+            <span class="label">03</span>
+            <span class="estudio__num"><span class="ln"><span>Suporte depois do no ar.</span></span></span>
+            <span class="label">Manutenção, melhorias e novas funções.</span>
+          </li>
+        </ol>
+      </section>
+
+      <!-- SERVIÇOS: a lista com fios e a pilha de infláveis que cai. -->
+      <section class="servicos" id="servicos" aria-labelledby="servicos-title">
+        <div class="servicos__head">
+          <h2 class="big" id="servicos-title" data-lines>
+            <span class="ln"><span>Digital com</span></span>
+            <span class="ln"><span>intenção.</span></span>
+          </h2>
+          <div class="servicos__side">
+            <ul class="servicos__list">
+              <li data-lines><span class="ln"><span>Sites e landing pages</span></span></li>
+              <li data-lines><span class="ln"><span>Motion e vídeo</span></span></li>
+              <li data-lines><span class="ln"><span>Google Meu Negócio</span></span></li>
+              <li data-lines><span class="ln"><span>Design e identidade visual</span></span></li>
+              <li data-lines><span class="ln"><span>CRM e sistemas</span></span></li>
+              <li data-lines><span class="ln"><span>Automações e IA</span></span></li>
+              <li data-lines><span class="ln"><span>Chatbot e atendimento no WhatsApp</span></span></li>
+            </ul>
+            <p class="servicos__note" data-lines>
+              <span class="ln"><span>Estratégia é decidir onde o esforço entra.</span></span>
+              <span class="ln"><span>O resto é executar com capricho.</span></span>
+            </p>
+          </div>
+        </div>
+        <div class="pilha">
+          <p class="label pilha__hint">Arraste as coisas</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- CONTATO / RODAPÉ -->
+    <footer class="contato" id="contato" aria-labelledby="contato-title">
+      <div class="contato__top">
+        <div>
+          <h2 class="big" id="contato-title" data-lines>
+            <span class="ln"><span>Bora tirar essa</span></span>
+            <span class="ln"><span>ideia do papel?</span></span>
+          </h2>
+          <div class="contato__pills">
+            <a
+              class="pill pill--line"
+              href="https://wa.me/5511948108450?text=Ol%C3%A1%2C%20Zaniva!%20Gostaria%20de%20solicitar%20um%20or%C3%A7amento."
+              target="_blank"
+              rel="noopener noreferrer"
+              >Chamar no WhatsApp →</a
+            >
+            <a class="pill pill--line" href="mailto:zanivaagenciadigital@gmail.com">zanivaagenciadigital@gmail.com ↗</a>
+          </div>
+        </div>
+        <ul class="contato__links">
+          <li><a class="link-hover" href="https://www.instagram.com/zaniva.digital/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+          <li><a class="link-hover" href="https://wa.me/5511948108450" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+          <li><a class="link-hover" href="tel:+5511948108450">+55 11 94810-8450</a></li>
+        </ul>
+      </div>
+
+      <p class="contato__word" aria-hidden="true">
+        <span>Z</span><span>A</span><span>N</span><span>I</span><span>V</span><span>A</span>
+      </p>
+
+      <div class="contato__bottom label">
+        <span>© 2026 Zaniva Digital</span>
+        <span class="contato__legal">
+          <a class="link-hover" href="/privacidade">Política de privacidade</a>
+          <a class="link-hover" href="/termos">Termos de uso</a>
+        </span>
+        <a class="link-hover" href="#topo" data-top>Voltar ao topo ↑</a>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>

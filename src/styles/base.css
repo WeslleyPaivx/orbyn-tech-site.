@@ -1,0 +1,174 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--preto);
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  margin: 0;
+  background: var(--preto);
+  color: var(--branco);
+  font-family: var(--corpo);
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+h1,
+h2,
+h3,
+p,
+ol,
+ul {
+  margin: 0;
+}
+ol,
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+::selection {
+  background: var(--acento);
+  color: var(--branco);
+}
+:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* rótulos em mono, caixa alta */
+.label {
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+@media (min-width: 1280px) {
+  .label {
+    font-size: 13px;
+  }
+}
+
+/* títulos grandes */
+.big {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(38px, 6.4vw, 112px);
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+}
+
+/* linha que sobe da máscara: folga para não cortar acento nem descendente */
+.ln {
+  display: block;
+  overflow: clip;
+  padding: 0.12em 0 0.22em;
+  margin: -0.12em 0 -0.22em;
+}
+.ln > span {
+  display: block;
+}
+
+/* pílulas */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    background 0.35s var(--ease-out),
+    color 0.35s var(--ease-out),
+    border-color 0.35s var(--ease-out);
+}
+.pill--dark {
+  background: var(--preto);
+  color: var(--branco);
+}
+.pill--dark:hover {
+  background: var(--acento);
+}
+.pill--line {
+  border: 1px solid var(--branco);
+  color: var(--branco);
+}
+.pill--line:hover {
+  background: var(--branco);
+  color: var(--preto);
+}
+
+/* monograma "Z°" */
+.mono-z {
+  font-family: var(--display);
+  font-weight: 400;
+  line-height: 1;
+  display: inline-flex;
+  align-items: flex-start;
+}
+.mono-z i {
+  display: inline-block;
+  width: 0.34em;
+  height: 0.34em;
+  margin-left: 0.04em;
+  margin-top: 0.06em;
+  border: 0.09em solid currentColor;
+  border-radius: 50%;
+}
+
+.link-hover {
+  transition: color 0.3s var(--ease-out);
+}
+.link-hover:hover {
+  color: var(--acento);
+}
