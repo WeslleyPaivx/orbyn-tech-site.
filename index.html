@@ -48,7 +48,11 @@
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="format-detection" content="telephone=no" />
 
-    <!-- Google Analytics 4. Os dois com async: não seguram a primeira tela. -->
+    <!--
+      Google Analytics 4 e Pixel da Meta, todos com async: não seguram a
+      primeira tela. O código base do Pixel e a configuração dos dois ficam em
+      public/analytics.js (a CSP bloqueia script embutido no HTML).
+    -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DDXLQYQTZC"></script>
     <script async src="/analytics.js"></script>
 
@@ -72,6 +76,7 @@
   </head>
   <body>
     <noscript>
+      <img height="1" width="1" alt="" src="https://www.facebook.com/tr?id=2209783362936447&amp;ev=PageView&amp;noscript=1" />
       <p class="noscript-message">
         Ative o JavaScript para navegar pelo site da ZANIVA DIGITAL. Fale conosco pelo WhatsApp:
         <a href="https://wa.me/5511948108450" rel="noopener noreferrer">+55 11 94810-8450</a>.
