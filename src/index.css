@@ -1700,3 +1700,102 @@
     opacity: 0;
   }
 }
+
+/* ---------------------------------------------------------------------------
+ * PÁGINAS LEGAIS (/privacidade e /termos) e links legais do rodapé
+ * ------------------------------------------------------------------------- */
+@layer components {
+  .legal-links-z {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+  }
+  .legal-links-z a {
+    color: #b3aabd;
+  }
+  .legal-links-z a:hover {
+    color: #f29bde;
+  }
+
+  .legal-top-z {
+    background: #060813;
+    border-bottom: 1px solid var(--color-line);
+    padding: 26px 0;
+  }
+  .legal-top-z .container-z {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .legal-back-z {
+    font-size: 12px;
+    font-weight: 700;
+    color: #f5ddf2;
+  }
+  .legal-back-z:hover {
+    color: var(--color-hot);
+  }
+
+  .legal-z {
+    max-width: 760px;
+  }
+  .legal-updated-z {
+    margin: 0;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #aa92aa;
+  }
+  .legal-intro-z {
+    margin-top: 28px;
+    padding-left: 18px;
+    border-left: 1px solid var(--color-pink);
+  }
+  .legal-z h2 {
+    margin: 52px 0 14px;
+    font-size: clamp(20px, 2vw, 26px);
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    font-weight: 620;
+    color: var(--color-white);
+  }
+  .legal-z p,
+  .legal-z li {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--color-mute);
+  }
+  .legal-z p {
+    margin: 0 0 14px;
+  }
+  .legal-z ul,
+  .legal-z ol {
+    margin: 0 0 16px;
+    padding-left: 1.3em;
+  }
+  .legal-z ul {
+    list-style: disc;
+  }
+  .legal-z ol {
+    list-style: decimal;
+  }
+  .legal-z li {
+    margin-bottom: 8px;
+  }
+  .legal-z li::marker {
+    color: var(--color-pink);
+  }
+  .legal-z strong {
+    font-weight: 650;
+    color: var(--color-white);
+  }
+  .legal-z a {
+    color: var(--color-pink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .legal-z a:hover {
+    color: var(--color-hot);
+  }
+}

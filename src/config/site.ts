@@ -25,6 +25,16 @@ export const site = {
     handle: '@zaniva.digital',
     url: 'https://www.instagram.com/zaniva.digital/',
   },
+  email: 'zanivaagenciadigital@gmail.com',
+  /** Dados usados na política de privacidade e nos termos de uso. */
+  legal: {
+    /** Responsável pelo tratamento dos dados (controlador, na LGPD). */
+    responsible: 'Weslley Paiva',
+    /** Comarca do foro dos termos de uso. */
+    forum: 'Santana de Parnaíba (SP)',
+    /** Data da última revisão das páginas legais. */
+    updated: '11 de novembro de 2026',
+  },
   founders: [
     { name: 'Weslley Paiva', photo: '' },
     { name: 'Dener Zanetoni', photo: '' },

@@ -10,16 +10,26 @@ const SERVICE_LINKS = [
   { id: 'solucoes', label: 'Sistemas e aplicações' },
 ];
 
+type FooterProps = {
+  /**
+   * Na home, os links rolam até a seção. Nas páginas legais a seção não existe
+   * ali: o link leva para a home, direto na seção (/#secao).
+   */
+  onHome?: boolean;
+};
+
 /** 09 — RODAPÉ. */
-export function Footer() {
+export function Footer({ onHome = true }: FooterProps) {
   const year = new Date().getFullYear();
+  const anchor = (id: string) =>
+    onHome ? { href: `#${id}`, onClick: handleAnchorClick(id) } : { href: `/#${id}` };
 
   return (
     <footer className="footer-z">
       <div className="container-z">
         <div className="foot-grid">
           <div className="foot-brand">
-            <a className="brand-z" href="#inicio" onClick={handleAnchorClick('inicio')}>
+            <a className="brand-z" {...anchor('inicio')}>
               zaniva.
             </a>
             <p className="eyebrow-z" style={{ marginTop: 8 }}>
@@ -32,7 +42,7 @@ export function Footer() {
             <h2 className="foot-title">Navegação</h2>
             <div className="foot-group">
               {navItems.map((item) => (
-                <a key={item.id} href={`#${item.id}`} onClick={handleAnchorClick(item.id)}>
+                <a key={item.id} {...anchor(item.id)}>
                   {item.label}
                 </a>
               ))}
@@ -43,7 +53,7 @@ export function Footer() {
             <h2 className="foot-title">Serviços</h2>
             <div className="foot-group">
               {SERVICE_LINKS.map((item) => (
-                <a key={item.label} href={`#${item.id}`} onClick={handleAnchorClick(item.id)}>
+                <a key={item.label} {...anchor(item.id)}>
                   {item.label}
                 </a>
               ))}
@@ -65,7 +75,7 @@ export function Footer() {
 
           <div className="foot-cta">
             <p>Vamos conversar sobre seu projeto?</p>
-            <a className="btn-z is-primary" href="#contato" onClick={handleAnchorClick('contato')}>
+            <a className="btn-z is-primary" {...anchor('contato')}>
               Solicitar orçamento ↗
             </a>
           </div>
@@ -73,6 +83,10 @@ export function Footer() {
 
         <div className="copyright-z">
           <span>© {year} Zaniva Digital. Todos os direitos reservados.</span>
+          <nav className="legal-links-z" aria-label="Documentos legais">
+            <a href="/privacidade">Política de privacidade</a>
+            <a href="/termos">Termos de uso</a>
+          </nav>
           <span>{site.whatsapp.display}</span>
         </div>
       </div>

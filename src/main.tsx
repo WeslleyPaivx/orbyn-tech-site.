@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App';
+import { legalPages, normalizePath, Page } from './routes';
 // Fontes servidas pelo próprio site (sem Google Fonts: mais privacidade e CSP mais rígida).
 // Inter para texto corrido, Space Grotesk para a tipografia expressiva da marca.
 // Fontes servidas pelo próprio site (sem Google Fonts: mais privacidade e CSP
@@ -26,9 +26,20 @@ document.querySelectorAll<HTMLLinkElement>('link[data-async-css]').forEach((link
   link.media = 'all';
 });
 
-// Antes de montar o React: a cortina já está no HTML e precisa começar a
-// contar desde o primeiro quadro.
-startPreloader();
+const path = normalizePath(window.location.pathname);
+const legal = legalPages[path];
+
+if (legal) {
+  // As páginas legais não têm a paisagem do hero, que é um dos portões da
+  // cortina: ela ficaria de pé até o limite de segurança. No build a cortina
+  // já sai do HTML delas; isto cobre o modo de desenvolvimento.
+  document.querySelector('[data-preloader]')?.remove();
+  document.title = legal.title;
+} else {
+  // Antes de montar o React: a cortina já está no HTML e precisa começar a
+  // contar desde o primeiro quadro.
+  startPreloader();
+}
 
 const root = document.getElementById('root');
 if (!root) throw new Error('Elemento #root não encontrado em index.html');
@@ -39,6 +50,6 @@ if (!root) throw new Error('Elemento #root não encontrado em index.html');
 // style="" do HTML estático, que a CSP (style-src 'self') bloqueia.
 createRoot(root).render(
   <StrictMode>
-    <App />
+    <Page path={path} />
   </StrictMode>,
 );
