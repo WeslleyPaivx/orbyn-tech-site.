@@ -19,6 +19,13 @@ import '@fontsource-variable/space-grotesk';
 import './index.css';
 import { startPreloader } from './motion/preloader';
 
+// A folha de estilo chega com media="print" para não segurar a primeira tela
+// (ver asyncCss em vite.config.ts); aqui ela passa a valer. Até este ponto, o
+// que aparece é só a cortina, desenhada pelo CSS crítico embutido no HTML.
+document.querySelectorAll<HTMLLinkElement>('link[data-async-css]').forEach((link) => {
+  link.media = 'all';
+});
+
 // Antes de montar o React: a cortina já está no HTML e precisa começar a
 // contar desde o primeiro quadro.
 startPreloader();
@@ -26,6 +33,10 @@ startPreloader();
 const root = document.getElementById('root');
 if (!root) throw new Error('Elemento #root não encontrado em index.html');
 
+// O #root já vem preenchido pela pré-renderização (para robôs e prévias de
+// link). createRoot, e não hydrateRoot, de propósito: o React substitui esse
+// HTML e monta a página exatamente como antes. Hidratar herdaria os atributos
+// style="" do HTML estático, que a CSP (style-src 'self') bloqueia.
 createRoot(root).render(
   <StrictMode>
     <App />
