@@ -18,7 +18,10 @@ const ssrEntry = path.join(ssrDir, 'entry-server.js');
 const EMPTY_ROOT = '<div id="root"></div>';
 
 const { render } = await import(pathToFileURL(ssrEntry).href);
-const appHtml = render();
+// Sem os atributos style="": a CSP (style-src sem 'unsafe-inline') os bloqueia
+// e enche o console de erros. Robôs não precisam deles, e o React os aplica de
+// novo ao montar a página no navegador.
+const appHtml = render().replace(/ style="[^"]*"/g, '');
 
 if (!appHtml || appHtml.length < 500) {
   throw new Error(`Pré-renderização suspeita: só ${appHtml?.length ?? 0} caracteres.`);
