@@ -196,7 +196,7 @@
     top: auto;
     bottom: calc(var(--gutter) * 5.4);
     left: var(--gutter);
-    right: auto;
+    right: 72px;
   }
   .hero__foot {
     grid-template-columns: 1fr auto;
