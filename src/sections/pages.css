@@ -237,8 +237,8 @@
   width: 13vw;
 }
 .obj--3 {
-  left: 28%;
-  top: 44%;
+  left: 12%;
+  top: 46%;
   width: 16vw;
 }
 .obj--4 {
@@ -456,6 +456,8 @@
   bottom: calc(var(--gutter) * 1.5);
   z-index: 2;
   color: var(--branco);
+  /* a paisagem da marca é clara: uma sombra roxo-noite segura a leitura */
+  text-shadow: 0 2px 28px rgb(13 7 24 / 0.6);
 }
 .case__copy .label {
   color: var(--branco);
