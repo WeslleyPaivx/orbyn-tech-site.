@@ -402,10 +402,23 @@
   inset: 0;
   overflow: hidden;
 }
-.case__screen img {
-  width: 100%;
+/* o telão: o reel vertical no meio de um palco roxo, como uma TV passando um vídeo de celular */
+.case__tv {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(60% 80% at 50% 40%, rgb(122 0 180 / 0.45), transparent 70%),
+    linear-gradient(180deg, #14062a, #07020f);
+}
+.case__reel {
   height: 100%;
+  width: auto;
+  max-width: 100%;
+  aspect-ratio: 9 / 16;
   object-fit: cover;
+  box-shadow: 0 0 6em rgb(234 54 194 / 0.25);
 }
 .case__copy {
   position: absolute;

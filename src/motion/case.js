@@ -39,6 +39,15 @@ export function caseZoom({ section, box, reduced }) {
   }
   measure();
   render(reduced ? 1 : 0);
+
+  // o reel do telão só toca enquanto a sala está na tela (e nunca com movimento reduzido)
+  const reel = section.querySelector('.case__reel');
+  if (reel && !reduced) {
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) reel.play().catch(() => {});
+      else reel.pause();
+    }, { rootMargin: '200px 0px' }).observe(section);
+  }
   if (reduced) return;
 
   gsap.set(beats, { opacity: 0, y: 24 });
