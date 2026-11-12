@@ -13,11 +13,10 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { hero } from './motion/hero.js';
 import { servicosH } from './motion/servicosH.js';
-import { objetos } from './motion/objetos.js';
 import { trabalhos } from './motion/trabalhos.js';
 import { caseZoom } from './motion/case.js';
 import { estudio } from './motion/estudio.js';
-import { fisica } from './motion/fisica.js';
+import { codeRain } from './motion/codeRain.js';
 import { contato } from './motion/contato.js';
 import { lines } from './motion/lines.js';
 import { smoothScroll } from './motion/smooth.js';
@@ -29,7 +28,13 @@ import { intro } from './motion/intro.js';
 document.querySelectorAll('link[data-async-css]').forEach((link) => (link.media = 'all'));
 
 gsap.registerPlugin(ScrollTrigger);
+// F5 sempre volta ao topo: sem restauração do navegador nem a memória de scroll do ScrollTrigger,
+// e a página sai rolada para o topo antes de recarregar.
 history.scrollRestoration = 'manual';
+ScrollTrigger.clearScrollMemory('manual');
+if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+addEventListener('beforeunload', () => scrollTo(0, 0));
+scrollTo(0, 0);
 
 const root = document.documentElement;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -55,18 +60,19 @@ async function boot() {
 
   hero({ section: document.querySelector('.hero'), image, caixa });
   servicosH({ section: document.querySelector('.sh'), reduced });
-  objetos({ section: document.querySelector('.objetos'), reduced });
   trabalhos({ section: document.querySelector('.trabalhos'), reduced });
   caseZoom({ section: document.querySelector('.case'), box: sala, reduced });
   estudio({ section: document.querySelector('.estudio'), reduced });
-  fisica({ section: document.querySelector('.servicos'), reduced });
   contato({ section: document.querySelector('.contato'), reduced });
   lines({ reduced });
+  codeRain({ canvas: document.querySelector('.objetos__rain'), reduced, strength: 0.8 });
+  codeRain({ canvas: document.querySelector('.pilha__rain'), reduced });
 
   const lenis = reduced ? null : smoothScroll();
   menu({ lenis, reduced });
 
   scrollTo(0, 0);
+  lenis?.scrollTo(0, { immediate: true });
   await intro({ loader, heroIn, reduced });
   root.classList.remove('intro-js');
   ScrollTrigger.refresh();

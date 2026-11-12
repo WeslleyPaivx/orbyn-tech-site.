@@ -53,6 +53,24 @@ export function menu({ lenis, reduced }) {
     if (hash.length < 2) return;
     e.preventDefault();
     if (open) setOpen(false);
-    goTo(hash);
+    if (a.dataset.panel !== undefined) goToPanel(Number(a.dataset.panel));
+    else goTo(hash);
   });
+
+  // um item da lista de serviços leva direto ao painel dele no carrossel horizontal
+  function goToPanel(i) {
+    const sh = document.querySelector('.sh');
+    const panel = sh?.querySelectorAll('.sh__panel')[i];
+    if (!panel) return;
+    if (sh.classList.contains('is-static')) {
+      sh.scrollIntoView();
+      sh.scrollTo({ left: panel.offsetLeft });
+      return;
+    }
+    // preso, o scroll vertical anda 1:1 com o trilho: o painel i fica a i larguras do início do pin
+    const start = sh.parentElement.classList.contains('pin-spacer') ? sh.parentElement.offsetTop : sh.offsetTop;
+    const y = start + panel.offsetLeft + 2;
+    if (lenis) lenis.scrollTo(y, { duration: 1.6 });
+    else scrollTo({ top: y });
+  }
 }

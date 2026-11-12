@@ -207,49 +207,20 @@
 }
 
 /* ---------------------------------------------------------------------------
- * OBJETOS
+ * PRESENÇA — código em cachoeira atrás do texto
  * ------------------------------------------------------------------------- */
 .objetos {
   position: relative;
-  min-height: 150vh;
+  min-height: 130vh;
   overflow: clip;
   background: var(--preto);
 }
-.objetos__field {
+.code-rain {
   position: absolute;
   inset: 0;
-}
-.obj {
-  position: absolute;
-  height: auto;
-  will-change: transform;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-.obj--1 {
-  left: 6%;
-  top: 9%;
-  width: 17vw;
-}
-.obj--2 {
-  left: 64%;
-  top: 4%;
-  width: 13vw;
-}
-.obj--3 {
-  left: 12%;
-  top: 46%;
-  width: 16vw;
-}
-.obj--4 {
-  left: 8%;
-  top: 70%;
-  width: 14vw;
-}
-.obj--5 {
-  left: 82%;
-  top: 66%;
-  width: 15vw;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .objetos__copy {
   position: absolute;
@@ -258,6 +229,15 @@
   transform: translateY(-50%);
   width: 66vw;
   z-index: 2;
+}
+/* um véu roxo-noite atrás do texto, para o código não brigar com a leitura */
+.objetos__copy::before {
+  content: '';
+  position: absolute;
+  inset: -12% -8% -12% -10%;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgb(13 7 24 / 0.92), rgb(13 7 24 / 0.7) 60%, transparent);
+  pointer-events: none;
 }
 /* a linha mais longa ("ocupa quando alguém") tem ~12em: cabe inteira em 66vw */
 .objetos__copy .big {
@@ -268,32 +248,7 @@
 }
 @media (max-width: 720px) {
   .objetos {
-    min-height: 120vh;
-  }
-  .obj--1 {
-    width: 34vw;
-    left: 4%;
-    top: 4%;
-  }
-  .obj--2 {
-    width: 24vw;
-    left: 68%;
-    top: 6%;
-  }
-  .obj--3 {
-    width: 30vw;
-    left: 62%;
-    top: 74%;
-  }
-  .obj--4 {
-    width: 24vw;
-    left: 6%;
-    top: 78%;
-  }
-  .obj--5 {
-    width: 26vw;
-    left: 40%;
-    top: 86%;
+    min-height: 110vh;
   }
   .objetos__copy {
     left: var(--gutter);
@@ -583,7 +538,7 @@
 }
 
 /* ---------------------------------------------------------------------------
- * SERVIÇOS
+ * DIGITAL COM INTENÇÃO — a lista dos serviços, cada linha leva ao painel
  * ------------------------------------------------------------------------- */
 .servicos {
   position: relative;
@@ -591,58 +546,130 @@
   background: var(--preto);
 }
 .servicos__head {
-  display: grid;
-  grid-template-columns: 5fr 7fr;
-  gap: var(--gutter);
-  align-items: start;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 9vh;
 }
 .servicos__head .big {
   font-size: clamp(38px, 5.6vw, 100px);
 }
-.servicos__list li {
-  padding: 14px 0 12px;
-  border-top: 1px solid var(--linha);
-  font-size: clamp(20px, 1.9vw, 32px);
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  line-height: 1.15;
-}
-.servicos__list li:last-child {
-  border-bottom: 1px solid var(--linha);
-}
 .servicos__note {
-  margin-top: 26px;
   max-width: 36ch;
   color: var(--cinza);
-  font-size: 15px;
-  line-height: 1.4;
+  font-size: 16px;
+  line-height: 1.45;
+}
+.srv-list {
+  border-top: 1px solid var(--linha);
+}
+.srv-list li {
+  border-bottom: 1px solid var(--linha);
+}
+.srv {
+  position: relative;
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1.15fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px;
+  padding: clamp(22px, 2.6vw, 40px) 0;
+  isolation: isolate;
+}
+/* o preenchimento rosa que corre da esquerda no hover */
+.srv::before {
+  content: '';
+  position: absolute;
+  inset: 0 calc(var(--gutter) * -1);
+  z-index: -1;
+  background: linear-gradient(90deg, #ea36c2, #7a00b4);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s var(--ease-out);
+}
+.srv__n {
+  transition: color 0.4s var(--ease-out);
+}
+.srv__name {
+  font-family: var(--display);
+  font-size: clamp(26px, 3.3vw, 58px);
+  line-height: 1;
+  transition: transform 0.6s var(--ease-out);
+}
+.srv__sub {
+  font-size: clamp(15px, 1.25vw, 19px);
+  color: #cfc8dc;
+  opacity: 0.55;
+  transition:
+    opacity 0.4s var(--ease-out),
+    color 0.4s var(--ease-out);
+}
+.srv__go {
+  color: var(--branco);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-12px);
+  transition:
+    opacity 0.4s var(--ease-out),
+    transform 0.5s var(--ease-out);
+}
+.srv:hover::before,
+.srv:focus-visible::before {
+  transform: scaleX(1);
+}
+.srv:hover .srv__name,
+.srv:focus-visible .srv__name {
+  transform: translateX(14px);
+}
+.srv:hover .srv__sub,
+.srv:focus-visible .srv__sub {
+  opacity: 1;
+  color: #fff;
+}
+.srv:hover .srv__n,
+.srv:focus-visible .srv__n {
+  color: #fff;
+}
+.srv:hover .srv__go,
+.srv:focus-visible .srv__go {
+  opacity: 1;
+  transform: none;
 }
 .pilha {
   position: relative;
-  height: 92vh;
-  margin: 8vh calc(var(--gutter) * -1) 0;
+  height: 70vh;
+  margin: 10vh calc(var(--gutter) * -1) 0;
   overflow: hidden;
-  touch-action: pan-y;
 }
-.pilha img {
+.pilha::after {
+  content: '';
   position: absolute;
-  left: 0;
-  top: 0;
-  height: auto;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-drag: none;
-  will-change: transform;
+  inset: 0;
+  background: linear-gradient(180deg, var(--preto), transparent 22%, transparent 78%, var(--preto));
+  pointer-events: none;
 }
 .pilha__hint {
   position: absolute;
   left: var(--gutter);
   top: 0;
+  z-index: 2;
 }
 @media (max-width: 720px) {
-  .servicos__head {
-    grid-template-columns: 1fr;
-    gap: 40px;
+  .srv {
+    grid-template-columns: 2.6rem 1fr;
+    gap: 6px 14px;
+  }
+  .srv__sub {
+    grid-column: 2;
+    opacity: 0.8;
+    font-size: 14px;
+  }
+  .srv__go {
+    display: none;
+  }
+  .srv__name {
+    font-size: 24px;
   }
 }
 
