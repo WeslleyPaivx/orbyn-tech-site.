@@ -177,6 +177,9 @@
   align-items: center;
   gap: 16px;
 }
+.hero__foot .pill {
+  justify-self: start;
+}
 .hero__place {
   color: var(--preto);
 }
@@ -253,8 +256,12 @@
   right: var(--gutter);
   top: 50%;
   transform: translateY(-50%);
-  width: min(60vw, 1100px);
+  width: 66vw;
   z-index: 2;
+}
+/* a linha mais longa ("ocupa quando alguém") tem ~12em: cabe inteira em 66vw */
+.objetos__copy .big {
+  font-size: 5.3vw;
 }
 .objetos__copy .label {
   margin-bottom: 18px;
@@ -291,6 +298,9 @@
   .objetos__copy {
     left: var(--gutter);
     width: auto;
+  }
+  .objetos__copy .big {
+    font-size: 7.4vw;
   }
 }
 
@@ -561,6 +571,9 @@
   grid-template-columns: 5fr 7fr;
   gap: var(--gutter);
   align-items: start;
+}
+.servicos__head .big {
+  font-size: clamp(38px, 5.6vw, 100px);
 }
 .servicos__list li {
   padding: 14px 0 12px;
