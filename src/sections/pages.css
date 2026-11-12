@@ -311,6 +311,8 @@
   position: relative;
   padding: 18vh var(--gutter) 16vh;
   background: var(--preto);
+  /* as letras espalhadas do título não podem alargar a página */
+  overflow: clip;
 }
 .trabalhos__title {
   display: flex;
