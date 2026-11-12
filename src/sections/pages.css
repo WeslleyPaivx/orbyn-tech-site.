@@ -639,6 +639,8 @@
 .pilha {
   position: relative;
   height: 70vh;
+  cursor: crosshair;
+  touch-action: pan-y;
   margin: 10vh calc(var(--gutter) * -1) 0;
   overflow: hidden;
 }
@@ -646,7 +648,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, var(--preto), transparent 22%, transparent 78%, var(--preto));
+  background: linear-gradient(180deg, var(--preto), transparent 12%, transparent 88%, var(--preto));
   pointer-events: none;
 }
 .pilha__hint {
