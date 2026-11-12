@@ -7,10 +7,12 @@ import '@fontsource/jetbrains-mono/400.css';
 import './styles/tokens.css';
 import './styles/base.css';
 import './sections/pages.css';
+import './sections/servicos-h.css';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { hero } from './motion/hero.js';
+import { servicosH } from './motion/servicosH.js';
 import { objetos } from './motion/objetos.js';
 import { trabalhos } from './motion/trabalhos.js';
 import { caseZoom } from './motion/case.js';
@@ -52,6 +54,7 @@ async function boot() {
   ]);
 
   hero({ section: document.querySelector('.hero'), image, caixa });
+  servicosH({ section: document.querySelector('.sh'), reduced });
   objetos({ section: document.querySelector('.objetos'), reduced });
   trabalhos({ section: document.querySelector('.trabalhos'), reduced });
   caseZoom({ section: document.querySelector('.case'), box: sala, reduced });
