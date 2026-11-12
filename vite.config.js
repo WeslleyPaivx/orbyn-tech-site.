@@ -112,6 +112,8 @@ export default defineConfig({
   plugins: [seoFiles(resolveSiteUrl()), asyncCss()],
   build: {
     target: 'es2020',
+    // nada embutido como data: (a CSP só aceita fonte e imagem do próprio site)
+    assetsInlineLimit: 0,
     rollupOptions: {
       input: {
         main: resolve(process.cwd(), 'index.html'),
