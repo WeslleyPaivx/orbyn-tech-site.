@@ -169,7 +169,7 @@
 .hero__foot {
   position: absolute;
   left: var(--gutter);
-  right: var(--gutter);
+  right: calc(var(--gutter) + 72px);
   bottom: var(--gutter);
   z-index: 2;
   display: grid;
@@ -742,6 +742,7 @@
   gap: 16px;
   flex-wrap: wrap;
   margin-top: 26px;
+  padding-right: 72px;
   padding-top: 16px;
   border-top: 1px solid var(--linha);
 }

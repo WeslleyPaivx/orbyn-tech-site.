@@ -16,3 +16,8 @@
 .contato__word {
   font-size: 17vw;
 }
+.fab {
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}

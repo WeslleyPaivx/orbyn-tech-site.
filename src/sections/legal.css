@@ -77,7 +77,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 14px;
-  padding: 18px var(--gutter) var(--gutter);
+  padding: 18px calc(var(--gutter) + 72px) var(--gutter) var(--gutter);
   border-top: 1px solid var(--linha);
 }
 .legal-foot__links {

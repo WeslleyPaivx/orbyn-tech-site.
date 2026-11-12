@@ -969,7 +969,7 @@
 .sh__progress {
   position: absolute;
   left: calc(var(--gutter) * 3);
-  right: calc(var(--gutter) * 3);
+  right: calc(var(--gutter) * 3 + 64px);
   bottom: calc(var(--gutter) * 1.6);
   display: flex;
   align-items: center;
@@ -1045,7 +1045,7 @@
   }
   .sh__progress {
     left: var(--gutter);
-    right: var(--gutter);
+    right: calc(var(--gutter) + 62px);
     bottom: 22px;
   }
 }
