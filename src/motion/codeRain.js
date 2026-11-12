@@ -37,9 +37,9 @@ export function codeRain({ canvas, reduced, strength = 1 }) {
     y: first ? rnd(-h, h * 0.6) : rnd(-fs * 30, -fs),
     s: SNIPPETS[(Math.random() * SNIPPETS.length) | 0],
     k: 0,
-    speed: rnd(9, 22), // linhas por segundo
+    speed: rnd(12, 26), // linhas por segundo
     acc: 0,
-    wait: first ? 0 : rnd(0, 2.5),
+    wait: first ? 0 : rnd(0, 0.9),
     prev: '',
   });
 
@@ -56,14 +56,14 @@ export function codeRain({ canvas, reduced, strength = 1 }) {
     const cols = Math.floor(w / (fs * 1.15));
     const gap = w / cols;
     // nem toda coluna corre ao mesmo tempo: cachoeira, não parede
-    drops = Array.from({ length: cols }, (_, i) => newDrop(i * gap + gap * 0.2, true)).filter(() => Math.random() < 0.6);
+    drops = Array.from({ length: cols }, (_, i) => newDrop(i * gap + gap * 0.2, true)).filter(() => Math.random() < 0.82);
     ctx.fillStyle = `rgb(${BG})`;
     ctx.fillRect(0, 0, w, h);
   }
 
   function step(dt) {
     // o rastro: cada quadro cobre um pouco de roxo-noite por cima
-    ctx.fillStyle = `rgba(${BG}, ${Math.min(1, 0.09 * dt * 60)})`;
+    ctx.fillStyle = `rgba(${BG}, ${Math.min(1, 0.035 * dt * 60)})`;
     ctx.fillRect(0, 0, w, h);
     for (const d of drops) {
       if (d.wait > 0) { d.wait -= dt; continue; }
@@ -73,7 +73,7 @@ export function codeRain({ canvas, reduced, strength = 1 }) {
         d.acc -= 1;
         // a letra de antes deixa de ser cabeça e vira água rosa
         if (d.prev) {
-          ctx.fillStyle = near ? 'rgba(201, 166, 255, 0.95)' : `rgba(234, 54, 194, ${0.75 * strength})`;
+          ctx.fillStyle = near ? 'rgba(201, 166, 255, 1)' : `rgba(234, 54, 194, ${strength})`;
           ctx.fillText(d.prev, d.x, d.y - fs);
         }
         const ch = d.s[d.k] ?? ' ';
