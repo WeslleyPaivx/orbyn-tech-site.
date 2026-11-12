@@ -404,8 +404,8 @@
 /* o telão: o reel vertical no meio de um palco roxo, como uma TV passando um vídeo de celular */
 .case__tv {
   position: absolute;
-  /* 3 px além da tela: cobre o fio verde do retângulo da sala em qualquer arredondamento */
-  inset: -3px;
+  /* um pouco além da tela, proporcional ao zoom: cobre o fio verde do retângulo da sala */
+  inset: -1.5%;
   overflow: hidden;
   background:
     radial-gradient(60% 80% at 50% 40%, rgb(122 0 180 / 0.45), transparent 70%),
