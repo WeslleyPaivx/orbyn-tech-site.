@@ -400,12 +400,13 @@
 .case__screen {
   position: absolute;
   inset: 0;
-  overflow: hidden;
 }
 /* o telão: o reel vertical no meio de um palco roxo, como uma TV passando um vídeo de celular */
 .case__tv {
   position: absolute;
-  inset: 0;
+  /* 3 px além da tela: cobre o fio verde do retângulo da sala em qualquer arredondamento */
+  inset: -3px;
+  overflow: hidden;
   background:
     radial-gradient(60% 80% at 50% 40%, rgb(122 0 180 / 0.45), transparent 70%),
     linear-gradient(180deg, #14062a, #07020f);
