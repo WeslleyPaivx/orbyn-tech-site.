@@ -175,7 +175,7 @@ ul {
 }
 
 /* ---------------------------------------------------------------------------
- * BOTÕES FLUTUANTES — WhatsApp em cima, Instagram embaixo
+ * BOTÃO FLUTUANTE — WhatsApp
  * ------------------------------------------------------------------------- */
 .fab {
   position: fixed;
@@ -211,9 +211,6 @@ ul {
 }
 .fab__btn--wa {
   background: #25d366;
-}
-.fab__btn--ig {
-  background: linear-gradient(135deg, #f5a623 0%, #ea36c2 50%, #7a00b4 100%);
 }
 .fab__btn:hover,
 .fab__btn:focus-visible {
