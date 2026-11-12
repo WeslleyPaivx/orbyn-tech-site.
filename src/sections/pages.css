@@ -488,44 +488,50 @@
   font-weight: 450;
   letter-spacing: -0.015em;
 }
-.estudio__founders {
-  margin: 28px 0 0 25%;
-}
-.estudio__media {
+.fundadores {
   display: grid;
-  grid-template-columns: 4fr 8fr;
+  grid-template-columns: 4fr 4fr 4fr;
   gap: var(--gutter);
   align-items: end;
   margin-top: 16vh;
 }
-.estudio__pedestal {
-  margin: 0;
-  width: min(24vw, 360px);
-  will-change: transform;
+.fundadores__head {
+  align-self: start;
 }
-.estudio__pedestal img {
-  width: 100%;
-  height: auto;
+.fundadores__head .label {
+  margin-bottom: 18px;
 }
-.estudio__paisagem {
-  margin: 0;
+.fundador {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-.estudio__frame {
+.fundador--2 {
+  margin-top: 12vh;
+}
+.fundador__foto {
   position: relative;
-  aspect-ratio: 16 / 9;
+  margin: 0 0 12px;
+  aspect-ratio: 1;
+  border-radius: 50%;
   overflow: clip;
+  background: #1a1028;
 }
-.estudio__frame img {
+.fundador__foto img {
   position: absolute;
   left: 0;
-  top: -9%;
+  top: -6%;
   width: 100%;
-  height: 118%;
+  height: 112%;
   object-fit: cover;
   will-change: transform;
 }
-.estudio__paisagem figcaption {
-  margin-top: 12px;
+.fundador__nome {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(28px, 2.8vw, 48px);
+  line-height: 1;
 }
 .estudio__nums {
   display: grid;
@@ -546,16 +552,22 @@
   line-height: 0.98;
 }
 @media (max-width: 720px) {
-  .estudio__manifesto,
-  .estudio__founders {
+  .estudio__manifesto {
     margin-left: 0;
     max-width: none;
   }
-  .estudio__media {
-    grid-template-columns: 1fr;
+  .fundadores {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
   }
-  .estudio__pedestal {
-    width: 52vw;
+  .fundadores__head {
+    grid-column: 1 / -1;
+  }
+  .fundador--2 {
+    margin-top: 8vh;
+  }
+  .fundador__nome {
+    font-size: 22px;
   }
   .estudio__nums {
     grid-template-columns: 1fr;
